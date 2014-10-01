@@ -1,15 +1,17 @@
-package programmander;
+package launcherWindow;
 
-import gui.LauncherWindow;
 
 public class Programmander {
 
 	public static void main(String[] args) throws Exception {
-
-		System.out.println("Our game is fuckin' sweet.");
+		
+		MainWindow main = new MainWindow();
+		main.pack();
+		main.setVisible(true);
+		
 		LauncherWindow launcher = new LauncherWindow();
 		launcher.pack();
-		launcher.setVisible(true);
+		launcher.setVisible(false);
 	}
 }
 

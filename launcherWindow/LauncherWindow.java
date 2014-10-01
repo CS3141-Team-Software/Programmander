@@ -1,4 +1,4 @@
-package gui;
+package launcherWindow;
 
 import javax.swing.*;
 import java.awt.Dimension;
