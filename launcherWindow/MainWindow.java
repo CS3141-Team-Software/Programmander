@@ -14,8 +14,11 @@ import java.util.ArrayList;
 
 public class MainWindow extends JFrame {
 	
-	public MainWindow(ArrayList<JFrame> frames){
-		
+	ArrayList<JFrame> frames; 
+	
+	public MainWindow(ArrayList<JFrame> f){
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.frames = f;
 		setMinimumSize(new Dimension(1720, 880));
 		setMaximumSize(new Dimension(1720, 880));
 		getContentPane().setMinimumSize(new Dimension(1720, 880));
