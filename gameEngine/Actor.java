@@ -1,7 +1,5 @@
-package actors;
+package gameEngine;
 
-import gameEngine.GraphNode;
-import mapTypes.Obstruction;
 
 /**
  * Actor 
