@@ -10,12 +10,23 @@ public class Graph {
 	private int rows;
 	private int cols;
 
-
+	public Graph(String fileName) {
+		//Read first line to get size of graph	
+		//Call makeGraph
+		
+		//While EOF != true, read subsequent lines
+			//Split up tokens 
+			//Send data to helper methods that generate the required classes/plug in the required art
+		//Close file
+	}
 	/*
 	 * Constructor
 	 */
 	public Graph(int x, int y){
-
+		makeGraph(x, y);
+	}
+	
+	public void makeGraph(int x, int y) {
 		size = x*y;
 		rows = y;
 		cols = x;
