@@ -1,5 +1,9 @@
 package gameEngine;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
 //import GraphNode;
 
 
@@ -10,7 +14,18 @@ public class Graph {
 	private int rows;
 	private int cols;
 
+	/*
+	 * Constructor given a text file
+	 * will create a graph based on the values within
+	 * Tutorial Maps
+	 */
 	public Graph(String fileName) {
+		
+		try{
+			System.out.println("Working directory for the graph: " + System.getProperty("user.dir"));
+			File file = new File(System.getProperty("user.dir") + "/maps/" + fileName);
+			Scanner in = new Scanner(file);
+
 		//Read first line to get size of graph	
 		//Call makeGraph
 		
@@ -18,6 +33,11 @@ public class Graph {
 			//Split up tokens 
 			//Send data to helper methods that generate the required classes/plug in the required art
 		//Close file
+			
+		}
+		catch(FileNotFoundException e){
+			
+		}
 	}
 	/*
 	 * Constructor
@@ -75,6 +95,8 @@ public class Graph {
 			return map[y][x];
 		}
 	}
+	
+	
 }	
 
 
