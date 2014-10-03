@@ -14,7 +14,14 @@ import java.util.ArrayList;
 
 public class MainWindow extends JFrame {
 	
-	public MainWindow(ArrayList<JFrame> frames){
+	ArrayList<JFrame> frames;
+	
+	public MainWindow(ArrayList<JFrame> f){
+		setVisible(true);
+		
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		frames = f; 
 		
 		setMinimumSize(new Dimension(1720, 880));
 		setMaximumSize(new Dimension(1720, 880));
@@ -27,6 +34,7 @@ public class MainWindow extends JFrame {
 		btnLauncher.setFont(new Font("Comic Sans MS", Font.BOLD, 50));
 		btnLauncher.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionCommand) {
+				JFrame frame = frames.get(0);
 				frames.get(0).setVisible(true);
 				setVisible(false);
 			}

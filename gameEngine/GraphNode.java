@@ -1,8 +1,5 @@
 package gameEngine;
 
-//import GraphNode;
-import Obstruction;
-
 /*
  * Programmander Graph Node
  * Caleb Chapman
