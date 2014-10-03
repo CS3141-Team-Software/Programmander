@@ -44,7 +44,7 @@ public class Programmander {
 		main.setVisible(true);
 		
 		launcher.setMainFrame(main);
-		
+
 	}
 	
 	/** 

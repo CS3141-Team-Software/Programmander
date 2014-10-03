@@ -75,6 +75,11 @@ public class Graph {
 			return map[y][x];
 		}
 	}
+	
+	public Actor getUnitType(String s) {
+		//Returns a newly created unit based on what we read in from the file
+		return null;
+	}
 }	
 
 
