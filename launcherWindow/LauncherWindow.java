@@ -12,6 +12,7 @@ import java.awt.Component;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.io.File;
 
 /**
  * This class displays the launcher window. 
@@ -97,5 +98,75 @@ public class LauncherWindow extends JFrame {
 	
 	public void setMainFrame(JFrame main){
 		this.mainFrameWindow = main;
+	}
+	
+	/*
+	 * Get Map List
+	 * returns a list of map names in string format
+	 * will return null in error
+	 */
+	public String[] getMapList(){
+		String dir = System.getProperty("user.dir") + "/maps";
+		File mapParent = new File(dir);
+		
+		if(mapParent.isDirectory()){
+			File[] fileList = mapParent.listFiles();
+			
+			int mapNum = 0;
+			for(int i = 0; i < fileList.length; i++){
+				if(fileList[i].getName().endsWith(".txt")) {
+					mapNum++;
+				}
+			}
+			
+			String[] ret = new String[mapNum]; 
+			int j = 0;
+			for(int i = 0; i < fileList.length; i++){
+				if(fileList[i].getName().endsWith(".txt")) {
+					ret[j] = fileList[i].getName();
+					j++;
+				}
+			}
+			 return ret;
+		}
+		else{
+			System.out.println("getMapList: error with fetching maps. Unacceptable directory path. Returning null.");
+			return null;
+		}
+	}
+
+	/*
+	 * get Actor List
+	 * returns an array of actor jars in string.
+	 * will return null in error.
+	 */
+	public String[] getActorList(){
+		String dir = System.getProperty("user.dir") + "/actors";
+		File actParent = new File(dir);
+		
+		if(actParent.isDirectory()){
+			File[] fileList = actParent.listFiles();
+			
+			int actNum = 0;
+			for(int i = 0; i < fileList.length; i++){
+				if(fileList[i].getName().endsWith(".jar")) {
+					actNum++;
+				}
+			}
+			
+			String[] ret = new String[actNum]; 
+			int j = 0;
+			for(int i = 0; i < fileList.length; i++){
+				if(fileList[i].getName().endsWith(".jar")) {
+					ret[j] = fileList[i].getName();
+					j++;
+				}
+			}
+			 return ret;
+		}
+		else{
+			System.out.println("getActorList: error with fetching actors. Unacceptable directory path. Returning null.");
+			return null;
+		}
 	}
 }
