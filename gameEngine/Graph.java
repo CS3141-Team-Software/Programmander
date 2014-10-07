@@ -1,5 +1,14 @@
 package gameEngine;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Scanner;
+/**
+ * Graph
+ * @author Caleb Chapman
+ *
+ */
 //import GraphNode;
 
 
@@ -9,8 +18,64 @@ public class Graph {
 	private GraphNode[][] map;
 	private int rows;
 	private int cols;
+	private ArrayList<Actor> actorList = new ArrayList<Actor>();
 
+	/*
+	 * Constructor given a text file
+	 * will create a graph based on the values within
+	 * Tutorial Maps
+	 */
 	public Graph(String fileName) {
+		
+		try{
+			System.out.println("Working directory for the graph: " + System.getProperty("user.dir"));
+			File file = new File(System.getProperty("user.dir") + "/maps/" + fileName);
+			Scanner in = new Scanner(file);
+			if(in.hasNext()){
+				rows = in.nextInt();
+			}
+			if(in.hasNext()){
+				cols = in.nextInt();
+			}
+			
+			makeGraph(cols, rows);
+			
+			
+			while(in.hasNext()){
+				int posX = in.nextInt();
+				if(in.hasNext());
+				int posY = in.nextInt();
+				if(in.hasNext());
+				String unit = in.next();
+				
+				/*
+				 * if (unit.equals("Scout")){
+				 * 	actorList.add(new Scout(posX, posY));
+				 * }
+				 * else if(unit.equals("Knight")){
+				 * 	actorList.add(new Knight(posX, posY));
+				 * }
+				 * else if(unit.equals("Archer")){
+				 * actorList.add(new Archer(posX, posY));
+				 * }
+				 * else{}
+				 */
+				if(in.hasNext());
+				String obstrct = in.next();
+				
+				if(!obstrct.equals("0")){
+					map[posX][posY].setObstruction(new ImmovableWall(map[posX][posY],"wall"));
+				}
+				
+				if(in.hasNext());
+				String background = in.next();
+				
+				map[posX][posY].setBackground(background);
+				
+				
+			}
+			
+
 		//Read first line to get size of graph	
 		//Call makeGraph
 		
@@ -18,6 +83,11 @@ public class Graph {
 			//Split up tokens 
 			//Send data to helper methods that generate the required classes/plug in the required art
 		//Close file
+			
+		}
+		catch(FileNotFoundException e){
+			
+		}
 	}
 	/*
 	 * Constructor
@@ -76,10 +146,20 @@ public class Graph {
 		}
 	}
 	
+	/*
+	 * Get nodes
+	 * Returns the 2D array
+	 */
+	public GraphNode[][] getNodes(){
+		return map;
+	}
+	
+
 	public Actor getUnitType(String s) {
 		//Returns a newly created unit based on what we read in from the file
 		return null;
 	}
+
 }	
 
 

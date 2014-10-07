@@ -1,8 +1,9 @@
 package gameEngine;
 
-/*
- * Programmander Graph Node
- * Caleb Chapman
+/**
+ * Graph Node
+ * @author Caleb Chapman
+ *
  */
 public class GraphNode {
 	
@@ -13,6 +14,7 @@ public class GraphNode {
 	private int row;
 	private int col;
 	private Obstruction obs;
+	private String backImg;
 	//private actor[] actors;
 	
 	/*
@@ -112,6 +114,10 @@ public class GraphNode {
 	public Obstruction getObstruction(){
 		return obs;
 	}
+	
+	public String getBackground(){
+		return backImg;
+	}
 	/*
 	 * End of Getter Methods
 	 */
@@ -134,6 +140,9 @@ public class GraphNode {
 	
 	public void setObstruction(Obstruction o){
 		obs = o;
+	}
+	public void setBackground(String str){
+		backImg = str;
 	}
 	/*
 	 * End of Setter Methods

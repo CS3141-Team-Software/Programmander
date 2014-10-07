@@ -1,5 +1,9 @@
 //File specification for unit types
 
+The first lines specify size of the map. So like, 
+
+5,5 = A 5 by 5 map (duh)
+
 Each "block" of info will look like this:
 
 0, 2, Scout, 0, Grass1
