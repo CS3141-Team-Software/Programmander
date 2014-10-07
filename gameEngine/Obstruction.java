@@ -2,11 +2,16 @@ package gameEngine;
 
 import gameEngine.GraphNode;
 
-public abstract class Obstruction {
+public class Obstruction {
 	
-	GraphNode node;
+	private GraphNode node;
 	//The type of obstruction. (Wall, hole, etc...) 
-	String type;
+	private String type;
+	
+	public Obstruction(GraphNode n, String t) {
+		type = t;
+		node = n;		
+	}
 	
 	public String getType() {
 		return type;

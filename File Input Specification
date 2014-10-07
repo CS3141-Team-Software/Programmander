@@ -6,23 +6,13 @@ The first lines specify size of the map. So like,
 
 Each "block" of info will look like this:
 
-0, 2, Scout, 0, Grass1
+0, 2, Wall, BrickWall1
 
-or this:
+If no obstruction on a node,
 
-0, 2, 0, Wall, BrickWall1
+0, 2, 0, Grass1
 
 The first number (0 in the above case) is the X-coordinate of the node
 The second number (2 in the above case) is the Y-coordinate of the node
-The third field is the type of unit on that node, or 0, if there is no unit.
-The fourth field is the type of the obstruction on the node, or 0 if there are no obstructions.
-The fifth field is the visual "background" of the node. This will allow us to plug in separate art-files to make maps look different.  
-
-
-If we are implementing more than 1 unit per GraphNode, the "block" of data will look like this:
-
-0, 2, Scout, 0, Grass1
-0, 2, Knight
-0, 2, Archer
-
-The above specifies the unit we need, without having to re-apply art/wall settings each time.
+The third field is the type of the obstruction on the node, or 0 if there are no obstructions.
+The fourth field is the visual "background" of the node. This will allow us to plug in separate art-files to make maps look different.  

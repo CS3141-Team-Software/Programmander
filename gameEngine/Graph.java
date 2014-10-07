@@ -26,7 +26,7 @@ public class Graph {
 	 * Tutorial Maps
 	 */
 	public Graph(String fileName) {
-		
+
 		try{
 			System.out.println("Working directory for the graph: " + System.getProperty("user.dir"));
 			File file = new File(System.getProperty("user.dir") + "/maps/" + fileName);
@@ -37,17 +37,25 @@ public class Graph {
 			if(in.hasNext()){
 				cols = in.nextInt();
 			}
-			
+
 			makeGraph(cols, rows);
-			
-			
+
+			int posX = -1;
+			int posY = -1;
+			String obstrct = "";
+			String background = "";
+
 			while(in.hasNext()){
-				int posX = in.nextInt();
-				if(in.hasNext());
-				int posY = in.nextInt();
-				if(in.hasNext());
-				String unit = in.next();
-				
+				posX = in.nextInt();
+
+				if(in.hasNext()) {
+					posY = in.nextInt();
+				}
+
+				if(in.hasNext()) {
+					String unit = in.next();
+				}
+
 				/*
 				 * if (unit.equals("Scout")){
 				 * 	actorList.add(new Scout(posX, posY));
@@ -60,42 +68,37 @@ public class Graph {
 				 * }
 				 * else{}
 				 */
-				if(in.hasNext());
-				String obstrct = in.next();
-				
-				if(!obstrct.equals("0")){
-					map[posX][posY].setObstruction(new ImmovableWall(map[posX][posY],"wall"));
-				}
-				
-				if(in.hasNext());
-				String background = in.next();
-				
-				map[posX][posY].setBackground(background);
-				
-				
-			}
-			
 
-		//Read first line to get size of graph	
-		//Call makeGraph
-		
-		//While EOF != true, read subsequent lines
-			//Split up tokens 
-			//Send data to helper methods that generate the required classes/plug in the required art
-		//Close file
-			
+
+				if(in.hasNext()) {
+					obstrct = in.next();
+				}
+
+				if(!obstrct.equals("0")){
+					map[posX][posY].setObstruction(new Obstruction(map[posX][posY],"wall"));
+				}
+
+				if(in.hasNext()) {
+					background = in.next();
+					map[posX][posY].setBackground(background);
+				}
+
+			}
+
 		}
 		catch(FileNotFoundException e){
-			
+
 		}
 	}
+	
+	
 	/*
 	 * Constructor
 	 */
 	public Graph(int x, int y){
 		makeGraph(x, y);
 	}
-	
+
 	public void makeGraph(int x, int y) {
 		size = x*y;
 		rows = y;
@@ -145,7 +148,7 @@ public class Graph {
 			return map[y][x];
 		}
 	}
-	
+
 	/*
 	 * Get nodes
 	 * Returns the 2D array
@@ -153,7 +156,7 @@ public class Graph {
 	public GraphNode[][] getNodes(){
 		return map;
 	}
-	
+
 
 	public Actor getUnitType(String s) {
 		//Returns a newly created unit based on what we read in from the file
