@@ -1,5 +1,6 @@
 package launcherWindow;
 
+import gameEngine.GameEngine;
 import gameWindow.GameWindow;
 
 import javax.swing.*;
@@ -24,8 +25,21 @@ import java.awt.event.ActionEvent;
 public class LauncherWindow extends JFrame {
 	
 	JFrame mainFrameWindow;
+	JButton runAI = new JButton("Run AI");
+	JButton btnBackToMain = new JButton("Back To Main Window");
+	JComboBox<String> comboBoxMaps = new JComboBox<String>();
+	JComboBox<String> comboBoxPlayer1AI = new JComboBox<String>();
+	JComboBox<String> comboBoxPlayer2AI = new JComboBox<String>();
+	JComboBox<String> comboBoxDifficulty = new JComboBox<String>();
+	JLabel mapsLabel = new JLabel("Maps");
+	JLabel player1AILabel = new JLabel("Player 1 AI");
+	JLabel player2AILabel = new JLabel("Player 2 AI");
+	JLabel difficultyLabel = new JLabel("Difficulty");
+	
 	public LauncherWindow(JFrame main) {
+		
 		this.mainFrameWindow = main;
+		initializeWindowElements();
 		
 		//Set up the content pane definition.
 		setMinimumSize(new Dimension(1720, 880));
@@ -35,46 +49,44 @@ public class LauncherWindow extends JFrame {
 		getContentPane().setLayout(null);
 		setExtendedState(MAXIMIZED_BOTH);		//Used to set to full width and height of the current screen
 		
-		JButton btnRunAi = new JButton("Run AI");
-		btnRunAi.addActionListener(new ActionListener() {
+	}
+	
+	private void initializeWindowElements() {
+		
+		runAI.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				GameWindow gameFrame = new GameWindow();
+				GameWindow gameFrame = new GameWindow(new GameEngine());
 				setVisible(false);
 				gameFrame.setVisible(true);
 			}
 		});
-		btnRunAi.setFont(new Font("Comic Sans MS", Font.BOLD, 50));
-		btnRunAi.setBounds(777, 561, 518, 87);
-		getContentPane().add(btnRunAi);
+		runAI.setFont(new Font("Comic Sans MS", Font.BOLD, 50));
+		runAI.setBounds(777, 561, 518, 87);
+		getContentPane().add(runAI);
 		
-		JComboBox comboBoxMaps = new JComboBox();
+		//This is the maps combo box. 
+		//Maps are read in through files that are used to populate the comboBox for the user to choose from.
 		comboBoxMaps.setBounds(631, 261, 787, 45);
 		getContentPane().add(comboBoxMaps);
 		
-		JLabel lblMaps = new JLabel("Maps");
-		lblMaps.setFont(new Font("Arial Black", Font.BOLD, 50));
-		lblMaps.setBounds(452, 261, 156, 50);
-		getContentPane().add(lblMaps);
+		comboBoxPlayer1AI.setBounds(631, 380, 787, 50);
+		getContentPane().add(comboBoxPlayer1AI);
 		
-		JComboBox comboBoxUserAI = new JComboBox();
-		comboBoxUserAI.setBounds(631, 380, 787, 50);
-		getContentPane().add(comboBoxUserAI);
-		
-		JComboBox comboBoxDifficulty = new JComboBox();
 		comboBoxDifficulty.setBounds(631, 318, 787, 50);
 		getContentPane().add(comboBoxDifficulty);
 		
-		JLabel lblAi = new JLabel("Player 1 AI");
-		lblAi.setFont(new Font("Arial Black", Font.BOLD, 50));
-		lblAi.setBounds(300, 385, 308, 50);
-		getContentPane().add(lblAi);
+		mapsLabel.setFont(new Font("Arial Black", Font.BOLD, 50));
+		mapsLabel.setBounds(452, 261, 156, 50);
+		getContentPane().add(mapsLabel);
 		
-		JLabel lblNewLabel = new JLabel("Difficulty");
-		lblNewLabel.setFont(new Font("Arial Black", Font.BOLD, 50));
-		lblNewLabel.setBounds(331, 323, 277, 50);
-		getContentPane().add(lblNewLabel);
+		player1AILabel.setFont(new Font("Arial Black", Font.BOLD, 50));
+		player1AILabel.setBounds(300, 385, 308, 50);
+		getContentPane().add(player1AILabel);
 		
-		JButton btnBackToMain = new JButton("Back To Main Window");
+		difficultyLabel.setFont(new Font("Arial Black", Font.BOLD, 50));
+		difficultyLabel.setBounds(331, 323, 277, 50);
+		getContentPane().add(difficultyLabel);
+		
 		btnBackToMain.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
@@ -84,17 +96,15 @@ public class LauncherWindow extends JFrame {
 		btnBackToMain.setBounds(10, 11, 141, 33);
 		getContentPane().add(btnBackToMain);
 		
-		JLabel lblNewLabel_1 = new JLabel("Player 2 AI");
-		lblNewLabel_1.setFont(new Font("Dialog", Font.BOLD, 50));
-		lblNewLabel_1.setBounds(300, 447, 312, 57);
-		getContentPane().add(lblNewLabel_1);
+		player2AILabel.setFont(new Font("Dialog", Font.BOLD, 50));
+		player2AILabel.setBounds(300, 447, 312, 57);
+		getContentPane().add(player2AILabel);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(631, 439, 787, 53);
-		getContentPane().add(comboBox);
+		comboBoxPlayer2AI.setBounds(631, 439, 787, 53);
+		getContentPane().add(comboBoxPlayer2AI);
 		
 	}
-	
+
 	public void setMainFrame(JFrame main){
 		this.mainFrameWindow = main;
 	}
