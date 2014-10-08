@@ -1,6 +1,9 @@
 package gameEngine;
 
 import java.util.ArrayList;
+import java.util.Dictionary;
+import java.awt.Image;
+import java.awt.image.*;
 
 import javax.swing.JPanel;
 
@@ -16,19 +19,24 @@ public class GameEngine {
 	private GraphNode[] nodes;
 	private JPanel window;
 	private ArrayList<Actor> actors;
+	//Used to store image data
+	private Dictionary<String, Image> cache;
+	
+	private BufferedImage currFrame;
 	
 	public GameEngine(String mapName, String firstAIName, String difficulty, boolean is2Player) {
 
 		//Make our map using data passed in by LauncherWindow
 		map = new Graph(mapName);
 		nodes = map.getNodesSing();
+		//TODO: Need this to actually happen
 		actors = map.getActors();
 
 		//Initialize 1st player's AI by calling Mark's magic code.
 		//TODO: Implement Mark's magic code
 
 		if (is2Player) {
-			//Initialize 2nd player's AI
+			//Initialize 2nd playertring, image's AI
 		} else {
 			//Initialize our AI based on which difficulty was selected
 		}
