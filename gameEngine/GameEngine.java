@@ -21,7 +21,7 @@ public class GameEngine {
 	private ArrayList<Actor> actors;
 	//Used to store image data
 	private Dictionary<String, Image> cache;
-	
+	//Used to paint our image to the frame.
 	private BufferedImage currFrame;
 	
 	public GameEngine(String mapName, String firstAIName, String difficulty, boolean is2Player) {
