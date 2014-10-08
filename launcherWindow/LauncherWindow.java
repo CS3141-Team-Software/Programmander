@@ -56,7 +56,7 @@ public class LauncherWindow extends JFrame {
 		
 		runAI.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				GameWindow gameFrame = new GameWindow(new GameEngine());
+				GameWindow gameFrame = new GameWindow(new GameEngine((String)comboBoxMaps.getSelectedItem(), (String)comboBoxPlayer1AI.getSelectedItem(), "", false));
 				setVisible(false);
 				gameFrame.setVisible(true);
 			}
@@ -68,9 +68,15 @@ public class LauncherWindow extends JFrame {
 		//This is the maps combo box. 
 		//Maps are read in through files that are used to populate the comboBox for the user to choose from.
 		comboBoxMaps.setBounds(631, 261, 787, 45);
+		for(String s : getMapList()){
+			comboBoxMaps.addItem(s);
+		}
 		getContentPane().add(comboBoxMaps);
 		
 		comboBoxPlayer1AI.setBounds(631, 380, 787, 50);
+		for(String s : getActorList()){
+			comboBoxPlayer1AI.addItem(s);
+		}
 		getContentPane().add(comboBoxPlayer1AI);
 		
 		comboBoxDifficulty.setBounds(631, 318, 787, 50);
@@ -159,7 +165,7 @@ public class LauncherWindow extends JFrame {
 			
 			int actNum = 0;
 			for(int i = 0; i < fileList.length; i++){
-				if(fileList[i].getName().endsWith(".jar")) {
+				if(fileList[i].getName().endsWith(".txt")) {
 					actNum++;
 				}
 			}
@@ -167,7 +173,7 @@ public class LauncherWindow extends JFrame {
 			String[] ret = new String[actNum]; 
 			int j = 0;
 			for(int i = 0; i < fileList.length; i++){
-				if(fileList[i].getName().endsWith(".jar")) {
+				if(fileList[i].getName().endsWith(".txt")) {
 					ret[j] = fileList[i].getName();
 					j++;
 				}

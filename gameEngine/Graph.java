@@ -112,7 +112,7 @@ public class Graph {
 		//maint posX = -1;
 			int posY = -1;
 			String obstrct = "";
-			String background = "";king an empty map...
+			String background = "";
 		for(int i = 0; i < y; i++){
 			for(int j = 0; j < x; j++){
 				map[i][j] = new GraphNode(i, j);

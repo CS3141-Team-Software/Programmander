@@ -12,7 +12,10 @@ import javax.swing.JLabel;
 import javax.swing.JButton;
 
 public class GameWindow extends JFrame {
+	
 	public GameWindow(GameEngine gameEngine){
+		
+		System.out.println();
 		setSize(new Dimension(1720, 880));
 		getContentPane().setPreferredSize(new Dimension(1720, 880));
 		getContentPane().setMinimumSize(new Dimension(1720, 880));
