@@ -25,17 +25,19 @@ import java.io.File;
  */
 public class LauncherWindow extends JFrame {
 	
-	JFrame mainFrameWindow;
-	JButton runAI = new JButton("Run AI");
-	JButton btnBackToMain = new JButton("Back To Main Window");
-	JComboBox<String> comboBoxMaps = new JComboBox<String>();
-	JComboBox<String> comboBoxPlayer1AI = new JComboBox<String>();
-	JComboBox<String> comboBoxPlayer2AI = new JComboBox<String>();
-	JComboBox<String> comboBoxDifficulty = new JComboBox<String>();
-	JLabel mapsLabel = new JLabel("Maps");
-	JLabel player1AILabel = new JLabel("Player 1 AI");
-	JLabel player2AILabel = new JLabel("Player 2 AI");
-	JLabel difficultyLabel = new JLabel("Difficulty");
+	private JFrame mainFrameWindow;
+	private JButton runAI = new JButton("Run AI");
+	private JButton btnBackToMain = new JButton("Back To Main Window");
+	private JComboBox<String> comboBoxMaps = new JComboBox<String>();
+	private JComboBox<String> comboBoxPlayer1AI = new JComboBox<String>();
+	private JComboBox<String> comboBoxPlayer2AI = new JComboBox<String>();
+	private JComboBox<String> comboBoxDifficulty = new JComboBox<String>();
+	private JLabel mapsLabel = new JLabel("Maps");
+	private JLabel player1AILabel = new JLabel("Player 1 AI");
+	private JLabel player2AILabel = new JLabel("Player 2 AI");
+	private JLabel difficultyLabel = new JLabel("Difficulty");
+	private Boolean isThereAPlayer2 = false;
+	private String player2NameOrDifficulty;
 	
 	public LauncherWindow(JFrame main) {
 		
@@ -56,7 +58,12 @@ public class LauncherWindow extends JFrame {
 		
 		runAI.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				GameWindow gameFrame = new GameWindow(new GameEngine((String)comboBoxMaps.getSelectedItem(), (String)comboBoxPlayer1AI.getSelectedItem(), "", false));
+				if(isThereAPlayer2){
+					player2NameOrDifficulty = (String)comboBoxPlayer2AI.getSelectedItem();
+				}else {
+					player2NameOrDifficulty = (String)comboBoxDifficulty.getSelectedItem();
+				}
+				GameWindow gameFrame = new GameWindow(new GameEngine((String)comboBoxMaps.getSelectedItem(), (String)comboBoxPlayer1AI.getSelectedItem(), player2NameOrDifficulty, isThereAPlayer2));
 				setVisible(false);
 				gameFrame.setVisible(true);
 			}
@@ -79,7 +86,25 @@ public class LauncherWindow extends JFrame {
 		}
 		getContentPane().add(comboBoxPlayer1AI);
 		
+		comboBoxDifficulty.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String s = (String)comboBoxDifficulty.getSelectedItem();
+				if(!(s.equalsIgnoreCase(""))){
+					comboBoxPlayer2AI.setVisible(false);
+					player2AILabel.setVisible(false);
+					isThereAPlayer2 = false;
+				} else if((s.equalsIgnoreCase(""))){
+					comboBoxPlayer2AI.setVisible(true);
+					player2AILabel.setVisible(true);
+					isThereAPlayer2 = true;
+				}
+			}
+		});
 		comboBoxDifficulty.setBounds(631, 318, 787, 50);
+		comboBoxDifficulty.addItem("");
+		comboBoxDifficulty.addItem("Easy");
+		comboBoxDifficulty.addItem("Medium");
+		comboBoxDifficulty.addItem("Hard");
 		getContentPane().add(comboBoxDifficulty);
 		
 		mapsLabel.setFont(new Font("Arial Black", Font.BOLD, 50));

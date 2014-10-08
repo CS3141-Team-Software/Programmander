@@ -20,7 +20,22 @@ public class MainWindow extends JFrame {
 	
 	ArrayList<JFrame> frames; 
 	
+	//Buttons
+	JButton playButton = new JButton("PLAY!");
+	JButton editButton = new JButton("EDIT");
+	JButton tutorialButton = new JButton("TUTORIAL");
+	
+	//Titles and labels
+	JLabel titleProgrammander = new JLabel("Programmander");
+	
+	//Spacing struts
+	Component verticalStrut = Box.createVerticalStrut(50);
+	Component verticalStrut_1 = Box.createVerticalStrut(20);
+	Component verticalStrut_2 = Box.createVerticalStrut(20);
+	Component verticalStrut_3 = Box.createVerticalStrut(20);
+	
 	public MainWindow(ArrayList<JFrame> f){
+		initializeGUIElements();
 		getContentPane().setSize(new Dimension(300, 80));
 		getContentPane().setPreferredSize(new Dimension(300, 80));
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -30,16 +45,20 @@ public class MainWindow extends JFrame {
 		getContentPane().setMinimumSize(new Dimension(1720, 880));
 		getContentPane().setMaximumSize(new Dimension(1720, 880));
 		setExtendedState(MAXIMIZED_BOTH);
+		setTitle("This is the main window, insert clever title here.");
+	}
+
+	private void initializeGUIElements() {
 		
-		JButton btnLauncher = new JButton("PLAY!");
-		btnLauncher.setAlignmentY(Component.BOTTOM_ALIGNMENT);
-		btnLauncher.setSize(new Dimension(300, 80));
-		btnLauncher.setPreferredSize(new Dimension(300, 80));
-		btnLauncher.setMinimumSize(new Dimension(104, 100));
-		btnLauncher.setMaximumSize(new Dimension(400, 100));
-		btnLauncher.setAlignmentX(Component.CENTER_ALIGNMENT);
-		btnLauncher.setFont(new Font("Comic Sans MS", Font.BOLD, 50));
-		btnLauncher.addActionListener(new ActionListener() {
+		//Initialization of the play button dimensions and placement on the contentpane.
+		playButton.setAlignmentY(Component.BOTTOM_ALIGNMENT);
+		playButton.setSize(new Dimension(300, 80));
+		playButton.setPreferredSize(new Dimension(300, 80));
+		playButton.setMinimumSize(new Dimension(104, 100));
+		playButton.setMaximumSize(new Dimension(400, 100));
+		playButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		playButton.setFont(new Font("Comic Sans MS", Font.BOLD, 50));
+		playButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionCommand) {
 				JFrame frame = frames.get(0);
 				frames.get(0).setVisible(true);
@@ -48,52 +67,51 @@ public class MainWindow extends JFrame {
 		});
 		getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 		
-		Component verticalStrut_3 = Box.createVerticalStrut(20);
+		//Space between top and programmander text
 		verticalStrut_3.setMaximumSize(new Dimension(32767, 100));
 		getContentPane().add(verticalStrut_3);
 		
-		JLabel lblProgrammander = new JLabel("Programmander");
-		lblProgrammander.setAlignmentX(Component.CENTER_ALIGNMENT);
-		lblProgrammander.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 72));
-		getContentPane().add(lblProgrammander);
+		// TITLE "Programmander"
+		titleProgrammander.setAlignmentX(Component.CENTER_ALIGNMENT);
+		titleProgrammander.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 72));
+		getContentPane().add(titleProgrammander);
 		
-		Component verticalStrut = Box.createVerticalStrut(50);
+		//Strut between TITLE and play button.
 		verticalStrut.setMaximumSize(new Dimension(32767, 200));
 		getContentPane().add(verticalStrut);
-		getContentPane().add(btnLauncher);
+		getContentPane().add(playButton);
 		
-		JButton btnNewButton = new JButton("EDIT");
-		btnNewButton.setSize(new Dimension(104, 25));
-		btnNewButton.setPreferredSize(new Dimension(104, 25));
-		btnNewButton.setMinimumSize(new Dimension(104, 100));
-		btnNewButton.setMaximumSize(new Dimension(400, 100));
-		btnNewButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		btnNewButton.addActionListener(new ActionListener() {
+		//Initialization of the edit button dimensions and placement.
+		editButton.setSize(new Dimension(104, 25));
+		editButton.setPreferredSize(new Dimension(104, 25));
+		editButton.setMinimumSize(new Dimension(104, 100));
+		editButton.setMaximumSize(new Dimension(400, 100));
+		editButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		editButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionCommand) {
 				frames.get(1).setVisible(true);
 				setVisible(false);
 			}
 		});
 		
-		Component verticalStrut_1 = Box.createVerticalStrut(20);
+		//Strut to space the buttons 
 		getContentPane().add(verticalStrut_1);
-		btnNewButton.setFont(new Font("Comic Sans MS", Font.BOLD, 50));
-		getContentPane().add(btnNewButton);
+		editButton.setFont(new Font("Comic Sans MS", Font.BOLD, 50));
+		getContentPane().add(editButton);
 		
-		JButton btnNewButton_1 = new JButton("TUTORIAL");
-		btnNewButton_1.setMaximumSize(new Dimension(400, 100));
-		btnNewButton_1.setAlignmentX(Component.CENTER_ALIGNMENT);
-		btnNewButton_1.addActionListener(new ActionListener() {
+		//Tutorial button initialization
+		tutorialButton.setMaximumSize(new Dimension(400, 100));
+		tutorialButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		tutorialButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionCommand) {
 				frames.get(2).setVisible(true);
 				setVisible(false);
 			}
 		});
 		
-		Component verticalStrut_2 = Box.createVerticalStrut(20);
+		//Space buttons out.
 		getContentPane().add(verticalStrut_2);
-		btnNewButton_1.setFont(new Font("Comic Sans MS", Font.BOLD, 50));
-		getContentPane().add(btnNewButton_1);
-		setTitle("This is the main window, insert clever title here.");
+		tutorialButton.setFont(new Font("Comic Sans MS", Font.BOLD, 50));
+		getContentPane().add(tutorialButton);
 	}
 }

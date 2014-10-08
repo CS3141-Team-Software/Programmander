@@ -13,7 +13,7 @@ public class GameEngine {
 	private GraphNode[][] nodes;
 
 	public GameEngine(String mapName, String firstAIName, String difficulty, boolean is2Player) {
-
+		
 		
 		//Make our map using data passed in by LauncherWindow
 		map = new Graph(mapName);
