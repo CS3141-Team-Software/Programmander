@@ -15,7 +15,7 @@ public class GraphNode {
 	private int col;
 	private Obstruction obs;
 	private String backImg;
-	//private actor[] actors;
+	private Actor actor;
 	
 	/*
 	 * Constructor for making an individual node
@@ -26,6 +26,7 @@ public class GraphNode {
 		south = s;
 		east = e;
 		west = w;
+		actor = null;
 	}
 	
 	/*
@@ -33,6 +34,7 @@ public class GraphNode {
 	 * making nodes
 	 */
 	public GraphNode(int y,int x){
+		actor = null;
 		north = null;
 		south = null;
 		east = null;
@@ -118,6 +120,10 @@ public class GraphNode {
 	public String getBackground(){
 		return backImg;
 	}
+	
+	public Actor getActor(){
+		return actor;
+	}
 	/*
 	 * End of Getter Methods
 	 */
@@ -143,6 +149,10 @@ public class GraphNode {
 	}
 	public void setBackground(String str){
 		backImg = str;
+	}
+	
+	public void setActor(Actor a){
+		actor = a;
 	}
 	/*
 	 * End of Setter Methods
