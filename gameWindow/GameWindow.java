@@ -30,14 +30,14 @@ public class GameWindow extends JFrame {
 		btnDummyButton.setBounds(1529, 24, 175, 25);
 		getContentPane().add(btnDummyButton);
 		
-		JPanel panel = new JPanel();
-		panel.setPreferredSize(new Dimension(800, 800));
-		panel.setMinimumSize(new Dimension(800, 800));
-		panel.setMaximumSize(new Dimension(800, 800));
-		panel.setSize(new Dimension(800, 800));
-		panel.setBounds(12, 24, 800, 800);
-		getContentPane().add(panel);
-		panel.setBackground(Color.RED);
+		JPanel game = new JPanel();
+		game.setPreferredSize(new Dimension(800, 800));
+		game.setMinimumSize(new Dimension(800, 800));
+		game.setMaximumSize(new Dimension(800, 800));
+		game.setSize(new Dimension(800, 800));
+		game.setBounds(12, 24, 800, 800);
+		getContentPane().add(game);
+		game.setBackground(Color.RED);
 		
 	}
 	public void Stuff() {
