@@ -18,7 +18,7 @@ public class Graph {
 	private GraphNode[][] map;
 	private int rows;
 	private int cols;
-	private ArrayList<Actor> actorList = new ArrayList<Actor>();
+	private GraphNode[] list;
 
 	/*
 	 * Constructor given a text file
@@ -107,15 +107,19 @@ public class Graph {
 		rows = y;
 		cols = x;
 		map = new GraphNode[y][x];
+		list = new GraphNode[x + y]; 
 
 
-		//maint posX = -1;
+			int posX = -1;
 			int posY = -1;
 			String obstrct = "";
-			String background = "";king an empty map...
+			String background = "";//making an empty map...\
+			int k = 0;
 		for(int i = 0; i < y; i++){
 			for(int j = 0; j < x; j++){
 				map[i][j] = new GraphNode(i, j);
+				list[k] = map[i][j];
+				k++;
 			}
 		}
 
@@ -167,6 +171,14 @@ public class Graph {
 	public Actor getUnitType(String s) {
 		//Returns a newly created unit based on what we read in from the file
 		return null;
+	}
+	
+	/*
+	 * getNodesSing
+	 * returns a list of nodes existing in the graph
+	 */
+	public GraphNode[] getNodesSing(){
+		return list;
 	}
 
 }	
