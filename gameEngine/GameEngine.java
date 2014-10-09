@@ -23,14 +23,22 @@ public class GameEngine {
 	private Dictionary<String, Image> cache;
 	//Used to paint our image to the frame.
 	private BufferedImage currFrame;
+	private String mapName;
+	private String player1AIName;
+	private String secondPlayerOrDifficulty;
+	private Boolean is2Player;
 	
 	public GameEngine(String mapName, String firstAIName, String difficulty, boolean is2Player) {
-
+		this.mapName = mapName;
+		this.player1AIName = firstAIName;
+		this.secondPlayerOrDifficulty = difficulty;
+		this.is2Player = is2Player;
+		
 		//Make our map using data passed in by LauncherWindow
 		map = new Graph(mapName);
 		nodes = map.getNodesSing();
 		//TODO: Need this to actually happen
-		actors = map.getActors();
+		//actors = map.getActors();
 
 		//Initialize 1st player's AI by calling Mark's magic code.
 		//TODO: Implement Mark's magic code
@@ -40,23 +48,20 @@ public class GameEngine {
 		} else {
 			//Initialize our AI based on which difficulty was selected
 		}
-		
-		this.run();
-
 	}
 
 	//Run the game!
-	private void run() {
-		while(!gameOver) {
+	public void run() {
+		/*while(!gameOver) {
 			
 			//Go through actors and update them
-			for (Actor a : actors) {
-				a.update();
-			}
-			
+			//for (Actor a : actors) {
+			//	a.update();
+			//}
+			gameOver = false;
 			//Paint to buffered image
 			
-		}
+		}*/
 		
 	}
 
@@ -64,5 +69,40 @@ public class GameEngine {
 	public void setGamePanel(JPanel w) {
 		window = w;
 	}
+	
+	public String getMapName(){
+		return this.mapName;
+	}
+	public void setMapName(String name){
+		this.mapName = name;
+	}
+	public String getPlayer1AIName(){
+		return this.mapName;
+	}
+	public void setPlayer1AIName(String name){
+		this.player1AIName = name;
+	}
+	public String getPlayer2AIName(){
+		if(is2Player){
+			return this.secondPlayerOrDifficulty;
+		} else {
+			return "";
+		}
+	}
+	public void setPlayer2AIName(String name){
+		this.secondPlayerOrDifficulty = name;
+	}
+	public String getDifficulty(){
+		if(!is2Player){
+			return this.secondPlayerOrDifficulty;
+		} else {
+			return "";
+		}
+	}
+	public void setDifficulty(String name){
+		this.secondPlayerOrDifficulty = name;
+	}
+	
+	
 }
 
