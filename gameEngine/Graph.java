@@ -180,6 +180,20 @@ public class Graph {
 	public GraphNode[] getNodesSing(){
 		return list;
 	}
+	
+	/*
+	 * getActors
+	 * returns an arraylist of actors
+	 */
+	public ArrayList<Actor> getActors(){
+		ArrayList<Actor> ret = new ArrayList<Actor>();
+		for(int i = 0; i < list.length; i++){
+			if(!list[i].getActor().equals(null)){
+				ret.add(list[i].getActor());
+			}
+		}
+		return ret;
+	}
 
 }	
 
