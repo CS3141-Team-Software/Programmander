@@ -63,9 +63,11 @@ public class LauncherWindow extends JFrame {
 				}else {
 					player2NameOrDifficulty = (String)comboBoxDifficulty.getSelectedItem();
 				}
+				System.out.println("HERE");
 				GameWindow gameFrame = new GameWindow(new GameEngine((String)comboBoxMaps.getSelectedItem(), (String)comboBoxPlayer1AI.getSelectedItem(), player2NameOrDifficulty, isThereAPlayer2));
 				setVisible(false);
 				gameFrame.setVisible(true);
+				System.out.println("HERE1");
 			}
 		});
 		runAI.setFont(new Font("Comic Sans MS", Font.BOLD, 50));
@@ -133,6 +135,9 @@ public class LauncherWindow extends JFrame {
 		getContentPane().add(player2AILabel);
 		
 		comboBoxPlayer2AI.setBounds(631, 439, 787, 53);
+		for(String s : getActorList()){
+			comboBoxPlayer2AI.addItem(s);
+		}
 		getContentPane().add(comboBoxPlayer2AI);
 		
 	}

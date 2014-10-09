@@ -28,4 +28,8 @@ public abstract class Actor {
 		GraphNode[] surr = new GraphNode[8];
 		return surr;
 	}
+	
+	public void update() {
+		//Work, code!
+	}
 }
