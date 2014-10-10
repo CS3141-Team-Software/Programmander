@@ -103,6 +103,10 @@ public class Graph {
 	}
 
 	public void makeGraph(int x, int y) {
+		if (x > 19 || y > 19) {
+			System.out.println("BAD MAP!");
+			return;
+		}
 		size = x*y;
 		rows = y;
 		cols = x;
@@ -193,6 +197,22 @@ public class Graph {
 			}
 		}
 		return ret;
+	}
+	
+	/*
+	 * getRows
+	 * Returns an integer representing the number of rows in the array
+	 */
+	public int getRows() {
+		return rows;
+	}
+	
+	/*
+	 * getCols
+	 * Returns an integer representing the number of columns in the array
+	 */
+	public int getCols() {
+		return cols;
 	}
 
 }	

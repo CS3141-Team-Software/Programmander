@@ -26,26 +26,47 @@ public class Renderer {
 		map = m;
 		currFrame = null;
 		nextFrame = new BufferedImage(xDim, yDim, BufferedImage.TYPE_INT_RGB);
+		g = nextFrame.createGraphics();
 
-		//These are the size of our window.
-		xDim = 950;
-		yDim = 950;
+		//These are the size of our bufferedImage.
+		xDim = map.getCols() * 50;
+		yDim = map.getRows() * 50;
 
 	}
 
 	//Paint image into the buffered image
-	private void generateImage(BufferedImage image) {
+	private void generateImage() {
+		currFrame = nextFrame;
+		Image bg = null;
+		Image unit = null;
+		int xCoord = 0;
+		int yCoord = 0;
+		Actor actor;
 		for (GraphNode node : nodes) {
+			
 			if (node.getIsChanged()) {
 				//Update the node
+				bg = getFromCache(node.getBackground());
+				g.drawImage(bg, xCoord, yCoord, null);
+				
+				actor = node.getActor();
+				if (actor != null) {
+					unit = getFromCache(actor.getType());
+					g.drawImage(unit, xCoord, yCoord, null);
+				}
+				
 			}
-			//Get background data
-			//Check cache for that image
-			//Paint that image to nextFrame based on coordinates of that frame
-			//Get actor data
-			//Check cache for that image
-			//Paint that image to nextFrame based on coordinates of that frame
+			xCoord = xCoord + 50;
+			
+			if (xCoord >= xDim) {
+				xCoord = 0;
+				yCoord = yCoord + 50;
+			}
 		}
 	}
-
+	
+	//private int[] getNodePositionCoords(GraphNode n) {
+	//	int[] position = new int[2];
+		
+	//}
 }
