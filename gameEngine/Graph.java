@@ -28,7 +28,7 @@ public class Graph {
 	public Graph(String fileName) {
 
 		try{
-			System.out.println("Working directory for the graph: " + System.getProperty("user.dir"));
+			System.out.println("Working directory for the graph: " + System.getProperty("user.dir") + " " + fileName);
 			File file = new File(System.getProperty("user.dir") + "/maps/" + fileName);
 			Scanner in = new Scanner(file);
 			if(in.hasNext()){

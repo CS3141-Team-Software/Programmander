@@ -55,8 +55,8 @@ public class Renderer {
 				
 				actor = node.getActor();
 				if (actor != null) {
-					unit = getFromCache(actor.getType());
-					g.drawImage(unit, xCoord, yCoord, null);
+					//unit = getFromCache(actor.getType());
+					//g.drawImage(unit, xCoord, yCoord, null);
 				}
 				
 			}
@@ -86,9 +86,8 @@ public class Renderer {
 			if(artParent.isDirectory()){
 				File[] fileList = artParent.listFiles();
 				 for(int i = 0; i < fileList.length; i++){
-					 if(fileList[i].getName().equals(str)){
+					 if(fileList[i].getName().equals(str +".png")){
 						Image img = null;
-		
 						
 						try {
 							img = ImageIO.read(fileList[i]);
@@ -109,7 +108,6 @@ public class Renderer {
 		else{
 			return cache.get(str);
 		}
-		
 		return null; //I DON't KNOW WHY JAVA NEEDS THIS
 	}
 

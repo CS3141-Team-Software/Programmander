@@ -20,7 +20,7 @@ import java.io.File;
  * The purpose of this class is to launch the game based on the 
  * information that the user has put into the forms. 
  * 
- * @author Nighthunter
+ * @author Kyle Derosha
  *
  */
 public class LauncherWindow extends JFrame {
@@ -127,6 +127,7 @@ public class LauncherWindow extends JFrame {
 				mainFrameWindow.setVisible(true);
 			}
 		});
+		
 		btnBackToMain.setBounds(10, 11, 141, 33);
 		getContentPane().add(btnBackToMain);
 		
