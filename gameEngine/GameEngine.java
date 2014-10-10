@@ -19,19 +19,14 @@ public class GameEngine {
 	private GraphNode[] nodes;
 	private JPanel window;
 	private ArrayList<Actor> actors;
-	private int xDim, yDim;
-
-	//Used to store image data for caching
-	private Dictionary<String, Image> cache;
-	//Used to paint our image to the GameWindow.
-	private BufferedImage currFrame;
-
-	private BufferedImage nextFrame;
+	
+	private Renderer renderer;
 
 	private String mapName;
 	private String player1AIName;
 	private String secondPlayerOrDifficulty;
-	private Boolean is2Player;
+	private boolean is2Player;
+	private BufferedImage currFrame;
 
 
 	public GameEngine(String mapName, String firstAIName, String difficulty, boolean is2Player) {
@@ -45,13 +40,7 @@ public class GameEngine {
 		nodes = map.getNodesSing();
 
 		actors = map.getActors();
-
-		currFrame = null;
-		nextFrame = new BufferedImage(xDim, yDim, BufferedImage.TYPE_INT_RGB);
-
-		//TODO: Need this to actually happen
-		//actors = map.getActors();
-
+		renderer = new Renderer(actors, map, nodes);
 
 		//Initialize 1st player's AI by calling Mark's magic code.
 		//TODO: Implement Mark's magic code
@@ -61,19 +50,14 @@ public class GameEngine {
 		} else {
 			//Initialize our AI based on which difficulty was selected
 		}
-
-
-		generateImage(nextFrame);
+		
 	}
 
-	//Paint image into the buffered image
-	private void generateImage(BufferedImage image) {
-		// TODO Auto-generated method stub
-
-	}
+	
 
 	//Run the game!
 	public void run() {
+				
 		while(!gameOver) {
 
 
@@ -82,22 +66,13 @@ public class GameEngine {
 			//	a.update();
 			//}
 			gameOver = false;
-			//Paint to buffered image
-
-			for (GraphNode g : nodes) {
-				//Get background data
-				//Check cache for that image
-				//Paint that image to nextFrame based on coordinates of that frame
-				//Get actor data
-				//Check cache for that image
-				//Paint that image to nextFrame based on coordinates of that frame
-			}
-
+			//Generate a new buffered image
+			
+			
 			//Paint nextFrame to the screen
 
-
-			currFrame = nextFrame; 
-			nextFrame = new BufferedImage(xDim, 800, BufferedImage.TYPE_INT_RGB);
+		
+					
 
 		}
 

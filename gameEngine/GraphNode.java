@@ -16,6 +16,7 @@ public class GraphNode {
 	private Obstruction obs;
 	private String backImg;
 	private Actor actor;
+	private boolean isChanged;
 	
 	/*
 	 * Constructor for making an individual node
@@ -27,6 +28,7 @@ public class GraphNode {
 		east = e;
 		west = w;
 		actor = null;
+		isChanged = false;
 	}
 	
 	/*
@@ -73,7 +75,7 @@ public class GraphNode {
 	}
 	
 	/*
-	 * Getter Methods for
+	 * Getter Method// TODO Auto-generated method stubs for
 	 * NorthEast SouthEast
 	 * NorthWest SouthWest
 	 */
@@ -165,5 +167,13 @@ public class GraphNode {
 	 */
 	public String getCoordinates(){
 		return ("[Row: " + row + ", Col: " + col + "]");
+	}
+	
+	public boolean getIsChanged() {
+		return isChanged;
+	}
+	
+	public void setIsChanged(boolean b) {
+		isChanged = b;
 	}
 }
