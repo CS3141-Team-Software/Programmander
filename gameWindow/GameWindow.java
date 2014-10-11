@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.io.IOException;
 
 import javax.swing.JLabel;
 import javax.swing.JButton;
@@ -23,16 +24,24 @@ public class GameWindow extends JFrame {
 	private JLabel actualPlayer1AIName = new JLabel("New label");
 	private JLabel actualPlayer2AIName = new JLabel("New label");
 	private JLabel actualDifficulty = new JLabel("New label");
+	private Integer frameWidth = 1920;
+	private Integer frameHeight = 1080;
 	
-	public GameWindow(GameEngine gameEngine){
+	/**
+	 * Method to initialize the game frame
+	 * @param gameEngine
+	 * @throws IOException
+	 */
+	public GameWindow(GameEngine gameEngine) throws IOException{
 		this.gameEngine = gameEngine;
 		
-		System.out.println("game engine constructor");
-		setSize(new Dimension(1720, 880));
-		getContentPane().setPreferredSize(new Dimension(1720, 880));
-		getContentPane().setMinimumSize(new Dimension(1720, 880));
-		getContentPane().setMaximumSize(new Dimension(1720, 880));
+		setSize(new Dimension(frameWidth, frameHeight));
+		getContentPane().setPreferredSize(new Dimension(frameWidth, frameHeight));
+		getContentPane().setMinimumSize(new Dimension(frameWidth, frameHeight));
+		getContentPane().setMaximumSize(new Dimension(frameWidth, frameHeight));
 		getContentPane().setLayout(null);
+		JPanel gamePanel = new GamePanel();
+		getContentPane().add(gamePanel);
 		
 		initializeGUIElements();
 	}
@@ -53,15 +62,6 @@ public class GameWindow extends JFrame {
 		game.setBounds(12, 24, 950, 950);
 		getContentPane().add(game);
 		game.setBackground(Color.RED);
-		
-		JPanel game1 = new JPanel();
-		game1.setPreferredSize(new Dimension(50, 50));
-		game1.setMinimumSize(new Dimension(50, 50));
-		game1.setMaximumSize(new Dimension(50, 50));
-		game1.setSize(new Dimension(50, 50));
-		game1.setBounds(12, 24, 50, 50);
-		game.add(game1);
-		game1.setBackground(Color.BLUE);
 		
 		gameInformationTitleLabel.setBounds(980, 29, 137, 15);
 		getContentPane().add(gameInformationTitleLabel);
@@ -89,8 +89,5 @@ public class GameWindow extends JFrame {
 		
 		setExtendedState(MAXIMIZED_BOTH);	
 		gameEngine.run();
-	}
-	public void Stuff() {
-		
 	}
 }

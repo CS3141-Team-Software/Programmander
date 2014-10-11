@@ -33,24 +33,31 @@ public class MainWindow extends JFrame {
 	ArrayList<JFrame> frames; 
 	
 	//Buttons
-	JButton playButton = new JButton("PLAY!");
-	JButton editButton = new JButton("EDIT");
-	JButton tutorialButton = new JButton("TUTORIAL");
+	private JButton playButton = new JButton("PLAY!");
+	private JButton editButton = new JButton("EDIT");
+	private JButton tutorialButton = new JButton("TUTORIAL");
 	private Integer buttonWidth = 350;
 	private Integer buttonHeight = 80;
+	private Integer frameWidth = 1920;
+	private Integer frameHeight = 1080;
 	
 	public MainWindow(ArrayList<JFrame> f) throws IOException{
 		this.frames = f;
 		
-		getContentPane().setSize(new Dimension(1920, 1080));
-		getContentPane().setPreferredSize(new Dimension(1920, 1080));
-		setMinimumSize(new Dimension(1920, 1080));
-		setMaximumSize(new Dimension(1920, 1080));
-		getContentPane().setMinimumSize(new Dimension(1920, 1080));
-		getContentPane().setMaximumSize(new Dimension(1920, 1080));
-		setExtendedState(MAXIMIZED_BOTH);
+		getContentPane().setSize(new Dimension(frameWidth, frameHeight));
+		getContentPane().setPreferredSize(new Dimension(frameWidth, frameHeight));
+		setMinimumSize(new Dimension(frameWidth, frameHeight));
+		setMaximumSize(new Dimension(frameWidth, frameHeight));
+		getContentPane().setMinimumSize(new Dimension(frameWidth, frameHeight));
+		getContentPane().setMaximumSize(new Dimension(frameWidth, frameHeight));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setExtendedState(MAXIMIZED_BOTH);
 		setTitle("Main Window");
+		initializeButtons();
+		getContentPane().add(new MainWindowPanel(f));
+	}
+
+	public void initializeButtons(){
 		
 		//Initialization of the play button dimensions and placement on the contentpane.
 		playButton.setSize(new Dimension(buttonWidth, buttonHeight));
@@ -58,7 +65,7 @@ public class MainWindow extends JFrame {
 		playButton.setMinimumSize(new Dimension(buttonWidth, buttonHeight));
 		playButton.setMaximumSize(new Dimension(buttonWidth, buttonHeight));
 		playButton.setFont(new Font("Comic Sans MS", Font.BOLD, 50));
-		playButton.setLocation(900, 300);
+		playButton.setLocation(100, 50);
 		playButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionCommand) {
 				frames.get(0).setVisible(true);
@@ -73,7 +80,7 @@ public class MainWindow extends JFrame {
 		editButton.setMinimumSize(new Dimension(buttonWidth, buttonHeight));
 		editButton.setMaximumSize(new Dimension(buttonWidth, buttonHeight));
 		editButton.setFont(new Font("Comic Sans MS", Font.BOLD, 50));
-		editButton.setLocation(900, 400);
+		editButton.setLocation(100, 155);
 		editButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionCommand) {
 				frames.get(1).setVisible(true);
@@ -88,7 +95,7 @@ public class MainWindow extends JFrame {
 		tutorialButton.setMinimumSize(new Dimension(buttonWidth, buttonHeight));
 		tutorialButton.setMaximumSize(new Dimension(buttonWidth, buttonHeight));
 		tutorialButton.setFont(new Font("Comic Sans MS", Font.BOLD, 50));
-		tutorialButton.setLocation(900, 500);
+		tutorialButton.setLocation(100, 260);
 		tutorialButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionCommand) {
 				frames.get(2).setVisible(true);
@@ -96,8 +103,6 @@ public class MainWindow extends JFrame {
 			}
 		});
 		add(tutorialButton);
-		getContentPane().add(new MainWindowPanel(f));
 	}
-
 
 }

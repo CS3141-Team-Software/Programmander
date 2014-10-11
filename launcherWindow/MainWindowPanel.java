@@ -19,13 +19,16 @@ public class MainWindowPanel extends JPanel{
 	
 	
 	ArrayList<JFrame> frames;
+	private Integer panelWidth = 1920;
+	private Integer panelHeight = 1080;
+	
 	public MainWindowPanel(ArrayList<JFrame> f) throws IOException{
 		frames = f;
 		initializePanel();
 	}
 	
 	private void initializePanel() throws IOException {
-		setBounds(new Rectangle(1720, 880));
+		setBounds(new Rectangle(panelWidth, panelHeight));
 	}
 	
 	public void paint(Graphics g) {
