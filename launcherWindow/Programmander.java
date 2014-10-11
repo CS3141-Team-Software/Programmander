@@ -1,5 +1,6 @@
 package launcherWindow;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -20,8 +21,9 @@ public class Programmander {
 	 * This method is used to set up all the frames that we will need.
 	 * Passes them to the mainwindow so that we can choose which frames
 	 * are going to be visable based on what button is pressed. 
+	 * @throws IOException 
 	 */
-	private static void initializeWindows(){
+	private static void initializeWindows() throws IOException{
 		
 		LauncherWindow launcher = new LauncherWindow(null);
 		launcher.pack();

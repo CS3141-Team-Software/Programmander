@@ -153,7 +153,7 @@ public class LauncherWindow extends JFrame {
 	 * will return null in error
 	 */
 	public String[] getMapList(){
-		String dir = System.getProperty("user.dir") + "/maps";
+		String dir = System.getProperty("user.dir") + "/src/maps";
 		File mapParent = new File(dir);
 		
 		if(mapParent.isDirectory()){
@@ -188,7 +188,7 @@ public class LauncherWindow extends JFrame {
 	 * will return null in error.
 	 */
 	public String[] getActorList(){
-		String dir = System.getProperty("user.dir") + "/actors";
+		String dir = System.getProperty("user.dir") + "/src/actors";
 		File actParent = new File(dir);
 		
 		if(actParent.isDirectory()){

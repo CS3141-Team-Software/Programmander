@@ -1,5 +1,6 @@
 package launcherWindow;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 import java.awt.Dimension;
@@ -8,12 +9,23 @@ import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.image.BufferedImage;
 import java.awt.Font;
 import java.awt.Canvas;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Rectangle;
 import java.util.ArrayList;
+
 import javax.swing.JLabel;
 import javax.swing.BoxLayout;
+import javax.swing.JPanel;
+
 import java.awt.Component;
+import java.io.File;
+import java.io.IOException;
+
 import javax.swing.Box;
 
 public class MainWindow extends JFrame {
@@ -24,94 +36,68 @@ public class MainWindow extends JFrame {
 	JButton playButton = new JButton("PLAY!");
 	JButton editButton = new JButton("EDIT");
 	JButton tutorialButton = new JButton("TUTORIAL");
+	private Integer buttonWidth = 350;
+	private Integer buttonHeight = 80;
 	
-	//Titles and labels
-	JLabel titleProgrammander = new JLabel("Programmander");
-	
-	//Spacing struts
-	Component verticalStrut = Box.createVerticalStrut(50);
-	Component verticalStrut_1 = Box.createVerticalStrut(20);
-	Component verticalStrut_2 = Box.createVerticalStrut(20);
-	Component verticalStrut_3 = Box.createVerticalStrut(20);
-	
-	public MainWindow(ArrayList<JFrame> f){
-		initializeGUIElements();
-		getContentPane().setSize(new Dimension(300, 80));
-		getContentPane().setPreferredSize(new Dimension(300, 80));
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	public MainWindow(ArrayList<JFrame> f) throws IOException{
 		this.frames = f;
-		setMinimumSize(new Dimension(1720, 880));
-		setMaximumSize(new Dimension(1720, 880));
-		getContentPane().setMinimumSize(new Dimension(1720, 880));
-		getContentPane().setMaximumSize(new Dimension(1720, 880));
+		
+		getContentPane().setSize(new Dimension(1920, 1080));
+		getContentPane().setPreferredSize(new Dimension(1920, 1080));
+		setMinimumSize(new Dimension(1920, 1080));
+		setMaximumSize(new Dimension(1920, 1080));
+		getContentPane().setMinimumSize(new Dimension(1920, 1080));
+		getContentPane().setMaximumSize(new Dimension(1920, 1080));
 		setExtendedState(MAXIMIZED_BOTH);
-		setTitle("This is the main window, insert clever title here.");
-	}
-
-	private void initializeGUIElements() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setTitle("Main Window");
 		
 		//Initialization of the play button dimensions and placement on the contentpane.
-		playButton.setAlignmentY(Component.BOTTOM_ALIGNMENT);
-		playButton.setSize(new Dimension(300, 80));
-		playButton.setPreferredSize(new Dimension(300, 80));
-		playButton.setMinimumSize(new Dimension(104, 100));
-		playButton.setMaximumSize(new Dimension(400, 100));
-		playButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		playButton.setSize(new Dimension(buttonWidth, buttonHeight));
+		playButton.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
+		playButton.setMinimumSize(new Dimension(buttonWidth, buttonHeight));
+		playButton.setMaximumSize(new Dimension(buttonWidth, buttonHeight));
 		playButton.setFont(new Font("Comic Sans MS", Font.BOLD, 50));
+		playButton.setLocation(900, 300);
 		playButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionCommand) {
-				JFrame frame = frames.get(0);
 				frames.get(0).setVisible(true);
 				setVisible(false);
 			}
 		});
-		getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
-		
-		//Space between top and programmander text
-		verticalStrut_3.setMaximumSize(new Dimension(32767, 100));
-		getContentPane().add(verticalStrut_3);
-		
-		// TITLE "Programmander"
-		titleProgrammander.setAlignmentX(Component.CENTER_ALIGNMENT);
-		titleProgrammander.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 72));
-		getContentPane().add(titleProgrammander);
-		
-		//Strut between TITLE and play button.
-		verticalStrut.setMaximumSize(new Dimension(32767, 200));
-		getContentPane().add(verticalStrut);
-		getContentPane().add(playButton);
+		add(playButton);
 		
 		//Initialization of the edit button dimensions and placement.
-		editButton.setSize(new Dimension(104, 25));
-		editButton.setPreferredSize(new Dimension(104, 25));
-		editButton.setMinimumSize(new Dimension(104, 100));
-		editButton.setMaximumSize(new Dimension(400, 100));
-		editButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		editButton.setSize(new Dimension(buttonWidth, buttonHeight));
+		editButton.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
+		editButton.setMinimumSize(new Dimension(buttonWidth, buttonHeight));
+		editButton.setMaximumSize(new Dimension(buttonWidth, buttonHeight));
+		editButton.setFont(new Font("Comic Sans MS", Font.BOLD, 50));
+		editButton.setLocation(900, 400);
 		editButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionCommand) {
 				frames.get(1).setVisible(true);
 				setVisible(false);
 			}
 		});
-		
-		//Strut to space the buttons 
-		getContentPane().add(verticalStrut_1);
-		editButton.setFont(new Font("Comic Sans MS", Font.BOLD, 50));
-		getContentPane().add(editButton);
+		add(editButton);
 		
 		//Tutorial button initialization
-		tutorialButton.setMaximumSize(new Dimension(400, 100));
-		tutorialButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		tutorialButton.setSize(new Dimension(buttonWidth, buttonHeight));
+		tutorialButton.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
+		tutorialButton.setMinimumSize(new Dimension(buttonWidth, buttonHeight));
+		tutorialButton.setMaximumSize(new Dimension(buttonWidth, buttonHeight));
+		tutorialButton.setFont(new Font("Comic Sans MS", Font.BOLD, 50));
+		tutorialButton.setLocation(900, 500);
 		tutorialButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionCommand) {
 				frames.get(2).setVisible(true);
 				setVisible(false);
 			}
 		});
-		
-		//Space buttons out.
-		getContentPane().add(verticalStrut_2);
-		tutorialButton.setFont(new Font("Comic Sans MS", Font.BOLD, 50));
-		getContentPane().add(tutorialButton);
+		add(tutorialButton);
+		getContentPane().add(new MainWindowPanel(f));
 	}
+
+
 }
