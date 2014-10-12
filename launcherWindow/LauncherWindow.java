@@ -132,6 +132,7 @@ public class LauncherWindow extends JFrame {
 					gameFrame = new GameWindow(engine);
 					setVisible(false);
 					gameFrame.setVisible(true);
+					engine.run();
 					
 				} catch (IOException e) {
 					// TODO Auto-generated catch block

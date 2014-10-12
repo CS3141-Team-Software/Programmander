@@ -60,21 +60,20 @@ public class GameEngine {
 	//Run the game!
 	public void run() {
 		
-		while(!gameOver) {
+		//while(!gameOver) {
 			
 			//Go through actors and update them
 			//for (Actor a : actors) {
 			//	a.update();
 			//}
-			gameOver = false;
 			//Generate a new buffered image
 			currFrame = renderer.generateImage();
 			
 			window.setCurrFrame(currFrame);
 			
 			//Paint nextFrame to the screen
-			window.repaint();
-		}
+			//window.repaint();
+		//}
 
 	}
 
