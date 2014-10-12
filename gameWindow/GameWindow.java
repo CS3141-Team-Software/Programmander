@@ -88,6 +88,8 @@ public class GameWindow extends JFrame {
 		getContentPane().add(actualDifficulty);
 		
 		setExtendedState(MAXIMIZED_BOTH);	
+		this.setVisible(true);
+		getContentPane().setVisible(true);
 		gameEngine.run();
 	}
 }

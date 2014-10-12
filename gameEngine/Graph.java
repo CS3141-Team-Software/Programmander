@@ -28,7 +28,6 @@ public class Graph {
 	public Graph(String fileName) {
 
 		try{
-			System.out.println("Working directory for the graph: " + System.getProperty("user.dir") + " " + fileName);
 			File file = new File(System.getProperty("user.dir") + "/maps/" + fileName);
 			Scanner in = new Scanner(file);
 			if(in.hasNext()){
@@ -51,27 +50,6 @@ public class Graph {
 				if(in.hasNext()) {
 					posY = in.nextInt();
 				}
-
-				if(in.hasNext()) {
-					String unit = in.next();
-				}
-
-				/*
-				 * if (unit.equals("Scout")){
-				 * 	actorList.add(new Scout(posX, posY));
-				 * }
-			int posX = -1;
-			int posY = -1;
-			String obstrct = "";
-			String background = "";	 * else if(unit.equals("Knight")){
-				 * 	actorList.add(new Knight(posX, posY));
-				 * }
-				 * else if(unit.equals("Archer")){
-				 * actorList.add(new Archer(posX, posY));
-				 * }
-				 * else{}
-				 */
-
 
 				if(in.hasNext()) {
 					obstrct = in.next();
@@ -111,7 +89,7 @@ public class Graph {
 		rows = y;
 		cols = x;
 		map = new GraphNode[y][x];
-		list = new GraphNode[x + y]; 
+		list = new GraphNode[x * y]; 
 
 
 			int posX = -1;
@@ -192,7 +170,7 @@ public class Graph {
 	public ArrayList<Actor> getActors(){
 		ArrayList<Actor> ret = new ArrayList<Actor>();
 		for(int i = 0; i < list.length; i++){
-			if(!list[i].getActor().equals(null)){
+			if(! (list[i].getActor() == null)){
 				ret.add(list[i].getActor());
 			}
 		}

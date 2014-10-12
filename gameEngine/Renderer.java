@@ -25,16 +25,19 @@ public class Renderer {
 
 	public Renderer(ArrayList<Actor> a, Graph m, GraphNode[] n) {
 
+	
 		nodes = n;
 		actors = a;
 		map = m;
+		
+		//These are the size of our bufferedImage.
+		xDim = map.getCols() * 50;
+		yDim = map.getRows() * 50;
 		currFrame = null;
 		nextFrame = new BufferedImage(xDim, yDim, BufferedImage.TYPE_INT_RGB);
 		g = nextFrame.createGraphics();
 
-		//These are the size of our bufferedImage.
-		xDim = map.getCols() * 50;
-		yDim = map.getRows() * 50;
+
 
 	}
 
@@ -47,28 +50,28 @@ public class Renderer {
 		int yCoord = 0;
 		Actor actor;
 		for (GraphNode node : nodes) {
-			
+
 			if (node.getIsChanged()) {
 				//Update the node
 				bg = getFromCache(node.getBackground());
 				g.drawImage(bg, xCoord, yCoord, null);
-				
+
 				actor = node.getActor();
 				if (actor != null) {
 					//unit = getFromCache(actor.getType());
 					//g.drawImage(unit, xCoord, yCoord, null);
 				}
-				
+
 			}
 			xCoord = xCoord + 50;
-			
+
 			if (xCoord >= xDim) {
 				xCoord = 0;
 				yCoord = yCoord + 50;
 			}
 		}
 	}
-	
+
 	/*
 	 * getFromCache
 	 * gets the matched image from the provided string
@@ -78,27 +81,27 @@ public class Renderer {
 	 * NOTE: IF THERE IS A PROBLEM WITH IMAGES, IT'LL BE HERE
 	 */
 	public Image getFromCache(String str){// str should be full file name (e.g. "image.jpg")
-		
+
 		if(cache.get(str).equals(null)){
 			String dir = System.getProperty("user.dir") + "/assets/art";
 			File artParent = new File(dir);
 
 			if(artParent.isDirectory()){
 				File[] fileList = artParent.listFiles();
-				 for(int i = 0; i < fileList.length; i++){
-					 if(fileList[i].getName().equals(str +".png")){
+				for(int i = 0; i < fileList.length; i++){
+					if(fileList[i].getName().equals(str +".png")){
 						Image img = null;
-						
+
 						try {
 							img = ImageIO.read(fileList[i]);
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
-						
+
 						cache.put(str, img); 
 						return img;
-					 }
-				 }
+					}
+				}
 			}
 			else{
 				System.out.println("getFromCache: error with fetching art. Unacceptable directory path. Returning null.");

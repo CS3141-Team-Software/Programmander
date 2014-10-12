@@ -70,7 +70,7 @@ public class LauncherPanel extends JPanel {
 	public void paintPanelBackround(Graphics2D g){
 		Image background = null;
 		try {
-			background = ImageIO.read(new File(System.getProperty("user.dir") + "/src/assets/art/launcherWindowBackground.png"));
+			background = ImageIO.read(new File(System.getProperty("user.dir") + "/assets/art/launcherWindowBackground.png"));
 		} catch (IOException e) {
 			
 			e.printStackTrace();
