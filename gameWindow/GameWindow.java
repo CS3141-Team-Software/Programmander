@@ -41,6 +41,7 @@ public class GameWindow extends JFrame {
 		getContentPane().setMinimumSize(new Dimension(frameWidth, frameHeight));
 		getContentPane().setMaximumSize(new Dimension(frameWidth, frameHeight));
 		getContentPane().setLayout(null);
+		this.setTitle("Programmander");
 		
 		windowPanel.setPreferredSize(new Dimension(frameWidth, frameHeight));
 		windowPanel.setMinimumSize(new Dimension(frameWidth, frameHeight));
@@ -91,6 +92,9 @@ public class GameWindow extends JFrame {
 		actualDifficulty.setText(gameEngine.getDifficulty());
 		actualDifficulty.setBounds(1066, 85, 116, 15);
 		windowPanel.add(actualDifficulty);
+		
+		getContentPane().validate();
+		getContentPane().repaint();
 		
 		setExtendedState(MAXIMIZED_BOTH);	
 	}
