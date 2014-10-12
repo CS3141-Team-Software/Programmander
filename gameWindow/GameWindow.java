@@ -13,11 +13,12 @@ import javax.swing.JLabel;
 import javax.swing.JButton;
 
 public class GameWindow extends JFrame {
+	
 	GameEngine gameEngine;
 	JLabel gameMapTitle = new JLabel("Game");
 	JButton btnDummyButton = new JButton("Dummy button");
 	GamePanel game = new GamePanel();
-	JPanel windowPanel = new JPanel();
+	
 	JLabel gameInformationTitleLabel = new JLabel("Game Information");
 	JLabel player1AINameTitleLabel = new JLabel("Player 1 AI:");
 	JLabel player2AITitleLabel = new JLabel("Player 2 AI:");
@@ -41,13 +42,6 @@ public class GameWindow extends JFrame {
 		getContentPane().setMinimumSize(new Dimension(frameWidth, frameHeight));
 		getContentPane().setMaximumSize(new Dimension(frameWidth, frameHeight));
 		getContentPane().setLayout(null);
-		
-		windowPanel.setPreferredSize(new Dimension(frameWidth, frameHeight));
-		windowPanel.setMinimumSize(new Dimension(frameWidth, frameHeight));
-		windowPanel.setMaximumSize(new Dimension(frameWidth, frameHeight));
-		windowPanel.setLayout(null);
-		getContentPane().add(windowPanel);
-		
 		initializeGUIElements();
 	}
 	private void initializeGUIElements(){
@@ -55,42 +49,42 @@ public class GameWindow extends JFrame {
 		
 		gameMapTitle.setBounds(12, 9, 69, 15);
 		gameMapTitle.setText(gameEngine.getMapName());
-		windowPanel.add(gameMapTitle);
+		getContentPane().add(gameMapTitle);
 		
 		btnDummyButton.setBounds(1529, 24, 175, 25);
-		windowPanel.add(btnDummyButton);
+		getContentPane().add(btnDummyButton);
 		
 		game.setPreferredSize(new Dimension(950, 950));
 		game.setMinimumSize(new Dimension(950, 950));
 		game.setMaximumSize(new Dimension(950, 950));
 		game.setSize(new Dimension(950, 950));
 		game.setBounds(12, 24, 950, 950);
-		windowPanel.add(game);
+		getContentPane().add(game);
 		game.setBackground(Color.RED);
 		
 		gameInformationTitleLabel.setBounds(980, 29, 137, 15);
-		windowPanel.add(gameInformationTitleLabel);
+		getContentPane().add(gameInformationTitleLabel);
 		
 		player1AINameTitleLabel.setBounds(980, 56, 86, 15);
-		windowPanel.add(player1AINameTitleLabel);
+		getContentPane().add(player1AINameTitleLabel);
 		
 		player2AITitleLabel.setBounds(980, 71, 86, 15);
-		windowPanel.add(player2AITitleLabel);
+		getContentPane().add(player2AITitleLabel);
 		
 		difficultyLabel.setBounds(980, 85, 86, 15);
-		windowPanel.add(difficultyLabel);
+		getContentPane().add(difficultyLabel);
 		
 		actualPlayer1AIName.setText(gameEngine.getPlayer1AIName());
 		actualPlayer1AIName.setBounds(1066, 56, 116, 15);
-		windowPanel.add(actualPlayer1AIName);
+		getContentPane().add(actualPlayer1AIName);
 		
 		actualPlayer2AIName.setText(gameEngine.getPlayer2AIName());
 		actualPlayer2AIName.setBounds(1066, 71, 116, 15);
-		windowPanel.add(actualPlayer2AIName);
+		getContentPane().add(actualPlayer2AIName);
 		
 		actualDifficulty.setText(gameEngine.getDifficulty());
 		actualDifficulty.setBounds(1066, 85, 116, 15);
-		windowPanel.add(actualDifficulty);
+		getContentPane().add(actualDifficulty);
 		
 		setExtendedState(MAXIMIZED_BOTH);	
 	}
