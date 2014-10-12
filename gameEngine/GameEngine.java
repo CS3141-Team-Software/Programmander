@@ -1,7 +1,10 @@
 package gameEngine;
 
+import gameWindow.GamePanel;
+
 import java.util.ArrayList;
 import java.util.Dictionary;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.*;
 
@@ -17,7 +20,7 @@ public class GameEngine {
 	private boolean gameOver = false;
 	private Graph map;
 	private GraphNode[] nodes;
-	private JPanel window;
+	private GamePanel window;
 	private ArrayList<Actor> actors;
 	
 	private Renderer renderer;
@@ -27,7 +30,6 @@ public class GameEngine {
 	private String secondPlayerOrDifficulty;
 	private boolean is2Player;
 	private BufferedImage currFrame;
-
 
 	public GameEngine(String mapName, String firstAIName, String difficulty, boolean is2Player) {
 		this.mapName = mapName;
@@ -57,30 +59,27 @@ public class GameEngine {
 
 	//Run the game!
 	public void run() {
-				
+		
 		while(!gameOver) {
-
-
+			
 			//Go through actors and update them
 			//for (Actor a : actors) {
 			//	a.update();
 			//}
 			gameOver = false;
 			//Generate a new buffered image
+			currFrame = renderer.generateImage();
 			
+			window.setCurrFrame(currFrame);
 			
 			//Paint nextFrame to the screen
-
-		
-					
-
+			window.repaint();
 		}
 
 	}
 
-	//TODO: IS this needed?
 	//Sets reference to our drawing area so we can draw in it.
-	public void setGamePanel(JPanel w) {
+	public void setGamePanel(GamePanel w) {
 		window = w;
 	}
 

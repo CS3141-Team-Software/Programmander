@@ -25,7 +25,6 @@ public class Renderer {
 
 	public Renderer(ArrayList<Actor> a, Graph m, GraphNode[] n) {
 
-	
 		nodes = n;
 		actors = a;
 		map = m;
@@ -33,16 +32,14 @@ public class Renderer {
 		//These are the size of our bufferedImage.
 		xDim = map.getCols() * 50;
 		yDim = map.getRows() * 50;
-		currFrame = null;
+		currFrame = new BufferedImage(xDim, yDim, BufferedImage.TYPE_INT_RGB);
 		nextFrame = new BufferedImage(xDim, yDim, BufferedImage.TYPE_INT_RGB);
 		g = nextFrame.createGraphics();
-
-
-
+		
 	}
 
 	//Paint image into the buffered image
-	private void generateImage() {
+	public BufferedImage generateImage() {
 		currFrame = nextFrame;
 		Image bg = null;
 		Image unit = null;
@@ -70,6 +67,8 @@ public class Renderer {
 				yCoord = yCoord + 50;
 			}
 		}
+		
+		return nextFrame;
 	}
 
 	/*

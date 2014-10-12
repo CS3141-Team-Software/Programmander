@@ -28,7 +28,7 @@ public class GraphNode {
 		east = e;
 		west = w;
 		actor = null;
-		isChanged = false;
+		isChanged = true;
 	}
 	
 	/*

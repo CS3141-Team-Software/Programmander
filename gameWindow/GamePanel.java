@@ -1,11 +1,14 @@
 package gameWindow;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
@@ -16,6 +19,8 @@ public class GamePanel extends JPanel {
 	private Integer originYPos = 0;
 	private Integer panelWidth = 950;
 	private Integer panelHeight = 950;
+	private Graphics2D g;
+	private BufferedImage currFrame;
 	
 	/**
 	 * Constructor that accepts no variables.
@@ -38,6 +43,8 @@ public class GamePanel extends JPanel {
 		this.originYPos = originY;
 		this.panelWidth = panelWidth;
 		this.panelHeight = panelHeight;
+		g = (Graphics2D) this.getGraphics();
+		currFrame = null;
 		initializePanel();
 	}
 	
@@ -49,27 +56,16 @@ public class GamePanel extends JPanel {
 		setBounds(new Rectangle(panelWidth, panelHeight));
 	}
 	
+	public void setCurrFrame(BufferedImage i) {
+		currFrame = i;
+	}
 	/**
 	 * Method used to paint things to the panel such as background.
 	 */
 	public void paint(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
-		paintPanelBackground(g2d);
-	}
-	
-	/**
-	 * Method to paint the background of the panel
-	 * @param g
-	 */
-	public void paintPanelBackground(Graphics2D g){
-		Image background = null;
-		try {
-			background = ImageIO.read(new File(System.getProperty("user.dir") + "/assets/art/gameWindowBackground.png"));
-		} catch (IOException e) {
-			
-			e.printStackTrace();
-		}
-		g.drawImage(background, 0, 0, null);
-		
-	}
+		g2d.drawImage(currFrame, null, 0, 0);
+		g2d.setColor(Color.BLUE);
+		g2d.fillRect(0, 0, 200, 200);
+	}	
 }
