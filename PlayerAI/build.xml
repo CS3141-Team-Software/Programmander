@@ -1,7 +1,7 @@
 <project basedir="." name="PlayerAI" default="build">
 
 	<!--You need to set this to the name of your AI-->
-	<property name="ai"		value="AIofWin"/>
+	<property name="ai"		value="ScienceAI"/>
 
 
 	<!--You don't need to modify anything below this-->
