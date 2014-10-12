@@ -54,17 +54,17 @@ public class GamePanel extends JPanel {
 	 */
 	public void paint(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
-		paintPanelBackround(g2d);
+		paintPanelBackground(g2d);
 	}
 	
 	/**
 	 * Method to paint the background of the panel
 	 * @param g
 	 */
-	public void paintPanelBackround(Graphics2D g){
+	public void paintPanelBackground(Graphics2D g){
 		Image background = null;
 		try {
-			background = ImageIO.read(new File(System.getProperty("user.dir") + "/src/assets/art/gameWindowBackground.png"));
+			background = ImageIO.read(new File(System.getProperty("user.dir") + "/assets/art/gameWindowBackground.png"));
 		} catch (IOException e) {
 			
 			e.printStackTrace();

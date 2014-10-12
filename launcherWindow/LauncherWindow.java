@@ -61,6 +61,8 @@ public class LauncherWindow extends JFrame {
 		getContentPane().setLayout(null);
 		setExtendedState(MAXIMIZED_BOTH);		//Used to set to full width and height of the current screen
 		getContentPane().add(new LauncherPanel());
+		this.validate();
+		this.repaint();
 	}
 	
 	/**
@@ -127,9 +129,11 @@ public class LauncherWindow extends JFrame {
 				}
 				GameWindow gameFrame;
 				try {
-					gameFrame = new GameWindow(new GameEngine((String)comboBoxMaps.getSelectedItem(), (String)comboBoxPlayer1AI.getSelectedItem(), player2NameOrDifficulty, isThereAPlayer2));
+					GameEngine engine = new GameEngine((String)comboBoxMaps.getSelectedItem(), (String)comboBoxPlayer1AI.getSelectedItem(), player2NameOrDifficulty, isThereAPlayer2);
+					gameFrame = new GameWindow(engine);
 					setVisible(false);
 					gameFrame.setVisible(true);
+					
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
