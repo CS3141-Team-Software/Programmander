@@ -61,8 +61,7 @@ public class LauncherWindow extends JFrame {
 		getContentPane().setLayout(null);
 		setExtendedState(MAXIMIZED_BOTH);		//Used to set to full width and height of the current screen
 		getContentPane().add(new LauncherPanel());
-		this.validate();
-		this.repaint();
+		//this.revalidate();
 	}
 	
 	/**
