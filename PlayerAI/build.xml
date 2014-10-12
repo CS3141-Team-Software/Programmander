@@ -1,0 +1,59 @@
+<project basedir="." name="PlayerAI" default="build">
+
+	<!--You need to set this to the name of your AI-->
+	<property name="ai"		value="AIofWin"/>
+
+
+	<!--You don't need to modify anything below this-->
+
+	<!--This is how we decide what to run. If you don't do '-Darg0 aiName', it will use whatever ai is set to.-->
+	<condition property="toRun" value="${ai}">
+		<not>
+			<isset property="arg0"/>
+		</not>
+	</condition>
+	<condition property="toRun" value="${arg0}">
+		<isset property="arg0"/>
+	</condition>
+
+
+	<property name="src"		value="src"/>
+	<property name="bin"		value="bin"/>
+	<property name="jar"		value="ais"/>
+	<property name="debuglevel" value="source,lines,vars"/>
+	<property name="api"		value="Programmander-api.jar"/>
+	<property name="main-class" value="Programmander.gameEngine.GameEngine"/>
+	<property name="ais"		value="ais"/>
+
+	<path id="aiPath">
+		<fileset dir="${ais}" includes="**/*.jar"/>
+	</path>
+
+
+
+
+	<target name="clean">
+		<delete dir="bin"/>
+	</target>
+
+
+	<target name="compile">
+		<mkdir dir="${bin}" />
+		<javac srcdir="${src}" debug="true" debuglevel="${debuglevel}" destdir="${bin}" includeantruntime="false" classpath="${api}"/>
+	</target>
+
+	<target name="build" depends="compile">
+		<mkdir dir="${jar}" />
+		<jar destfile="${jar}/${ai}.jar" basedir="${bin}/">
+		</jar>
+	</target>
+	<target name="run" depends="build">
+		<java fork="true" classname ="${main-class}">
+			<classpath>
+				<path refid="aiPath"/>
+				<path location="Programmander.jar"/>
+			</classpath>
+			<arg value="${toRun}"/>
+		</java>
+	</target>
+</project>

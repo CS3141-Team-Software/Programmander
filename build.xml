@@ -1,0 +1,6 @@
+<project basedir="." name="Programmander" default="build">
+	<target name="build">
+		<ant antfile="build.xml" dir="game" target="build" />
+		<ant antfile="build.xml" dir="PlayerAI" target="build" />
+	</target>
+</project>

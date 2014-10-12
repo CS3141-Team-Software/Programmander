@@ -1,0 +1,50 @@
+<project basedir="." name="Programmander" default="build">
+	<property name="src"		value="src"/>
+	<property name="bin"		value="bin"/>
+	<property name="jar"		value="../PlayerAI"/>
+	<property name="debuglevel"	value="source,lines,vars"/>
+    <property name="main-class"	value="Programmander.gameEngine.GameEngine"/>
+    <property name="ais"		value="ais"/>
+
+    <path id="aiPath">
+        <fileset dir="${ais}" includes="**/*.jar"/>
+    </path>
+
+
+
+
+	<target name="clean">
+		<delete dir="${bin}"/>
+	</target>
+
+	<target name="cleanJar" depends="clean">
+		<delete file="${jar}/${ant.project.name}-api.jar"/>
+		<delete file="${jar}/${ant.project.name}.jar"/>
+	</target>
+
+	<target name="compile">
+		<mkdir dir="${bin}" />
+		<javac debug="true" debuglevel="${debuglevel}" destdir="${bin}" includeantruntime="false">
+			<src path="${src}"/>
+		</javac>
+	</target>
+
+	<target name="buildAPI" depends="compile">
+		<mkdir dir="${jar}" />
+		<jar destfile="${jar}/${ant.project.name}-api.jar">
+			<fileset dir="${bin}" includes="${ant.project.name}/api/*.class" /> 
+			<fileset dir="${src}" includes="${ant.project.name}/api/*.java" /> 
+		</jar>
+	</target>
+	<target name="buildGame" depends="compile">
+		<mkdir dir="${jar}" />
+		<jar destfile="${jar}/${ant.project.name}.jar">
+			<fileset dir="${bin}" includes="**/*.class" /> 
+			<fileset dir="${src}" includes="**/*.java" /> 
+			<manifest>
+				<attribute name="Main-Class" value="Programmander.gameEngine.GameEngine"/>
+			</manifest>
+		</jar>
+	</target>
+	<target name="build" depends="buildGame,buildAPI" />
+</project>
