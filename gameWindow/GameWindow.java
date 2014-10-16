@@ -44,6 +44,7 @@ public class GameWindow extends JFrame {
 		getContentPane().setLayout(null);
 		initializeGUIElements();
 	}
+	
 	private void initializeGUIElements(){
 		String mapName = gameEngine.getMapName();
 		
