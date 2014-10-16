@@ -16,6 +16,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 
 import javax.swing.JLabel;
@@ -40,32 +41,42 @@ public class MainWindow extends JFrame {
 	private Integer buttonHeight = 80;
 	private Integer frameWidth = 1920;
 	private Integer frameHeight = 1080;
-	
+	private Toolkit kit;
+	private double dynamicWindowHeight = 0;
+	private double dynamicWindowWidth = 0;
 	public MainWindow(ArrayList<JFrame> f) throws IOException{
 		this.frames = f;
+		//Screen dimension things.
+		kit = this.getToolkit();
+		Dimension dim = kit.getScreenSize();
+		this.dynamicWindowHeight = dim.getHeight();
+		this.dynamicWindowWidth = dim.getWidth();
 		
-		getContentPane().setSize(new Dimension(frameWidth, frameHeight));
-		getContentPane().setPreferredSize(new Dimension(frameWidth, frameHeight));
-		setMinimumSize(new Dimension(frameWidth, frameHeight));
-		setMaximumSize(new Dimension(frameWidth, frameHeight));
-		getContentPane().setMinimumSize(new Dimension(frameWidth, frameHeight));
-		getContentPane().setMaximumSize(new Dimension(frameWidth, frameHeight));
+		getContentPane().setSize(dim);
+		getContentPane().setPreferredSize(dim);
+		setMinimumSize(dim);
+		setMaximumSize(dim);
+		getContentPane().setMinimumSize(dim);
+		getContentPane().setMaximumSize(dim);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setExtendedState(MAXIMIZED_BOTH);
+		System.exit(0);
 		setTitle("Main Window");
-		initializeButtons();
+		initializeButtons(dim);
 		getContentPane().add(new MainWindowPanel(f));
 	}
 
-	public void initializeButtons(){
+	public void initializeButtons(Dimension dim){
+		Dimension buttonDim = new Dimension(buttonWidth, buttonHeight);
+		double localWidth = dim.getWidth();
+		double localHeight = dim.getHeight();
 		
 		//Initialization of the play button dimensions and placement on the contentpane.
-		playButton.setSize(new Dimension(buttonWidth, buttonHeight));
-		playButton.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
-		playButton.setMinimumSize(new Dimension(buttonWidth, buttonHeight));
-		playButton.setMaximumSize(new Dimension(buttonWidth, buttonHeight));
+		playButton.setSize(buttonDim);
+		playButton.setPreferredSize(buttonDim);
+		playButton.setMinimumSize(buttonDim);
+		playButton.setMaximumSize(buttonDim);
 		playButton.setFont(new Font("Comic Sans MS", Font.BOLD, 50));
-		playButton.setLocation(100, 50);
+		playButton.setLocation( (int)((localWidth/2) - (buttonWidth/2)), (int)((localHeight - 420)));
 		playButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionCommand) {
 				frames.get(0).setVisible(true);
@@ -75,12 +86,12 @@ public class MainWindow extends JFrame {
 		add(playButton);
 		
 		//Initialization of the edit button dimensions and placement.
-		editButton.setSize(new Dimension(buttonWidth, buttonHeight));
-		editButton.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
-		editButton.setMinimumSize(new Dimension(buttonWidth, buttonHeight));
-		editButton.setMaximumSize(new Dimension(buttonWidth, buttonHeight));
+		editButton.setSize(buttonDim);
+		editButton.setPreferredSize(buttonDim);
+		editButton.setMinimumSize(buttonDim);
+		editButton.setMaximumSize(buttonDim);
 		editButton.setFont(new Font("Comic Sans MS", Font.BOLD, 50));
-		editButton.setLocation(100, 155);
+		editButton.setLocation((int)((localWidth/2) - (buttonWidth/2)), (int)((localHeight - 315)));
 		editButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionCommand) {
 				frames.get(1).setVisible(true);
@@ -90,12 +101,12 @@ public class MainWindow extends JFrame {
 		add(editButton);
 		
 		//Tutorial button initialization
-		tutorialButton.setSize(new Dimension(buttonWidth, buttonHeight));
-		tutorialButton.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
-		tutorialButton.setMinimumSize(new Dimension(buttonWidth, buttonHeight));
-		tutorialButton.setMaximumSize(new Dimension(buttonWidth, buttonHeight));
+		tutorialButton.setSize(buttonDim);
+		tutorialButton.setPreferredSize(buttonDim);
+		tutorialButton.setMinimumSize(buttonDim);
+		tutorialButton.setMaximumSize(buttonDim);
 		tutorialButton.setFont(new Font("Comic Sans MS", Font.BOLD, 50));
-		tutorialButton.setLocation(100, 260);
+		tutorialButton.setLocation((int)((localWidth/2) - (buttonWidth/2)), (int)((localHeight - 210)));
 		tutorialButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionCommand) {
 				frames.get(2).setVisible(true);
