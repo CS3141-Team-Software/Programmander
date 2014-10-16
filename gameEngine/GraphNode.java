@@ -14,6 +14,7 @@ public class GraphNode {
 	private int row;
 	private int col;
 	private Obstruction obs;
+
 	private String backImg;
 	private Actor actor;
 	private boolean isChanged;
@@ -28,7 +29,6 @@ public class GraphNode {
 		east = e;
 		west = w;
 		actor = null;
-		isChanged = false;
 	}
 	
 	/*
@@ -43,6 +43,7 @@ public class GraphNode {
 		west = null;
 		row = y;
 		col = x;
+		isChanged = true;
 	}
 	
 	/*

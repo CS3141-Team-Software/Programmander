@@ -36,6 +36,7 @@ public class GameWindow extends JFrame {
 	 */
 	public GameWindow(GameEngine gameEngine) throws IOException{
 		this.gameEngine = gameEngine;
+		gameEngine.setGamePanel(game);
 		
 		setSize(new Dimension(frameWidth, frameHeight));
 		getContentPane().setPreferredSize(new Dimension(frameWidth, frameHeight));
@@ -90,3 +91,4 @@ public class GameWindow extends JFrame {
 		setExtendedState(MAXIMIZED_BOTH);	
 	}
 }
+

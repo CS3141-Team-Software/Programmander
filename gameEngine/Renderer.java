@@ -1,5 +1,6 @@
 package gameEngine;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -7,13 +8,15 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Dictionary;
+import java.util.Map;
+import java.util.TreeMap;
 
 import javax.imageio.ImageIO;
 
 public class Renderer {
 
 	//Used to store image data for caching
-	private Dictionary<String, Image> cache;
+	private TreeMap<String, Image> cache;
 	//Used to paint our image to the GameWindow.
 	private BufferedImage currFrame;
 	private BufferedImage nextFrame;
@@ -25,30 +28,29 @@ public class Renderer {
 
 	public Renderer(ArrayList<Actor> a, Graph m, GraphNode[] n) {
 
-	
 		nodes = n;
 		actors = a;
 		map = m;
-		
+		cache = new TreeMap<String, Image>();
 		//These are the size of our bufferedImage.
 		xDim = map.getCols() * 50;
 		yDim = map.getRows() * 50;
-		currFrame = null;
+		currFrame = new BufferedImage(xDim, yDim, BufferedImage.TYPE_INT_RGB);
 		nextFrame = new BufferedImage(xDim, yDim, BufferedImage.TYPE_INT_RGB);
 		g = nextFrame.createGraphics();
-
-
-
 	}
 
 	//Paint image into the buffered image
-	private void generateImage() {
+	public BufferedImage generateImage() {
 		currFrame = nextFrame;
+		nextFrame = new BufferedImage(xDim, yDim, BufferedImage.TYPE_INT_RGB);
+		g = nextFrame.createGraphics();
 		Image bg = null;
 		Image unit = null;
 		int xCoord = 0;
 		int yCoord = 0;
 		Actor actor;
+		
 		for (GraphNode node : nodes) {
 
 			if (node.getIsChanged()) {
@@ -70,6 +72,8 @@ public class Renderer {
 				yCoord = yCoord + 50;
 			}
 		}
+		
+		return nextFrame;
 	}
 
 	/*
@@ -78,26 +82,23 @@ public class Renderer {
 	 * if the image isn't found in the dictionary, then find
 	 * it in the art folder
 	 * 
-	 * NOTE: IF THERE IS A PROBLEM WITH IMAGES, IT'LL BE HERE
 	 */
 	public Image getFromCache(String str){// str should be full file name (e.g. "image.jpg")
 
-		if(cache.get(str).equals(null)){
-			String dir = System.getProperty("user.dir") + "/assets/art";
+		if(cache.get(str) == null){
+			String dir = System.getProperty("user.dir") + "/assets/art";			
 			File artParent = new File(dir);
 
 			if(artParent.isDirectory()){
 				File[] fileList = artParent.listFiles();
 				for(int i = 0; i < fileList.length; i++){
-					if(fileList[i].getName().equals(str +".png")){
+					if(fileList[i].getName().equalsIgnoreCase((str +".png"))){
 						Image img = null;
-
 						try {
 							img = ImageIO.read(fileList[i]);
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
-
 						cache.put(str, img); 
 						return img;
 					}

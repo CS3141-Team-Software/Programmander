@@ -35,7 +35,7 @@ public class MainWindowPanel extends JPanel{
 		Graphics2D g2d = (Graphics2D) g;
 		Image background = null;
 		try {
-			background = ImageIO.read(new File(System.getProperty("user.dir") + "/assets/art/mainWindowBackground.png"));
+			background = ImageIO.read(new File(System.getProperty("user.dir") + "/assets/art/launcherWindowBackground.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

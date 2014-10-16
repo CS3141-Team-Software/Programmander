@@ -42,13 +42,18 @@ public class LauncherWindow extends JFrame {
 	private Boolean isThereAPlayer2 = false;
 	private String player2NameOrDifficulty;
 	
+	
 	//Frame dimensions
 	private Integer frameWidth = 1920;
 	private Integer frameHeight = 1080;
 	
+	private int comboBoxXCoord;
+	private int mapLabelX, ai1LabelX, ai2LabelX, diffLabelX;
+	
 	public LauncherWindow(JFrame main) throws IOException {
 		
 		this.mainFrameWindow = main;
+		comboBoxXCoord = 631;
 		initializeButtons();
 		initializeLabels();
 		initializeComboBoxes();
@@ -56,13 +61,13 @@ public class LauncherWindow extends JFrame {
 		//Set up the content pane definition.
 		setMinimumSize(new Dimension(frameWidth, frameHeight));
 		setMaximumSize(new Dimension(frameWidth, frameHeight));
+		
 		getContentPane().setMinimumSize(new Dimension(frameWidth, frameHeight));
 		getContentPane().setMaximumSize(new Dimension(frameWidth, frameHeight));
 		getContentPane().setLayout(null);
 		setExtendedState(MAXIMIZED_BOTH);		//Used to set to full width and height of the current screen
 		getContentPane().add(new LauncherPanel());
-		this.validate();
-		this.repaint();
+		//this.revalidate();
 	}
 	
 	/**
@@ -72,6 +77,7 @@ public class LauncherWindow extends JFrame {
 		//This is the maps combo box. 
 		//Maps are read in through files that are used to populate the comboBox for the user to choose from.
 		comboBoxMaps.setBounds(631, 261, 787, 45);
+		
 		for(String s : getMapList()){
 			comboBoxMaps.addItem(s);
 		}
@@ -133,6 +139,7 @@ public class LauncherWindow extends JFrame {
 					gameFrame = new GameWindow(engine);
 					setVisible(false);
 					gameFrame.setVisible(true);
+					engine.run();
 					
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -154,33 +161,37 @@ public class LauncherWindow extends JFrame {
 		getContentPane().add(backToMainButton); 
 	}
 
-	/**
+	/**47
 	 * Method to initialize the labels in the frame
 	 * Status: DONE
 	 */
 	private void initializeLabels(){
 		Color labelColors = new Color(255, 255, 255);
 		//Map Label formatting
+		mapLabelX = comboBoxXCoord - 164;
 		mapsLabel.setFont(new Font("Dialog", Font.BOLD, 50));
-		mapsLabel.setBounds(475, 261, 156, 50);
+		mapsLabel.setBounds(mapLabelX, 261, 156, 50);
 		mapsLabel.setBackground(labelColors);
 		mapsLabel.setForeground(new Color(255,255,255));
 		getContentPane().add(mapsLabel);
 		//Player 1 AI Label formatting
+		ai1LabelX = comboBoxXCoord - 322;
 		player1AILabel.setFont(new Font("Dialog", Font.BOLD, 50));
-		player1AILabel.setBounds(345, 382, 312, 57);
+		player1AILabel.setBounds(ai1LabelX, 382, 312, 57);
 		player1AILabel.setBackground(labelColors);
 		player1AILabel.setForeground(new Color(255,255,255));
 		getContentPane().add(player1AILabel);
 		//Player 2 AI Label formatting
+		ai2LabelX = comboBoxXCoord - 322;
 		player2AILabel.setFont(new Font("Dialog", Font.BOLD, 50));
-		player2AILabel.setBounds(345, 444, 312, 57);
+		player2AILabel.setBounds(ai2LabelX, 444, 312, 57);
 		player2AILabel.setBackground(labelColors);
 		player2AILabel.setForeground(new Color(255,255,255));
 		getContentPane().add(player2AILabel);
 		//Difficulty Label formatting
+		diffLabelX = comboBoxXCoord - 274;
 		difficultyLabel.setFont(new Font("Dialog", Font.BOLD, 50));
-		difficultyLabel.setBounds(385, 320, 277, 57);
+		difficultyLabel.setBounds(diffLabelX, 320, 277, 57);
 		difficultyLabel.setBackground(labelColors);
 		difficultyLabel.setForeground(new Color(255,255,255));
 		getContentPane().add(difficultyLabel);
