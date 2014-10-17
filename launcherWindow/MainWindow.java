@@ -39,18 +39,19 @@ public class MainWindow extends JFrame {
 	private JButton tutorialButton = new JButton("TUTORIAL");
 	private Integer buttonWidth = 350;
 	private Integer buttonHeight = 80;
-	private Integer frameWidth = 1920;
-	private Integer frameHeight = 1080;
 	private Toolkit kit;
 	private double dynamicWindowHeight = 0;
 	private double dynamicWindowWidth = 0;
+	
+	//Constructor creating the frame
 	public MainWindow(ArrayList<JFrame> f) throws IOException{
+		
 		this.frames = f;
 		//Screen dimension things.
 		kit = this.getToolkit();
 		Dimension dim = kit.getScreenSize();
-		this.dynamicWindowHeight = dim.getHeight();
-		this.dynamicWindowWidth = dim.getWidth();
+		this.setDynamicWindowHeight(dim.getHeight());
+		this.setDynamicWindowWidth(dim.getWidth());
 		
 		getContentPane().setSize(dim);
 		getContentPane().setPreferredSize(dim);
@@ -59,7 +60,6 @@ public class MainWindow extends JFrame {
 		getContentPane().setMinimumSize(dim);
 		getContentPane().setMaximumSize(dim);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		System.exit(0);
 		setTitle("Main Window");
 		initializeButtons(dim);
 		getContentPane().add(new MainWindowPanel(f));
@@ -114,6 +114,24 @@ public class MainWindow extends JFrame {
 			}
 		});
 		add(tutorialButton);
+	}
+
+	
+	//Getters and setters.
+	public double getDynamicWindowHeight() {
+		return dynamicWindowHeight;
+	}
+
+	public void setDynamicWindowHeight(double dynamicWindowHeight) {
+		this.dynamicWindowHeight = dynamicWindowHeight;
+	}
+
+	public double getDynamicWindowWidth() {
+		return dynamicWindowWidth;
+	}
+
+	public void setDynamicWindowWidth(double dynamicWindowWidth) {
+		this.dynamicWindowWidth = dynamicWindowWidth;
 	}
 
 }

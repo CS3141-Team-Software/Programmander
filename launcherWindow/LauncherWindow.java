@@ -13,6 +13,7 @@ import java.awt.GridBagConstraints;
 import java.awt.Font;
 import java.awt.Component;
 import java.awt.Color;
+import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.io.File;
@@ -28,13 +29,27 @@ import java.io.IOException;
  */
 public class LauncherWindow extends JFrame {
 	
+	//JFrame elements
 	private JFrame mainFrameWindow;
 	private JButton backToMainButton = new JButton("Back To Main Window");
 	private JButton runAI = new JButton("Run AI");
+	
+	private Toolkit kit;
+	private double dynamicWindowHeight = 0;
+	private double dynamicWindowWidth = 0;
+	
+	//Comboboxes
 	private JComboBox<String> comboBoxMaps = new JComboBox<String>();
 	private JComboBox<String> comboBoxPlayer1AI = new JComboBox<String>();
 	private JComboBox<String> comboBoxPlayer2AI = new JComboBox<String>();
 	private JComboBox<String> comboBoxDifficulty = new JComboBox<String>();
+	//Combo box bounds variables
+	private int comboBoxStaticXCoord = 0;
+	private int comboBoxHeight = 50;
+	private int comboBoxWidth = 0;
+	private int startBoxYs = 0;
+	
+	//Labels
 	private JLabel player1AILabel = new JLabel("Player 1 AI");
 	private JLabel player2AILabel = new JLabel("Player 2 AI");
 	private JLabel difficultyLabel = new JLabel("Difficulty");
@@ -42,67 +57,79 @@ public class LauncherWindow extends JFrame {
 	private Boolean isThereAPlayer2 = false;
 	private String player2NameOrDifficulty;
 	
+	//label bounds varialbes
+	private int mapLabelWidth = 150;
+	private int ai1LabelWidth = 308;
+	private int ai2LabelWidth = 308;
+	private int diffLabelWidth = 263;
 	
-	//Frame dimensions
-	private Integer frameWidth = 1920;
-	private Integer frameHeight = 1080;
-	
-	private int comboBoxXCoord;
-	private int mapLabelX, ai1LabelX, ai2LabelX, diffLabelX;
-	
+	//Main constructor
 	public LauncherWindow(JFrame main) throws IOException {
 		
+		//Use toolkit to get the size of the users screen then set the window size.
+		kit = this.getToolkit();
+		Dimension dim = kit.getScreenSize();
+		this.setDynamicWindowHeight(dim.getHeight());
+		this.setDynamicWindowWidth(dim.getWidth());
+		startBoxYs = (int)((dynamicWindowHeight / 2) - 250);
 		this.mainFrameWindow = main;
-		comboBoxXCoord = 631;
-		initializeButtons();
+		
+		comboBoxWidth = (int) (dynamicWindowWidth / 2 - 200);
+		comboBoxStaticXCoord = (int)((dynamicWindowWidth / 2) - (comboBoxWidth/2));
+		//Initialize window elements
 		initializeLabels();
 		initializeComboBoxes();
+		initializeButtons();
 		
-		//Set up the content pane definition.
-		setMinimumSize(new Dimension(frameWidth, frameHeight));
-		setMaximumSize(new Dimension(frameWidth, frameHeight));
-		
-		getContentPane().setMinimumSize(new Dimension(frameWidth, frameHeight));
-		getContentPane().setMaximumSize(new Dimension(frameWidth, frameHeight));
+		getContentPane().setSize(dim);
+		getContentPane().setPreferredSize(dim);
+		setMinimumSize(dim);
+		setMaximumSize(dim);
+		getContentPane().setMinimumSize(dim);
+		getContentPane().setMaximumSize(dim);
 		getContentPane().setLayout(null);
-		setExtendedState(MAXIMIZED_BOTH);		//Used to set to full width and height of the current screen
 		getContentPane().add(new LauncherPanel());
-		//this.revalidate();
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
 	/**
 	 * method to initialize the comboboxes on the frame
 	 */
 	private void initializeComboBoxes(){
+		
 		//This is the maps combo box. 
 		//Maps are read in through files that are used to populate the comboBox for the user to choose from.
-		comboBoxMaps.setBounds(631, 261, 787, 45);
 		
+		comboBoxMaps.setBounds(comboBoxStaticXCoord, (startBoxYs), comboBoxWidth, comboBoxHeight);
 		for(String s : getMapList()){
 			comboBoxMaps.addItem(s);
 		}
 		getContentPane().add(comboBoxMaps);
 		
 		//Player 1 AI combobox
-		comboBoxPlayer1AI.setBounds(631, 380, 787, 50);
+		startBoxYs += 75;
+		comboBoxPlayer1AI.setBounds(comboBoxStaticXCoord, (startBoxYs), comboBoxWidth, comboBoxHeight);
 		for(String s : getActorList()){
 			comboBoxPlayer1AI.addItem(s);
 		}
 		getContentPane().add(comboBoxPlayer1AI);
 		
 		//Player 2 AI combobox
-		comboBoxPlayer2AI.setBounds(631, 439, 787, 53);
+		startBoxYs += 75;
+		comboBoxPlayer2AI.setBounds(comboBoxStaticXCoord, (startBoxYs), comboBoxWidth, comboBoxHeight);
 		for(String s : getActorList()){
 			comboBoxPlayer2AI.addItem(s);
 		}
 		getContentPane().add(comboBoxPlayer2AI);
 		
 		// Initialize the difficulty combo box
-		comboBoxDifficulty.setBounds(631, 318, 787, 53);
+		startBoxYs += 75;
+		comboBoxDifficulty.setBounds(comboBoxStaticXCoord, (startBoxYs ), comboBoxWidth, comboBoxHeight);
 		comboBoxDifficulty.addItem("");
 		comboBoxDifficulty.addItem("Easy");
 		comboBoxDifficulty.addItem("Medium");
 		comboBoxDifficulty.addItem("Hard");
+		
 		comboBoxDifficulty.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String s = (String)comboBoxDifficulty.getSelectedItem();
@@ -114,7 +141,7 @@ public class LauncherWindow extends JFrame {
 					comboBoxPlayer2AI.setVisible(true);
 					player2AILabel.setVisible(true);
 					isThereAPlayer2 = true;
-				}
+				} 
 			}
 		});
 		getContentPane().add(comboBoxDifficulty);
@@ -124,6 +151,7 @@ public class LauncherWindow extends JFrame {
 	 * method to initialize the buttons on the frame
 	 */
 	private void initializeButtons() {
+		
 		Color runButtonColor = new Color(233, 233, 233);
 		//Run AI Button
 		runAI.addActionListener(new ActionListener() {
@@ -148,7 +176,7 @@ public class LauncherWindow extends JFrame {
 			}
 		});
 		runAI.setFont(new Font("Comic Sans MS", Font.BOLD, 50));
-		runAI.setBounds(777, 561, 518, 87);
+		runAI.setBounds((int) (dynamicWindowWidth/2 - (250/2)), startBoxYs + 75, 250, 90);
 		getContentPane().add(runAI);
 		runAI.setBackground(runButtonColor);
 		backToMainButton.addActionListener(new ActionListener() {
@@ -167,34 +195,38 @@ public class LauncherWindow extends JFrame {
 	 */
 	private void initializeLabels(){
 		Color labelColors = new Color(255, 255, 255);
+		int startY = (int)((dynamicWindowHeight / 2) - 250);
 		//Map Label formatting
-		mapLabelX = comboBoxXCoord - 164;
 		mapsLabel.setFont(new Font("Dialog", Font.BOLD, 50));
-		mapsLabel.setBounds(mapLabelX, 261, 156, 50);
+		mapsLabel.setBounds(comboBoxStaticXCoord - mapLabelWidth - 15, startY, mapLabelWidth, 50);
 		mapsLabel.setBackground(labelColors);
 		mapsLabel.setForeground(new Color(255,255,255));
 		getContentPane().add(mapsLabel);
-		//Player 1 AI Label formatting
-		ai1LabelX = comboBoxXCoord - 322;
-		player1AILabel.setFont(new Font("Dialog", Font.BOLD, 50));
-		player1AILabel.setBounds(ai1LabelX, 382, 312, 57);
-		player1AILabel.setBackground(labelColors);
-		player1AILabel.setForeground(new Color(255,255,255));
-		getContentPane().add(player1AILabel);
-		//Player 2 AI Label formatting
-		ai2LabelX = comboBoxXCoord - 322;
-		player2AILabel.setFont(new Font("Dialog", Font.BOLD, 50));
-		player2AILabel.setBounds(ai2LabelX, 444, 312, 57);
-		player2AILabel.setBackground(labelColors);
-		player2AILabel.setForeground(new Color(255,255,255));
-		getContentPane().add(player2AILabel);
+		
 		//Difficulty Label formatting
-		diffLabelX = comboBoxXCoord - 274;
+		startY += 75;
 		difficultyLabel.setFont(new Font("Dialog", Font.BOLD, 50));
-		difficultyLabel.setBounds(diffLabelX, 320, 277, 57);
+		difficultyLabel.setBounds(comboBoxStaticXCoord - diffLabelWidth - 15, startY, diffLabelWidth, 55);
 		difficultyLabel.setBackground(labelColors);
 		difficultyLabel.setForeground(new Color(255,255,255));
 		getContentPane().add(difficultyLabel);
+		
+		//Player 1 AI Label formatting
+		startY += 75;
+		player1AILabel.setFont(new Font("Dialog", Font.BOLD, 50));
+		player1AILabel.setBounds(comboBoxStaticXCoord - ai1LabelWidth - 15, startY, ai1LabelWidth, 57);
+		player1AILabel.setBackground(labelColors);
+		player1AILabel.setForeground(new Color(255,255,255));
+		getContentPane().add(player1AILabel);
+		
+		//Player 2 AI Label formatting
+		startY += 75;
+		player2AILabel.setFont(new Font("Dialog", Font.BOLD, 50));
+		player2AILabel.setBounds(comboBoxStaticXCoord - ai2LabelWidth - 15, startY, ai2LabelWidth, 57);
+		player2AILabel.setBackground(labelColors);
+		player2AILabel.setForeground(new Color(255,255,255));
+		getContentPane().add(player2AILabel);
+		
 	}
 	
 	/**
@@ -273,5 +305,21 @@ public class LauncherWindow extends JFrame {
 			System.out.println("getActorList: error with fetching actors. Unacceptable directory path. Returning null.");
 			return null;
 		}
+	}
+
+	public double getDynamicWindowHeight() {
+		return dynamicWindowHeight;
+	}
+
+	public void setDynamicWindowHeight(double dynamicWindowHeight) {
+		this.dynamicWindowHeight = dynamicWindowHeight;
+	}
+
+	public double getDynamicWindowWidth() {
+		return dynamicWindowWidth;
+	}
+
+	public void setDynamicWindowWidth(double dynamicWindowWidth) {
+		this.dynamicWindowWidth = dynamicWindowWidth;
 	}
 }
