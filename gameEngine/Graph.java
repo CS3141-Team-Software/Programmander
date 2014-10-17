@@ -54,8 +54,11 @@ public class Graph {
 				if(in.hasNext()) {
 					obstrct = in.next();
 				}
-
+				
 				if(!obstrct.equals("0")){
+					//Implement castle checks
+					//if obstrct.equals("BlueCastle"); // generate a new Blue team spawner
+					//else if obstruct.equals("RedCastle"); //generate a new enemy spawner
 					map[posX][posY].setObstruction(new Obstruction(map[posX][posY],"wall"));
 				}
 

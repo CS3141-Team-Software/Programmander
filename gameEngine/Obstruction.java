@@ -1,5 +1,7 @@
 package gameEngine;
 
+import java.awt.Image;
+
 import gameEngine.GraphNode;
 
 public class Obstruction {

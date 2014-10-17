@@ -80,6 +80,7 @@ public class GraphNode {
 	 * NorthEast SouthEast
 	 * NorthWest SouthWest
 	 */
+	
 	public GraphNode getSENode(){
 		if(south == null){
 			return null;
