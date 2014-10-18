@@ -2,9 +2,7 @@ package launcherWindow;
 
 import java.io.IOException;
 import java.util.ArrayList;
-
 import javax.swing.JFrame;
-
 import tutorial.TutorialWindow;
 import editorWindow.EditorWindow;
 
@@ -43,7 +41,6 @@ public class Programmander {
 		
 		MainWindow main = new MainWindow(frames);
 		main.pack();
-		main.setVisible(true);
 		
 		launcher.setMainFrame(main);
 
@@ -54,7 +51,7 @@ public class Programmander {
 	 * @return frames - ArrayList<JFrame>'s
 	 */
 	public ArrayList<JFrame> getFrames(){
-		return this.frames;
+		return Programmander.frames;
 	}
 }
 

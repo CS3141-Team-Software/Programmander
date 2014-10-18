@@ -1,8 +1,6 @@
 package launcherWindow;
 
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Font;
+
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -16,7 +14,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class MainWindowPanel extends JPanel{
-	
 	
 	ArrayList<JFrame> frames;
 	private Integer panelWidth = 1920;
@@ -37,7 +34,6 @@ public class MainWindowPanel extends JPanel{
 		try {
 			background = ImageIO.read(new File(System.getProperty("user.dir") + "/assets/art/launcherWindowBackground.png"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		g2d.drawImage(background, 0, 0, null);
