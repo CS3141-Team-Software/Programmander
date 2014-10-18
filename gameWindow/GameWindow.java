@@ -2,11 +2,16 @@ package gameWindow;
 
 import gameEngine.GameEngine;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Point;
+import java.awt.Toolkit;
+import java.io.File;
 import java.io.IOException;
 
 import javax.swing.JLabel;
@@ -19,6 +24,8 @@ public class GameWindow extends JFrame {
 	JButton btnDummyButton = new JButton("Dummy button");
 	GamePanel game = new GamePanel();
 	
+	private Toolkit kit = this.getToolkit();
+	
 	JLabel gameInformationTitleLabel = new JLabel("Game Information");
 	JLabel player1AINameTitleLabel = new JLabel("Player 1 AI:");
 	JLabel player2AITitleLabel = new JLabel("Player 2 AI:");
@@ -29,6 +36,9 @@ public class GameWindow extends JFrame {
 	private Integer frameWidth = 1920;
 	private Integer frameHeight = 1080;
 	
+	//Change the look of the cursor!!!!!
+	Cursor cursor = kit.createCustomCursor(ImageIO.read(new File(System.getProperty("user.dir") + "/assets/art/cursor.png")), new Point(0,0), "cursor");
+	
 	/**
 	 * Method to initialize the game frame
 	 * @param gameEngine
@@ -37,7 +47,7 @@ public class GameWindow extends JFrame {
 	public GameWindow(GameEngine gameEngine) throws IOException{
 		this.gameEngine = gameEngine;
 		gameEngine.setGamePanel(game);
-		
+		this.setCursor(cursor);
 		setSize(new Dimension(frameWidth, frameHeight));
 		getContentPane().setPreferredSize(new Dimension(frameWidth, frameHeight));
 		getContentPane().setMinimumSize(new Dimension(frameWidth, frameHeight));

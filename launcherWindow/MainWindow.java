@@ -10,15 +10,19 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
+import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Canvas;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
@@ -33,42 +37,67 @@ public class MainWindow extends JFrame {
 	
 	ArrayList<JFrame> frames; 
 	
+	//SCREEN DIMENSIONS
+	private Dimension screen;
+	
 	//Buttons
+	private Dimension buttonDim = new Dimension(350, 80);
 	private JButton playButton = new JButton("PLAY!");
 	private JButton editButton = new JButton("EDIT");
 	private JButton tutorialButton = new JButton("TUTORIAL");
-	private Integer buttonWidth = 350;
-	private Integer buttonHeight = 80;
-	private Toolkit kit;
+	
+	//JLabels
+	private Dimension titleDim = new Dimension(480, 50);
+	private JLabel title = new JLabel("PROGRAMMANDER");
+	private Color titleColor = new Color(255, 255, 255);
+	private Point titleLocation = new Point(100, 200);
+	
+	private Toolkit kit = this.getToolkit();
 	private double dynamicWindowHeight = 0;
 	private double dynamicWindowWidth = 0;
+	Cursor cursor = kit.createCustomCursor(ImageIO.read(new File(System.getProperty("user.dir") + "/assets/art/cursor.png")), new Point(0,0), "cursor");
 	
 	//Constructor creating the frame
 	public MainWindow(ArrayList<JFrame> f) throws IOException{
-		
 		this.frames = f;
-		//Screen dimension things.
-		kit = this.getToolkit();
-		Dimension dim = kit.getScreenSize();
-		this.setDynamicWindowHeight(dim.getHeight());
-		this.setDynamicWindowWidth(dim.getWidth());
-		
-		getContentPane().setSize(dim);
-		getContentPane().setPreferredSize(dim);
-		setMinimumSize(dim);
-		setMaximumSize(dim);
-		getContentPane().setMinimumSize(dim);
-		getContentPane().setMaximumSize(dim);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("Main Window");
-		initializeButtons(dim);
+		initializeScreenSize();
+		initializeButtons(screen);
+		initializeTitle();
 		getContentPane().add(new MainWindowPanel(f));
 	}
 
+	/**
+	 * This method initialize all the screen dimension
+	 */
+	private void initializeScreenSize() {
+		//Screen dimension things.---------------------------------------
+		this.setCursor(cursor);
+		this.setExtendedState(MAXIMIZED_BOTH);
+		this.setUndecorated(true);
+		this.setVisible(true);
+		screen = new Dimension(this.getWidth(), this.getHeight());
+		this.setDynamicWindowHeight(screen.getHeight());
+		this.setDynamicWindowWidth(screen.getWidth());
+		getContentPane().setSize(screen);
+		getContentPane().setPreferredSize(screen);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setTitle("Main Window");
+		//---------------------------------------------------------------
+	}
+
+	private void initializeTitle() {
+		titleLocation = new Point((int)(dynamicWindowWidth/2-titleDim.getWidth()/2), (int)(dynamicWindowHeight/2-titleDim.getHeight()/2 - 300));
+		title.setFont(new Font("Dialog", Font.BOLD, 50));
+		title.setBackground(titleColor);
+		title.setForeground(titleColor);
+		title.setLocation(titleLocation);
+		title.setBounds((int)titleLocation.getX(), (int)titleLocation.getY(), (int)titleDim.getWidth(), (int)titleDim.getHeight());
+		add(title);
+	}
+
 	public void initializeButtons(Dimension dim){
-		Dimension buttonDim = new Dimension(buttonWidth, buttonHeight);
-		double localWidth = dim.getWidth();
-		double localHeight = dim.getHeight();
+		int buttonX = (int)(dim.getWidth()/2 - (buttonDim.getWidth()/2));
+		int buttonY = (int) (dynamicWindowHeight/2);
 		
 		//Initialization of the play button dimensions and placement on the contentpane.
 		playButton.setSize(buttonDim);
@@ -76,7 +105,7 @@ public class MainWindow extends JFrame {
 		playButton.setMinimumSize(buttonDim);
 		playButton.setMaximumSize(buttonDim);
 		playButton.setFont(new Font("Comic Sans MS", Font.BOLD, 50));
-		playButton.setLocation( (int)((localWidth/2) - (buttonWidth/2)), (int)((localHeight - 420)));
+		playButton.setLocation(buttonX, buttonY);
 		playButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionCommand) {
 				frames.get(0).setVisible(true);
@@ -86,12 +115,13 @@ public class MainWindow extends JFrame {
 		add(playButton);
 		
 		//Initialization of the edit button dimensions and placement.
+		buttonY += 105;
 		editButton.setSize(buttonDim);
 		editButton.setPreferredSize(buttonDim);
 		editButton.setMinimumSize(buttonDim);
 		editButton.setMaximumSize(buttonDim);
 		editButton.setFont(new Font("Comic Sans MS", Font.BOLD, 50));
-		editButton.setLocation((int)((localWidth/2) - (buttonWidth/2)), (int)((localHeight - 315)));
+		editButton.setLocation(buttonX, buttonY);
 		editButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionCommand) {
 				frames.get(1).setVisible(true);
@@ -99,14 +129,15 @@ public class MainWindow extends JFrame {
 			}
 		});
 		add(editButton);
-		
+				
 		//Tutorial button initialization
+		buttonY += 105;
 		tutorialButton.setSize(buttonDim);
 		tutorialButton.setPreferredSize(buttonDim);
 		tutorialButton.setMinimumSize(buttonDim);
 		tutorialButton.setMaximumSize(buttonDim);
 		tutorialButton.setFont(new Font("Comic Sans MS", Font.BOLD, 50));
-		tutorialButton.setLocation((int)((localWidth/2) - (buttonWidth/2)), (int)((localHeight - 210)));
+		tutorialButton.setLocation(buttonX, buttonY);
 		tutorialButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionCommand) {
 				frames.get(2).setVisible(true);
