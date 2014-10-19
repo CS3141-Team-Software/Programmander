@@ -1,4 +1,4 @@
-package Programmander.api;
+package api;
 
 public abstract class Actor {
 	
