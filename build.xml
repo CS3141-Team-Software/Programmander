@@ -7,4 +7,7 @@
 		</copy>
 		<ant antfile="build.xml" dir="PlayerAI" target="build" />
 	</target>
+	<target name="run" depends="build">
+		<ant antfile="build.xml" dir="PlayerAI" target="run" />
+	</target>
 </project>
