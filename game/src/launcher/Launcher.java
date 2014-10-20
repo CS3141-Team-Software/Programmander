@@ -1,4 +1,4 @@
-package gameEngine;
+package launcher;
 
 import java.io.File;
 import java.net.URL;
@@ -7,10 +7,12 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
-import api.Spawner;
-import launcherWindow.*;
+import launcher.*;
 
-public class Chooser {
+
+import api.Spawner;
+
+public class Launcher {
 	public static void main(String[] args) throws Exception {
 		
 		//Is initializeWindows

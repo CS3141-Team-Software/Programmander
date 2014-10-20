@@ -1,4 +1,4 @@
-package gameWindow;
+package display;
 
 import gameEngine.GameEngine;
 
@@ -12,7 +12,7 @@ import java.io.IOException;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 
-public class GameFrame extends JFrame {
+public class GameWindow extends JFrame {
 	
 	JLabel gameMapTitle = new JLabel("Game");
 	JButton btnDummyButton = new JButton("Dummy button");
@@ -31,7 +31,7 @@ public class GameFrame extends JFrame {
 	private boolean is2Player;
 	
 
-	public GameFrame(String mapName, String firstAIName, String difficulty,	boolean is2Player) {
+	public GameWindow(String mapName, String firstAIName, String difficulty,	boolean is2Player) {
 		this.mapName = mapName;
 		this.AI1 = firstAIName;
 		this.is2Player = is2Player;

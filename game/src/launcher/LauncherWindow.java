@@ -1,11 +1,12 @@
-package launcherWindow;
+package launcher;
 
 import gameEngine.GameEngine;
-import gameWindow.GameFrame;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
+
+import display.GameWindow;
 
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
@@ -240,7 +241,8 @@ public class LauncherWindow extends JFrame {
 			}
 			 return ret;
 		}else{
-			System.out.println("getMapList: error with fetching maps. Unacceptable directory path. Returning null.");
+			System.err.println("getMapList: error with fetching maps. Unacceptable directory path");
+			System.exit(1);
 			return null;
 		}
 	}

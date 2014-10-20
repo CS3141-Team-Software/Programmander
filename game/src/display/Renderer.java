@@ -1,4 +1,8 @@
-package gameEngine;
+package display;
+
+import api.Actor;
+import gameEngine.Graph;
+import gameEngine.GraphNode;
 
 import java.awt.Color;
 import java.awt.Graphics2D;

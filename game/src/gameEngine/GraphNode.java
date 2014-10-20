@@ -1,5 +1,7 @@
 package gameEngine;
 
+import api.Actor;
+
 /**
  * Graph Node
  * @author Caleb Chapman

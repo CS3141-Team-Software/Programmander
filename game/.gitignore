@@ -1,7 +1,5 @@
 bin
-ais
-Programmander-api.jar
-Programmander.jar
+jar
 .classpath
 .project
 .settings

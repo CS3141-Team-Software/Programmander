@@ -1,6 +1,6 @@
 package playerCode;
 
-import Programmander.api.*;
+import api.*;
 
 public class ScienceAI implements Spawner {
 	public ScienceAI(){

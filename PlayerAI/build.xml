@@ -7,22 +7,13 @@
 	<!--You don't need to modify anything below this-->
 
 	<!--This is how we decide what to run. If you don't do '-Darg0 aiName', it will use whatever ai is set to.-->
-	<condition property="toRun" value="${ai}">
-		<not>
-			<isset property="arg0"/>
-		</not>
-	</condition>
-	<condition property="toRun" value="${arg0}">
-		<isset property="arg0"/>
-	</condition>
-
 
 	<property name="src"		value="src"/>
 	<property name="bin"		value="bin"/>
 	<property name="jar"		value="ais"/>
 	<property name="debuglevel" value="source,lines,vars"/>
-	<property name="api"		value="Programmander-api.jar"/>
-	<property name="main-class" value="Programmander.gameEngine.GameEngine"/>
+	<property name="api"		value="game-api.jar"/>
+	<property name="main-class" value="launcher.Launcher"/>
 	<property name="ais"		value="ais"/>
 
 	<path id="aiPath">
@@ -51,9 +42,8 @@
 		<java fork="true" classname ="${main-class}">
 			<classpath>
 				<path refid="aiPath"/>
-				<path location="Programmander.jar"/>
+				<path location="game.jar"/>
 			</classpath>
-			<arg value="${toRun}"/>
 		</java>
 	</target>
 </project>

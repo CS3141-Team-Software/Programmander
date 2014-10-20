@@ -1,6 +1,5 @@
 package gameEngine;
 
-import gameWindow.GamePanel;
 
 import java.util.ArrayList;
 import java.util.Dictionary;
@@ -10,6 +9,10 @@ import java.awt.image.*;
 
 import javax.swing.JPanel;
 
+import display.Display;
+import display.GamePanel;
+
+import api.Actor;
 import api.GameState;
 
 

@@ -2,7 +2,6 @@ package api;
 
 import java.util.ArrayList;
 
-import gameEngine.Actor;
 import gameEngine.Graph;//TODO: make a graph interface in api, that graph implements
 
 public class GameState {
