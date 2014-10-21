@@ -3,13 +3,13 @@
 	<property name="bin"		value="bin"/>
 	<property name="jar"		value="jar"/>
 	<property name="debuglevel"	value="source,lines,vars"/>
-    <property name="main-class"	value="launcher.Launcher"/>
-    <property name="ais"		value="ais"/>
-    <property name="assets"		value="assets"/>
+	<property name="main-class"	value="launcher.Launcher"/>
+	<property name="ais"		value="ais"/>
+	<property name="assets"		value="assets"/>
 
-    <path id="aiPath">
-        <fileset dir="${ais}" includes="**/*.jar"/>
-    </path>
+	<path id="aiPath">
+		<fileset dir="${ais}" includes="**/*.jar"/>
+	</path>
 
 
 
