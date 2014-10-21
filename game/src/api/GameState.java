@@ -2,18 +2,18 @@ package api;
 
 import java.util.ArrayList;
 
-import gameEngine.Graph;//TODO: make a graph interface in api, that graph implements
+import gameEngine.GraphImplementation;//TODO: make a graph interface in api, that graph implements
 
 public class GameState {
-	public Graph map;
+	public GraphImplementation map;
 	private ArrayList<Actor> actors;
 	
-	public GameState(Graph map,ArrayList<Actor> actors){
+	public GameState(GraphImplementation map,ArrayList<Actor> actors){
 		this.map = map;
 		this.actors = actors;
 	}
 
-	public Graph getMap() {
+	public GraphImplementation getMap() {
 		return map;
 	}
 }

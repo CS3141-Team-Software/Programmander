@@ -1,13 +1,15 @@
 package gameEngine;
 
 import api.Actor;
+import api.GraphNode;
+import api.Obstruction;
 
 /**
  * Graph Node
  * @author Caleb Chapman
  *
  */
-public class GraphNode {
+public class GraphNodeImplementation implements GraphNode{
 	
 	private GraphNode north;
 	private GraphNode south;
@@ -25,7 +27,7 @@ public class GraphNode {
 	 * Constructor for making an individual node
 	 * ...for whatever
 	 */
-	public GraphNode(GraphNode n, GraphNode s, GraphNode e, GraphNode w){
+	public GraphNodeImplementation(GraphNode n, GraphNode s, GraphNode e, GraphNode w){
 		north = n;
 		south = s;
 		east = e;
@@ -37,7 +39,7 @@ public class GraphNode {
 	 * Constructor the graph uses for
 	 * making nodes
 	 */
-	public GraphNode(int y,int x){
+	public GraphNodeImplementation(int y,int x){
 		actor = null;
 		north = null;
 		south = null;

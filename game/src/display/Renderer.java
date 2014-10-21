@@ -1,8 +1,8 @@
 package display;
 
 import api.Actor;
-import gameEngine.Graph;
-import gameEngine.GraphNode;
+import gameEngine.GraphImplementation;
+import gameEngine.GraphNodeImplementation;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -30,7 +30,7 @@ public class Renderer {
 	private Graphics2D g;
 	
 
-	public Renderer(Graph map) {
+	public Renderer(GraphImplementation map) {
 		cache = new TreeMap<String, Image>();
 		//These are the size of our bufferedImage.
 		xDim = map.getCols() * 50;
@@ -52,7 +52,7 @@ public class Renderer {
 		int yCoord = 0;
 		Actor actor;
 		
-		for (GraphNode node : state.getMap().getNodesSing()) {
+		for (GraphNodeImplementation node : state.getMap().getNodesSing()) {
 
 			if (node.getIsChanged()) {
 				//Update the node

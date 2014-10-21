@@ -23,7 +23,7 @@ import api.GameState;
 public class GameEngine {
 
 	private boolean gameOver = false;
-	private Graph map;
+	private GraphImplementation map;
 	private ArrayList<Actor> actors;
 	
 	private Display display;
@@ -31,7 +31,7 @@ public class GameEngine {
 
 	public GameEngine(String mapName, String firstAIName, String difficulty, boolean is2Player) {
 
-		map = new Graph(mapName);
+		map = new GraphImplementation(mapName);
 		display = new Display(mapName,firstAIName,difficulty,is2Player,map);
 
 		actors = map.getActors();	

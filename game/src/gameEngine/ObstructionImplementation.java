@@ -2,15 +2,18 @@ package gameEngine;
 
 import java.awt.Image;
 
-import gameEngine.GraphNode;
+import api.GraphNode;
+import api.Obstruction;
 
-public class Obstruction {
+import gameEngine.GraphNodeImplementation;
+
+public class ObstructionImplementation implements Obstruction {
 	
 	private GraphNode node;
 	//The type of obstruction. (Wall, hole, etc...) 
 	private String type;
 	
-	public Obstruction(GraphNode n, String t) {
+	public ObstructionImplementation(GraphNode n, String t) {
 		type = t;
 		node = n;		
 	}
