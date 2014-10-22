@@ -2,18 +2,19 @@ package launcher;
 
 import gameEngine.GameEngine;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
-
 import display.GameWindow;
-
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Font;
 import java.awt.Component;
 import java.awt.Color;
+import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+
 /**
  * This class displays the launcher window. 
  * The purpose of this class is to launch the game based on the 
@@ -35,10 +37,18 @@ import java.util.zip.ZipInputStream;
  */
 public class LauncherWindow extends JFrame {
 
+	//SCREEN DIMENSIONS
+	private Dimension screen;
+	
 	//JFrame elements
+	private JFrame mainFrameWindow;
+	private JButton backToMainButton = new JButton("Back To Main Window");
 	private JButton runAI = new JButton("Run AI");
 
-	private Toolkit kit;
+	//Toolkit variables
+	private Toolkit kit = this.getToolkit();
+	Cursor cursor = kit.createCustomCursor(ImageIO.read(new File(System.getProperty("user.dir") + "/assets/art/cursor.png")), new Point(0,0), "cursor");		//custom cursor image that comes from cursor.png in art assets
+
 	private double dynamicWindowHeight = 0;
 	private double dynamicWindowWidth = 0;
 
@@ -70,31 +80,36 @@ public class LauncherWindow extends JFrame {
 	//Main constructor
 	public LauncherWindow() throws IOException {
 
-		//Use toolkit to get the size of the users screen then set the window size.
-		kit = this.getToolkit();
-		Dimension dim = kit.getScreenSize();
-		this.setDynamicWindowHeight(dim.getHeight());
-		this.setDynamicWindowWidth(dim.getWidth());
+		initializeScreenSize();
 		startBoxYs = (int)((dynamicWindowHeight / 2) - 250);
-
 		comboBoxWidth = (int) (dynamicWindowWidth / 2 - 200);
 		comboBoxStaticXCoord = (int)((dynamicWindowWidth / 2) - (comboBoxWidth/2));
 		//Initialize window elements
 		initializeLabels();
 		initializeComboBoxes();
 		initializeButtons();
-
-		getContentPane().setSize(dim);
-		getContentPane().setPreferredSize(dim);
-		setMinimumSize(dim);
-		setMaximumSize(dim);
-		getContentPane().setMinimumSize(dim);
-		getContentPane().setMaximumSize(dim);
-		getContentPane().setLayout(null);
 		getContentPane().add(new LauncherPanel());
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
+	/**
+	 * This method initialize all the screen dimension
+	 */
+	private void initializeScreenSize() {
+		//Screen dimension things.---------------------------------------
+		this.setCursor(cursor);
+		this.setExtendedState(MAXIMIZED_BOTH);
+		this.setUndecorated(true);
+		this.setVisible(true);
+		screen = new Dimension(this.getWidth(), this.getHeight());
+		this.setDynamicWindowHeight(screen.getHeight());
+		this.setDynamicWindowWidth(screen.getWidth());
+		getContentPane().setSize(screen);
+		getContentPane().setPreferredSize(screen);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setTitle("Launcher");
+		//---------------------------------------------------------------
+	}
+	
 	/**
 	 * method to initialize the comboboxes on the frame
 	 */
@@ -102,33 +117,13 @@ public class LauncherWindow extends JFrame {
 
 		//This is the maps combo box. 
 		//Maps are read in through files that are used to populate the comboBox for the user to choose from.
-
-		comboBoxMaps.setBounds(comboBoxStaticXCoord, (startBoxYs), comboBoxWidth, comboBoxHeight);
 		
+		comboBoxMaps.setBounds(comboBoxStaticXCoord, (startBoxYs), comboBoxWidth, comboBoxHeight);
 		for(String s : getMapList()){
-			if ( s != null) {
-				comboBoxMaps.addItem(s);
-			}	
+			comboBoxMaps.addItem(s);
 		}
-
 		getContentPane().add(comboBoxMaps);
-
-		//Player 1 AI combobox
-		startBoxYs += 75;
-		comboBoxPlayer1AI.setBounds(comboBoxStaticXCoord, (startBoxYs), comboBoxWidth, comboBoxHeight);
-		for(String s : getAIList()){
-			comboBoxPlayer1AI.addItem(s);
-		}
-		getContentPane().add(comboBoxPlayer1AI);
-
-		//Player 2 AI combobox
-		startBoxYs += 75;
-		comboBoxPlayer2AI.setBounds(comboBoxStaticXCoord, (startBoxYs), comboBoxWidth, comboBoxHeight);
-		for(String s : getAIList()){
-			comboBoxPlayer2AI.addItem(s);
-		}
-		getContentPane().add(comboBoxPlayer2AI);
-
+		
 		// Initialize the difficulty combo box
 		startBoxYs += 75;
 		comboBoxDifficulty.setBounds(comboBoxStaticXCoord, (startBoxYs ), comboBoxWidth, comboBoxHeight);
@@ -136,7 +131,7 @@ public class LauncherWindow extends JFrame {
 		comboBoxDifficulty.addItem("Easy");
 		comboBoxDifficulty.addItem("Medium");
 		comboBoxDifficulty.addItem("Hard");
-
+		
 		comboBoxDifficulty.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String s = (String)comboBoxDifficulty.getSelectedItem();
@@ -152,6 +147,22 @@ public class LauncherWindow extends JFrame {
 			}
 		});
 		getContentPane().add(comboBoxDifficulty);
+		
+		//Player 1 AI combobox
+		startBoxYs += 75;
+		comboBoxPlayer1AI.setBounds(comboBoxStaticXCoord, (startBoxYs), comboBoxWidth, comboBoxHeight);
+		for(String s : getAIList()){
+			comboBoxPlayer1AI.addItem(s);
+		}
+		getContentPane().add(comboBoxPlayer1AI);
+		
+		//Player 2 AI combobox
+		startBoxYs += 75;
+		comboBoxPlayer2AI.setBounds(comboBoxStaticXCoord, (startBoxYs), comboBoxWidth, comboBoxHeight);
+		for(String s : getAIList()){
+			comboBoxPlayer2AI.addItem(s);
+		}
+		getContentPane().add(comboBoxPlayer2AI);
 	}
 
 	/**
@@ -177,7 +188,6 @@ public class LauncherWindow extends JFrame {
 		runAI.setBounds((int) (dynamicWindowWidth/2 - (250/2)), startBoxYs + 75, 250, 90);
 		getContentPane().add(runAI);
 		runAI.setBackground(runButtonColor);
-
 	}
 
 	/**47
@@ -193,7 +203,7 @@ public class LauncherWindow extends JFrame {
 		mapsLabel.setBackground(labelColors);
 		mapsLabel.setForeground(new Color(255,255,255));
 		getContentPane().add(mapsLabel);
-
+		
 		//Difficulty Label formatting
 		startY += 75;
 		difficultyLabel.setFont(new Font("Dialog", Font.BOLD, 50));
@@ -201,7 +211,7 @@ public class LauncherWindow extends JFrame {
 		difficultyLabel.setBackground(labelColors);
 		difficultyLabel.setForeground(new Color(255,255,255));
 		getContentPane().add(difficultyLabel);
-
+		
 		//Player 1 AI Label formatting
 		startY += 75;
 		player1AILabel.setFont(new Font("Dialog", Font.BOLD, 50));
@@ -209,7 +219,7 @@ public class LauncherWindow extends JFrame {
 		player1AILabel.setBackground(labelColors);
 		player1AILabel.setForeground(new Color(255,255,255));
 		getContentPane().add(player1AILabel);
-
+		
 		//Player 2 AI Label formatting
 		startY += 75;
 		player2AILabel.setFont(new Font("Dialog", Font.BOLD, 50));
