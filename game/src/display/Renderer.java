@@ -1,6 +1,8 @@
 package display;
 
 import api.Actor;
+import api.Graph;
+import api.GraphNode;
 import gameEngine.GraphImplementation;
 import gameEngine.GraphNodeImplementation;
 
@@ -30,7 +32,7 @@ public class Renderer {
 	private Graphics2D g;
 	
 
-	public Renderer(GraphImplementation map) {
+	public Renderer(Graph map) {
 		cache = new TreeMap<String, Image>();
 		//These are the size of our bufferedImage.
 		xDim = map.getCols() * 50;
@@ -52,7 +54,7 @@ public class Renderer {
 		int yCoord = 0;
 		Actor actor;
 		
-		for (GraphNodeImplementation node : state.getMap().getNodesSing()) {
+		for (GraphNode node : state.getMap().getNodesSing()) {
 
 			if (node.getIsChanged()) {
 				//Update the node
@@ -64,7 +66,9 @@ public class Renderer {
 					//unit = getFromCache(actor.getType());
 					//g.drawImage(unit, xCoord, yCoord, null);
 				}
-
+				
+				//THIS LINE MUST BE AT THE END OF THIS IF STATEMENT
+				node.setIsChanged(false);
 			}
 			xCoord = xCoord + 50;
 

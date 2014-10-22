@@ -53,7 +53,8 @@ public class GameEngine {
 			
 			//Go through actors and update them
 			//for (Actor a : actors) {
-			//	a.update();
+			//	//generate gamestate
+			//	a.update(gameState);
 			//}
 			//Generate a new buffered image
 			display.render(new GameState(this.map,this.actors));
