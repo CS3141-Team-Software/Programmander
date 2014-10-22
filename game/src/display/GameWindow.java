@@ -14,52 +14,88 @@ import javax.swing.JButton;
 
 public class GameWindow extends JFrame {
 	
+	//SCREEN DIMENSIONS
+	private Dimension screen;
+	private double dynamicWindowHeight = 0;
+	private double dynamicWindowWidth = 0;
+	
+	//JFrame Window elements. 
 	JLabel gameMapTitle = new JLabel("Game");
-	JButton btnDummyButton = new JButton("Dummy button");
+	
+	//Drawing game window elements
 	GamePanel game = new GamePanel();
 	
-	JLabel gameInformationTitleLabel = new JLabel("Game Information");
-	JLabel player1AINameTitleLabel = new JLabel("Player 1 AI:");
-	JLabel player2AITitleLabel = new JLabel("Player 2 AI:");
-	JLabel difficultyLabel = new JLabel("Difficulty:");
-	private JLabel actualPlayer1AIName = new JLabel("New label");
-	private JLabel actualPlayer2AIName = new JLabel("New label");
-	private JLabel actualDifficulty = new JLabel("New label");
-	private Integer frameWidth = 1920;
-	private Integer frameHeight = 1080;
-	private String mapName,AI1,AI2,difficulty; 
+	//JFrame window labels.
+	private String mapName;
+	private String AI1;
+	private String AI2; 
+	private String difficulty; 
 	private boolean is2Player;
 	
+	/**
+	 * Constructor for the new gamewindow.
+	 * @param mapName
+	 * @param firstAIName
+	 * @param difficulty
+	 * @param is2Player
+	 */
+	public GameWindow(String mapName, String firstAIName, String difficulty, boolean is2Player) {
+		initializeGameInformation(mapName, firstAIName, difficulty, is2Player);
+		initializeScreenSize();
+		initializeGUIElements();
+	}
+	
+	//get the gamepanel reference.
+	public GamePanel getGamePanel(){
+		return game;
+	}
 
-	public GameWindow(String mapName, String firstAIName, String difficulty,	boolean is2Player) {
+	/**
+	 * Initialize the game information
+	 * @param is2Player2 
+	 * @param difficulty2 
+	 * @param firstAIName 
+	 * @param mapName2 
+	 */
+	private void initializeGameInformation(String mapName, String firstAIName, String difficulty, boolean is2Player){
 		this.mapName = mapName;
 		this.AI1 = firstAIName;
 		this.is2Player = is2Player;
 		if(is2Player){
 			this.AI2 = difficulty;
-		}else{
+		} else{
 			this.difficulty = difficulty;
 		}
-		setSize(new Dimension(frameWidth, frameHeight));
-		getContentPane().setPreferredSize(new Dimension(frameWidth, frameHeight));
-		getContentPane().setMinimumSize(new Dimension(frameWidth, frameHeight));
-		getContentPane().setMaximumSize(new Dimension(frameWidth, frameHeight));
-		getContentPane().setLayout(null);
-		initializeGUIElements();
 	}
-	public GamePanel getGamePanel(){
-		return game;
+	
+	private void initializeScreenSize(){
+		//Screen dimension things.---------------------------------------
+		this.setExtendedState(MAXIMIZED_BOTH);
+		this.setUndecorated(true);
+		this.setVisible(true);
+		screen = new Dimension(this.getWidth(), this.getHeight());
+		this.setDynamicWindowHeight(screen.getHeight());
+		this.setDynamicWindowWidth(screen.getWidth());
+		getContentPane().setSize(screen);
+		getContentPane().setPreferredSize(screen);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setTitle("Game WINININDOWOWOW");
+		//---------------------------------------------------------------
 	}
-
+	
 	private void initializeGUIElements(){
 		
 		gameMapTitle.setBounds(12, 9, 69, 15);
 		gameMapTitle.setText(this.mapName);
 		getContentPane().add(gameMapTitle);
-		
-		btnDummyButton.setBounds(1529, 24, 175, 25);
-		getContentPane().add(btnDummyButton);
-		
+		initiliazeGamePanel();
+	}
+	
+	/**
+	 * This initializes the actual panel where the buffered image is drawn.
+	 */
+	private void initiliazeGamePanel(){
+		game.setWindowDimensions(screen);
 		game.setPreferredSize(new Dimension(950, 950));
 		game.setMinimumSize(new Dimension(950, 950));
 		game.setMaximumSize(new Dimension(950, 950));
@@ -67,32 +103,25 @@ public class GameWindow extends JFrame {
 		game.setBounds(12, 24, 950, 950);
 		getContentPane().add(game);
 		game.setBackground(Color.RED);
-		
-		gameInformationTitleLabel.setBounds(980, 29, 137, 15);
-		getContentPane().add(gameInformationTitleLabel);
-		
-		player1AINameTitleLabel.setBounds(980, 56, 86, 15);
-		getContentPane().add(player1AINameTitleLabel);
-		
-		player2AITitleLabel.setBounds(980, 71, 86, 15);
-		getContentPane().add(player2AITitleLabel);
-		
-		difficultyLabel.setBounds(980, 85, 86, 15);
-		getContentPane().add(difficultyLabel);
-		
-		actualPlayer1AIName.setText(this.AI1);
-		actualPlayer1AIName.setBounds(1066, 56, 116, 15);
-		getContentPane().add(actualPlayer1AIName);
-		if(this.is2Player){
-			actualPlayer2AIName.setText(this.AI2);
-			actualPlayer2AIName.setBounds(1066, 71, 116, 15);
-			getContentPane().add(actualPlayer2AIName);
-		}else{
-			actualDifficulty.setText(this.difficulty);
-			actualDifficulty.setBounds(1066, 85, 116, 15);
-			getContentPane().add(actualDifficulty);
-		}
-		setExtendedState(MAXIMIZED_BOTH);	
 	}
+	
+	
+	//Getters and setters ------------------------------------------------------------
+	public double getDynamicWindowHeight() {
+		return dynamicWindowHeight;
+	}
+
+	public void setDynamicWindowHeight(double dynamicWindowHeight) {
+		this.dynamicWindowHeight = dynamicWindowHeight;
+	}
+
+	public double getDynamicWindowWidth() {
+		return dynamicWindowWidth;
+	}
+
+	public void setDynamicWindowWidth(double dynamicWindowWidth) {
+		this.dynamicWindowWidth = dynamicWindowWidth;
+	}
+	
 }
 
