@@ -6,6 +6,10 @@ import java.util.Dictionary;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.*;
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 
 import javax.swing.JPanel;
 
@@ -14,6 +18,7 @@ import display.GamePanel;
 
 import api.Actor;
 import api.GameState;
+import api.Spawner;
 
 
 /**
@@ -37,7 +42,23 @@ public class GameEngine {
 		actors = map.getActors();	
 
 		//Initialize 1st player's AI by calling Mark's magic code.
-		//TODO: Implement Mark's magic code
+		Spawner playerSpawner = null;
+		System.out.println("Loading ais/" + firstAIName + ".jar");
+		File f = new File("ais/" + firstAIName + ".jar");
+	    URLClassLoader urlCl;
+		try {
+			urlCl = new URLClassLoader(new URL[] { f.toURI().toURL()},Spawner.class.getClassLoader());
+		    Class<?> testAI = urlCl.loadClass("thing");
+		    Class<? extends Spawner> myAIClass = testAI.asSubclass(Spawner.class);
+		    playerSpawner = myAIClass.newInstance();
+		    
+		} catch (Exception e) {
+			System.err.println("Loading their code");
+			e.printStackTrace();
+			System.exit(1);
+		}
+	    
+		playerSpawner.printSomething();
 
 		if (is2Player) {
 			//Initialize 2nd player's AI
@@ -51,16 +72,12 @@ public class GameEngine {
 		
 		//while(!gameOver) {
 			
-			//Go through actors and update them
-			//for (Actor a : actors) {
-			//	a.update();
-			//}
-			//Generate a new buffered image
+			//Do spawner stuff
+			//Call gamelogic, does moves
+		
+			//Render moves
 			display.render(new GameState(this.map,this.actors));
-			
-			
-			//Paint nextFrame to the screen
-			//window.repaint();
+			//Check endgame, set gameOver
 		//}
 
 	}
