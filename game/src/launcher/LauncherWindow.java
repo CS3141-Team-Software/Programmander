@@ -75,7 +75,9 @@ public class LauncherWindow extends JFrame {
 	private int ai1LabelWidth = 308;
 	private int ai2LabelWidth = 308;
 	private int diffLabelWidth = 263;
-
+	
+	//Flags so it loads correctly every time 
+	
 	//Main constructor
 	public LauncherWindow() throws IOException {
 
@@ -84,8 +86,8 @@ public class LauncherWindow extends JFrame {
 		comboBoxWidth = (int) (dynamicWindowWidth / 2 - 200);
 		comboBoxStaticXCoord = (int)((dynamicWindowWidth / 2) - (comboBoxWidth/2));
 		//Initialize window elements
-		initializeLabels();
 		initializeComboBoxes();
+		initializeLabels();
 		initializeButtons();
 		getContentPane().add(new LauncherPanel());
 		
