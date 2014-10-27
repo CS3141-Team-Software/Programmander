@@ -42,15 +42,15 @@ public class GameEngine {
 		actors = map.getActors();
 
 		//Initialize 1st player's AI by calling Mark's magic code.
-		Spawner playerSpawner = null;
+		//Spawner playerSpawner = null;
 		System.out.println("Loading ais/" + firstAIName + ".jar");
 		File f = new File("ais/" + firstAIName + ".jar");
 	    URLClassLoader urlCl;
 		try {
 			urlCl = new URLClassLoader(new URL[] { f.toURI().toURL()},Spawner.class.getClassLoader());
-		    Class<?> testAI = urlCl.loadClass("thing");
-		    Class<? extends Spawner> myAIClass = testAI.asSubclass(Spawner.class);
-		    playerSpawner = myAIClass.newInstance();
+		    //Class<?> testAI = urlCl.loadClass("thing");
+		    //Class<? extends Spawner> myAIClass = testAI.asSubclass(Spawner.class);
+		    //playerSpawner = myAIClass.newInstance();
 
 		} catch (Exception e) {
 			System.err.println("Loading their code");
@@ -58,7 +58,7 @@ public class GameEngine {
 			System.exit(1);
 		}
 
-		playerSpawner.printSomething();
+		//playerSpawner.printSomething();
 
 		if (is2Player) {
 			//Initialize 2nd player's AI

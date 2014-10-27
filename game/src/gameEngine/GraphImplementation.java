@@ -1,10 +1,20 @@
 package gameEngine;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.security.CodeSource;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
+import javax.imageio.ImageIO;
+
+import launcher.LauncherWindow;
 import api.Actor;
 import api.Graph;
 /**
@@ -29,10 +39,21 @@ public class GraphImplementation implements Graph {
 	 * Tutorial Maps
 	 */
 	public GraphImplementation(String fileName) {
-
+		BufferedReader mapFile = null;
+		
+		try {
+			InputStream stream = getClass().getResourceAsStream("/" + fileName);
+			InputStreamReader streamReader = new InputStreamReader(stream);
+			
+			mapFile = new BufferedReader(streamReader);
+			
+		} catch (Exception e){
+			System.err.println("Error: Could not fetch map.");
+			e.printStackTrace();
+			System.exit(1);
+		}
 		try{
-			File file = new File(System.getProperty("user.dir") + "/assets/maps/" + fileName);
-			Scanner in = new Scanner(file);
+			Scanner in = new Scanner(mapFile);
 			if(in.hasNext()){
 				rows = in.nextInt();
 			}
@@ -73,7 +94,7 @@ public class GraphImplementation implements Graph {
 			}
 
 		}
-		catch(FileNotFoundException e){
+		catch(Exception e){
 			System.err.println("Map not found");
 			System.exit(1);
 		}

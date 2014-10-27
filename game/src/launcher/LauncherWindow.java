@@ -39,7 +39,7 @@ public class LauncherWindow extends JFrame {
 
 	//SCREEN DIMENSIONS
 	private Dimension screen;
-	
+
 	//JFrame elements
 	private JFrame mainFrameWindow;
 	private JButton backToMainButton = new JButton("Back To Main Window");
@@ -75,9 +75,9 @@ public class LauncherWindow extends JFrame {
 	private int ai1LabelWidth = 308;
 	private int ai2LabelWidth = 308;
 	private int diffLabelWidth = 263;
-	
+
 	//Flags so it loads correctly every time 
-	
+
 	//Main constructor
 	public LauncherWindow() throws IOException {
 
@@ -90,9 +90,9 @@ public class LauncherWindow extends JFrame {
 		initializeLabels();
 		initializeButtons();
 		getContentPane().add(new LauncherPanel());
-		
+
 		BufferedImage cursorFile = null; 
-		
+
 		try {
 			cursorFile = ImageIO.read(getClass().getResource("/assets/art/cursor.png").openStream());
 		} catch (Exception e){
@@ -100,12 +100,12 @@ public class LauncherWindow extends JFrame {
 			System.err.println("Error: Could not fetch file names");
 			System.exit(1);
 		}
-		
+
 		if (cursorFile == null) {
 			System.err.println("Error: Could not find custom cursor");
 			System.exit(1);
 		}
-		
+
 		//custom cursor image that comes from cursor.png in art assets
 		cursor = kit.createCustomCursor(cursorFile, new Point(0,0), "cursor");		
 
@@ -129,7 +129,7 @@ public class LauncherWindow extends JFrame {
 		setTitle("Launcher");
 		//---------------------------------------------------------------
 	}
-	
+
 	/**
 	 * method to initialize the comboboxes on the frame
 	 */
@@ -137,13 +137,13 @@ public class LauncherWindow extends JFrame {
 
 		//This is the maps combo box. 
 		//Maps are read in through files that are used to populate the comboBox for the user to choose from.
-		
+
 		comboBoxMaps.setBounds(comboBoxStaticXCoord, (startBoxYs), comboBoxWidth, comboBoxHeight);
 		for(String s : getMapList()){
 			comboBoxMaps.addItem(s);
 		}
 		getContentPane().add(comboBoxMaps);
-		
+
 		// Initialize the difficulty combo box
 		startBoxYs += 75;
 		comboBoxDifficulty.setBounds(comboBoxStaticXCoord, (startBoxYs ), comboBoxWidth, comboBoxHeight);
@@ -151,7 +151,7 @@ public class LauncherWindow extends JFrame {
 		comboBoxDifficulty.addItem("Easy");
 		comboBoxDifficulty.addItem("Medium");
 		comboBoxDifficulty.addItem("Hard");
-		
+
 		comboBoxDifficulty.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String s = (String)comboBoxDifficulty.getSelectedItem();
@@ -167,7 +167,7 @@ public class LauncherWindow extends JFrame {
 			}
 		});
 		getContentPane().add(comboBoxDifficulty);
-		
+
 		//Player 1 AI combobox
 		startBoxYs += 75;
 		comboBoxPlayer1AI.setBounds(comboBoxStaticXCoord, (startBoxYs), comboBoxWidth, comboBoxHeight);
@@ -175,7 +175,7 @@ public class LauncherWindow extends JFrame {
 			comboBoxPlayer1AI.addItem(s);
 		}
 		getContentPane().add(comboBoxPlayer1AI);
-		
+
 		//Player 2 AI combobox
 		startBoxYs += 75;
 		comboBoxPlayer2AI.setBounds(comboBoxStaticXCoord, (startBoxYs), comboBoxWidth, comboBoxHeight);
@@ -223,7 +223,7 @@ public class LauncherWindow extends JFrame {
 		mapsLabel.setBackground(labelColors);
 		mapsLabel.setForeground(new Color(255,255,255));
 		getContentPane().add(mapsLabel);
-		
+
 		//Difficulty Label formatting
 		startY += 75;
 		difficultyLabel.setFont(new Font("Dialog", Font.BOLD, 50));
@@ -231,7 +231,7 @@ public class LauncherWindow extends JFrame {
 		difficultyLabel.setBackground(labelColors);
 		difficultyLabel.setForeground(new Color(255,255,255));
 		getContentPane().add(difficultyLabel);
-		
+
 		//Player 1 AI Label formatting
 		startY += 75;
 		player1AILabel.setFont(new Font("Dialog", Font.BOLD, 50));
@@ -239,7 +239,7 @@ public class LauncherWindow extends JFrame {
 		player1AILabel.setBackground(labelColors);
 		player1AILabel.setForeground(new Color(255,255,255));
 		getContentPane().add(player1AILabel);
-		
+
 		//Player 2 AI Label formatting
 		startY += 75;
 		player2AILabel.setFont(new Font("Dialog", Font.BOLD, 50));
@@ -264,9 +264,9 @@ public class LauncherWindow extends JFrame {
 			if (src != null) {
 				URL jar = src.getLocation();
 				ZipInputStream zip = new ZipInputStream(jar.openStream());
-				
+
 				ArrayList<String> mapNames = new ArrayList<String>();
-				
+
 				while(true) {
 					//Loop through all directories and look for stuff in assets/maps
 					ZipEntry e = zip.getNextEntry();
@@ -274,15 +274,15 @@ public class LauncherWindow extends JFrame {
 						break;
 					}
 					String name = e.getName();
-					
 					if (name.startsWith("assets/maps")) {
-						
-						mapNames.add(name);
+						if (!name.equals("assets/maps/")) {
+							mapNames.add(name);
+						}
 					}
 				} //end of while loop
-				
+
 				return mapNames;
-				
+
 			} else {
 				System.err.println("getMapList: error with fetching maps. Bad location");
 				System.exit(1);
@@ -299,7 +299,7 @@ public class LauncherWindow extends JFrame {
 
 	public ArrayList<String> getAIList(){
 		File aiDir = new File("ais/");
-		
+
 		ArrayList<String> AINames = new ArrayList<String>();
 
 		if(aiDir.isDirectory()){
@@ -312,7 +312,7 @@ public class LauncherWindow extends JFrame {
 					AINames.add(name);
 				}
 			}
-			
+
 			return AINames;
 		}
 		else{

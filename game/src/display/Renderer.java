@@ -12,6 +12,7 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Map;
@@ -30,7 +31,7 @@ public class Renderer {
 	private BufferedImage nextFrame;
 	private int xDim, yDim;
 	private Graphics2D g;
-	
+
 
 	public Renderer(Graph map) {
 		cache = new TreeMap<String, Image>();
@@ -53,7 +54,7 @@ public class Renderer {
 		int xCoord = 0;
 		int yCoord = 0;
 		Actor actor;
-		
+
 		for (GraphNode node : state.getMap().getNodesSing()) {
 
 			if (node.getIsChanged()) {
@@ -66,7 +67,7 @@ public class Renderer {
 					//unit = getFromCache(actor.getType());
 					//g.drawImage(unit, xCoord, yCoord, null);
 				}
-				
+
 				//THIS LINE MUST BE AT THE END OF THIS IF STATEMENT
 				node.setIsChanged(false);
 			}
@@ -87,36 +88,29 @@ public class Renderer {
 	 * it in the art folder
 	 * 
 	 */
-	public Image getFromCache(String str){// str should be full file name (e.g. "image.jpg")
+	public Image getFromCache(String str){
+		if(cache.get(str) == null) {
 
-		if(cache.get(str) == null){
-			String dir = System.getProperty("user.dir") + "/assets/art";			
-			File artParent = new File(dir);
+			BufferedImage imageFile = null; 
+			str = str.toLowerCase();
 
-			if(artParent.isDirectory()){
-				File[] fileList = artParent.listFiles();
-				for(int i = 0; i < fileList.length; i++){
-					if(fileList[i].getName().equalsIgnoreCase((str +".png"))){
-						Image img = null;
-						try {
-							img = ImageIO.read(fileList[i]);
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-						cache.put(str, img); 
-						return img;
-					}
+			try {
+				InputStream stream = getClass().getResourceAsStream("/assets/art/" + str + ".png");
+				imageFile = ImageIO.read(stream);
+				if (imageFile == null) {
+					throw new Exception();
 				}
+			} catch (Exception e){
+				e.printStackTrace();
+				System.err.println("Error loading map tile art " + str);
+				System.exit(1);
 			}
-			else{
-				System.out.println("getFromCache: error with fetching art. Unacceptable directory path. Returning null.");
-				return null;
-			}
-		}
-		else{
+			
+			return imageFile;
+			
+		} else {
 			return cache.get(str);
 		}
-		return null; //I DON't KNOW WHY JAVA NEEDS THIS
 	}
 
 }
