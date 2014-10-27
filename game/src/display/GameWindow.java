@@ -79,22 +79,22 @@ public class GameWindow extends JFrame {
 		getContentPane().setSize(screen);
 		getContentPane().setPreferredSize(screen);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("Game WINININDOWOWOW");
+		setTitle("Programmander");
 		//---------------------------------------------------------------
 	}
 	
 	private void initializeGUIElements(){
 		
-		gameMapTitle.setBounds(12, 9, 69, 15);
-		gameMapTitle.setText(this.mapName);
-		getContentPane().add(gameMapTitle);
-		initiliazeGamePanel();
+		//gameMapTitle.setBounds(902, 9, 69, 15);
+		//gameMapTitle.setText(this.mapName);
+		//getContentPane().add(gameMapTitle);
+		initializeGamePanel();
 	}
 	
 	/**
 	 * This initializes the actual panel where the buffered image is drawn.
 	 */
-	private void initiliazeGamePanel(){
+	private void initializeGamePanel(){
 		game.setWindowDimensions(screen);
 		game.setPreferredSize(new Dimension(950, 950));
 		game.setMinimumSize(new Dimension(950, 950));
