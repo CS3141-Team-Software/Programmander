@@ -118,7 +118,7 @@ public class LauncherWindow extends JFrame {
 		this.setExtendedState(MAXIMIZED_BOTH);
 		this.setUndecorated(true);
 		this.setVisible(true);
-		screen = new Dimension(this.getWidth(), this.getHeight());
+		screen = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setDynamicWindowHeight(screen.getHeight());
 		this.setDynamicWindowWidth(screen.getWidth());
 		getContentPane().setSize(screen);
@@ -209,7 +209,7 @@ public class LauncherWindow extends JFrame {
 	}
 
 	/**47
-	 * Method to initialize the labels in the frame
+	 * Method to initialize tsetDynamicWindowHeighthe labels in the frame
 	 * Status: DONE
 	 */
 	private void initializeLabels(){
