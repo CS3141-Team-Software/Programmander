@@ -30,7 +30,7 @@ public class GameEngine {
 	private boolean gameOver = false;
 	private GraphImplementation map;
 	private ArrayList<Actor> actors;
-	
+
 	private Display display;
 
 
@@ -39,7 +39,7 @@ public class GameEngine {
 		map = new GraphImplementation(mapName);
 		display = new Display(mapName,firstAIName,difficulty,is2Player,map);
 
-		actors = map.getActors();	
+		actors = map.getActors();
 
 		//Initialize 1st player's AI by calling Mark's magic code.
 		Spawner playerSpawner = null;
@@ -51,13 +51,13 @@ public class GameEngine {
 		    Class<?> testAI = urlCl.loadClass("thing");
 		    Class<? extends Spawner> myAIClass = testAI.asSubclass(Spawner.class);
 		    playerSpawner = myAIClass.newInstance();
-		    
+
 		} catch (Exception e) {
 			System.err.println("Loading their code");
 			e.printStackTrace();
 			System.exit(1);
 		}
-	    
+
 		playerSpawner.printSomething();
 
 		if (is2Player) {
@@ -69,13 +69,20 @@ public class GameEngine {
 
 	//Run the game!
 	public void run() {
-		
+
 		//while(!gameOver) {
-			
+
 			//Do spawner stuff
 			//Call gamelogic, does moves
-		
+
 			//Render moves
+			//Go through actors and update them
+			//for (Actor a : actors) {
+			//	//generate gamestate
+			//	a.update(gameState);
+			//}
+
+			//Generate a new buffered image
 			display.render(new GameState(this.map,this.actors));
 			//Check endgame, set gameOver
 		//}

@@ -7,6 +7,10 @@ import java.awt.Image;
 import java.awt.Rectangle;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+import java.security.CodeSource;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -22,7 +26,7 @@ public class LauncherPanel extends JPanel {
 	private Integer originYPos = 0;
 	private Integer panelWidth = 1920;
 	private Integer panelHeight = 1080;
-	
+
 	/**
 	 * Constructor that accepts no variables.
 	 * @throws IOException
@@ -30,7 +34,7 @@ public class LauncherPanel extends JPanel {
 	public LauncherPanel() throws IOException{
 		initializePanel();
 	}
-	
+
 	/**
 	 * This constructor takes the dimensions of the panel and the starting x and y values.
 	 * @param originX
@@ -46,7 +50,7 @@ public class LauncherPanel extends JPanel {
 		this.panelHeight = panelHeight;
 		initializePanel();
 	}
-	
+
 	/**
 	 * Method to initialize things inside the panel
 	 * @throws IOException
@@ -54,7 +58,7 @@ public class LauncherPanel extends JPanel {
 	private void initializePanel() throws IOException {
 		setBounds(new Rectangle(panelWidth, panelHeight));
 	}
-	
+
 	/**
 	 * Method used to paint things to the panel such as background.
 	 */
@@ -62,17 +66,51 @@ public class LauncherPanel extends JPanel {
 		Graphics2D g2d = (Graphics2D) g;
 		paintPanelBackround(g2d);
 	}
-	
+
 	/**
 	 * Method to paint the background of the panel
 	 * @param g
 	 */
 	public void paintPanelBackround(Graphics2D g){
 		Image background = null;
+
+		File bgFile = null; 
+
 		try {
-			background = ImageIO.read(new File(System.getProperty("user.dir") + "/assets/art/launcherWindowBackground.png"));
+			CodeSource src = LauncherWindow.class.getProtectionDomain().getCodeSource();
+			if (src != null) {
+				URL jar = src.getLocation();
+				ZipInputStream zip = new ZipInputStream(jar.openStream());
+
+				while(true) {
+					//Loop through all directories and look for file
+					ZipEntry e = zip.getNextEntry();
+
+					if (e == null) {
+						break;
+					}
+
+					String name = e.getName();
+
+					if (name.startsWith("assets/art/launcherWindowBackground.png")) {
+
+						bgFile = new File(name);
+					}
+				} //end of while loop
+
+			} else {
+				System.err.println("Error: Could not find custom cursor");
+				System.exit(1);
+			}
+		} catch (Exception e){
+			System.err.println("Error: Could not fetch file names");
+			System.exit(1);
+		}
+		
+		try {
+			background = ImageIO.read(bgFile);
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 		}
 		g.drawImage(background, 0, 0, null);

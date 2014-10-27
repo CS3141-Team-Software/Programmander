@@ -1,6 +1,7 @@
 package display;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -22,7 +23,7 @@ public class GamePanel extends JPanel {
 	private Integer panelHeight = 950;
 	private Graphics2D g;
 	private BufferedImage currFrame;
-	
+	private Dimension gameJFrameWindowDim;
 	/**
 	 * Constructor that accepts no variables.
 	 * @throws IOException
@@ -61,6 +62,10 @@ public class GamePanel extends JPanel {
 	 */
 	private void initializePanel() throws IOException {
 		setBounds(new Rectangle(panelWidth, panelHeight));
+	}
+	
+	public void setWindowDimensions(Dimension d){
+		this.gameJFrameWindowDim = d;
 	}
 	
 	public void setCurrFrame(BufferedImage i) {

@@ -2,22 +2,15 @@ package launcher;
 
 import gameEngine.GameEngine;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.TitledBorder;
-import display.GameWindow;
+import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
 import java.awt.Font;
-import java.awt.Component;
-import java.awt.Color;
 import java.awt.Point;
 import java.awt.Toolkit;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -25,6 +18,12 @@ import java.security.CodeSource;
 import java.util.ArrayList;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+
+import javax.imageio.ImageIO;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 
 /**
@@ -47,8 +46,7 @@ public class LauncherWindow extends JFrame {
 
 	//Toolkit variables
 	private Toolkit kit = this.getToolkit();
-	Cursor cursor = kit.createCustomCursor(ImageIO.read(new File(System.getProperty("user.dir") + "/assets/art/cursor.png")), new Point(0,0), "cursor");		//custom cursor image that comes from cursor.png in art assets
-
+	Cursor cursor;
 	private double dynamicWindowHeight = 0;
 	private double dynamicWindowWidth = 0;
 
@@ -89,6 +87,47 @@ public class LauncherWindow extends JFrame {
 		initializeComboBoxes();
 		initializeButtons();
 		getContentPane().add(new LauncherPanel());
+		
+		BufferedImage cursorFile = null; 
+		
+		try {
+			CodeSource src = LauncherWindow.class.getProtectionDomain().getCodeSource();
+			if (src != null) {
+				URL jar = src.getLocation();
+				ZipInputStream zip = new ZipInputStream(jar.openStream());
+				
+				while(true) {
+					//Loop through all directories and look for file
+					ZipEntry e = zip.getNextEntry();
+					
+					if (e == null) {
+						break;
+					}
+					
+					String name = e.getName();
+					
+					if (name.startsWith("assets/art/cursor.png")) {
+						cursorFile = ImageIO.read(getClass().getResourceAsStream(name));
+					}
+				} //end of while loop
+				
+			} else {
+				System.err.println("Error: Could not find custom cursor");
+				System.exit(1);
+			}
+		} catch (Exception e){
+			System.err.println("Error: Could not fetch file names");
+			System.exit(1);
+		}
+		
+		if (cursorFile == null) {
+			System.err.println("Error: Could not find custom cursor");
+			System.exit(1);
+		}
+		
+		//custom cursor image that comes from cursor.png in art assets
+		cursor = kit.createCustomCursor(cursorFile, new Point(0,0), "cursor");		
+
 	}
 
 	/**
@@ -256,8 +295,6 @@ public class LauncherWindow extends JFrame {
 					String name = e.getName();
 					
 					if (name.startsWith("assets/maps")) {
-
-						File map = new File(name);
 						
 						mapNames.add(name);
 					}
