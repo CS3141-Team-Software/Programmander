@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.security.CodeSource;
 import java.util.ArrayList;
@@ -91,31 +92,9 @@ public class LauncherWindow extends JFrame {
 		BufferedImage cursorFile = null; 
 		
 		try {
-			CodeSource src = LauncherWindow.class.getProtectionDomain().getCodeSource();
-			if (src != null) {
-				URL jar = src.getLocation();
-				ZipInputStream zip = new ZipInputStream(jar.openStream());
-				
-				while(true) {
-					//Loop through all directories and look for file
-					ZipEntry e = zip.getNextEntry();
-					
-					if (e == null) {
-						break;
-					}
-					
-					String name = e.getName();
-					
-					if (name.startsWith("assets/art/cursor.png")) {
-						cursorFile = ImageIO.read(getClass().getResourceAsStream(name));
-					}
-				} //end of while loop
-				
-			} else {
-				System.err.println("Error: Could not find custom cursor");
-				System.exit(1);
-			}
+			cursorFile = ImageIO.read(getClass().getResource("/assets/art/cursor.png").openStream());
 		} catch (Exception e){
+			e.printStackTrace();
 			System.err.println("Error: Could not fetch file names");
 			System.exit(1);
 		}

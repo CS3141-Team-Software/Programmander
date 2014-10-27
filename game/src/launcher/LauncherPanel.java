@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -72,47 +73,18 @@ public class LauncherPanel extends JPanel {
 	 * @param g
 	 */
 	public void paintPanelBackround(Graphics2D g){
-		Image background = null;
 
-		File bgFile = null; 
+		BufferedImage background = null;
 
 		try {
-			CodeSource src = LauncherWindow.class.getProtectionDomain().getCodeSource();
-			if (src != null) {
-				URL jar = src.getLocation();
-				ZipInputStream zip = new ZipInputStream(jar.openStream());
+			background = ImageIO.read(getClass().getResource("/assets/art/launcherWindowBackground.png").openStream());
 
-				while(true) {
-					//Loop through all directories and look for file
-					ZipEntry e = zip.getNextEntry();
-
-					if (e == null) {
-						break;
-					}
-
-					String name = e.getName();
-
-					if (name.startsWith("assets/art/launcherWindowBackground.png")) {
-
-						bgFile = new File(name);
-					}
-				} //end of while loop
-
-			} else {
-				System.err.println("Error: Could not find custom cursor");
-				System.exit(1);
-			}
 		} catch (Exception e){
+			e.printStackTrace();
 			System.err.println("Error: Could not fetch file names");
 			System.exit(1);
 		}
 		
-		try {
-			background = ImageIO.read(bgFile);
-		} catch (IOException e) {
-
-			e.printStackTrace();
-		}
 		g.drawImage(background, 0, 0, null);
 	}
 }
