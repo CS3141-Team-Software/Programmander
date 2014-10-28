@@ -50,6 +50,7 @@ public class Renderer {
 		nextFrame = new BufferedImage(xDim, yDim, BufferedImage.TYPE_INT_RGB);
 		g = nextFrame.createGraphics();
 		Image bg = null;
+		Image obstruction = null;
 		Image unit = null;
 		int xCoord = 0;
 		int yCoord = 0;
@@ -61,6 +62,11 @@ public class Renderer {
 				//Update the node
 				bg = getFromCache(node.getBackground());
 				g.drawImage(bg, xCoord, yCoord, null);
+				
+				if (node.getObstruction() != null) {
+					obstruction = getFromCache(node.getObstruction().getType());
+					g.drawImage(obstruction, xCoord, yCoord, null);
+				}
 
 				actor = node.getActor();
 				if (actor != null) {
@@ -72,7 +78,7 @@ public class Renderer {
 				node.setIsChanged(false);
 			}
 			xCoord = xCoord + 50;
-
+ 
 			if (xCoord >= xDim) {
 				xCoord = 0;
 				yCoord = yCoord + 50;

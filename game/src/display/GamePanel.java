@@ -76,6 +76,6 @@ public class GamePanel extends JPanel {
 	 */
 	public void paint(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
-		g2d.drawImage(currFrame, null, 0, 0);
+		g2d.drawImage(currFrame, null, 400, 400);
 	}	
 }

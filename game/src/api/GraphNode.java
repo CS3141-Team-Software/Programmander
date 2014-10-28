@@ -1,5 +1,7 @@
 package api;
 
+import gameEngine.ObstructionImplementation;
+
 
 public interface GraphNode {
 	
@@ -14,7 +16,7 @@ public interface GraphNode {
 	
 	public GraphNode getNWNode();
 	public GraphNode getSWNode();
-	public Obstruction getObstruction();
+	public ObstructionImplementation getObstruction();
 	public String getBackground();
 	public Actor getActor();
 	public void setNNode(GraphNode n);
@@ -22,7 +24,7 @@ public interface GraphNode {
 	public void setENode(GraphNode e);
 	public void setWNode(GraphNode w);
 	
-	public void setObstruction(Obstruction o);
+	public void setObstruction(ObstructionImplementation o);
 	public void setBackground(String str);
 	
 	public void setActor(Actor a);

@@ -17,7 +17,7 @@ public class GraphNodeImplementation implements GraphNode{
 	private GraphNode west;
 	private int row;
 	private int col;
-	private Obstruction obs;
+	private ObstructionImplementation obs;
 
 	private String backImg;
 	private Actor actor;
@@ -121,7 +121,7 @@ public class GraphNodeImplementation implements GraphNode{
 		}
 	}
 	
-	public Obstruction getObstruction(){
+	public ObstructionImplementation getObstruction(){
 		return obs;
 	}
 	
@@ -152,7 +152,7 @@ public class GraphNodeImplementation implements GraphNode{
 		west = w;
 	}
 	
-	public void setObstruction(Obstruction o){
+	public void setObstruction(ObstructionImplementation o){
 		obs = o;
 	}
 	public void setBackground(String str){

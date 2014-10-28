@@ -1,6 +1,6 @@
 1 4
 
-0 0 0 grass
+0 0 tree grass
 0 1 0 grass
 0 2 0 dirt
 0 3 0 grass

@@ -83,7 +83,7 @@ public class GraphImplementation implements Graph {
 					//Implement castle checks
 					//if obstrct.equals("BlueCastle"); // generate a new Blue team spawner
 					//else if obstruct.equals("RedCastle"); //generate a new enemy spawner
-					map[posX][posY].setObstruction(new ObstructionImplementation(map[posX][posY],"wall"));
+					map[posX][posY].setObstruction(new ObstructionImplementation(map[posX][posY], obstrct));
 				}
 
 				if(in.hasNext()) {
