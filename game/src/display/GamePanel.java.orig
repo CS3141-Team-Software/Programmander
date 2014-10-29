@@ -52,7 +52,11 @@ public class GamePanel extends JPanel {
 	 */
 	public void paint(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
+<<<<<<< HEAD
 		g2d.fillRect(0, 0, this.getWidth(), this.getHeight());
 		g2d.drawImage(currFrame, null, (int)gameImageLocation.getX(), (int)gameImageLocation.getY());
+=======
+		g2d.drawImage(currFrame, null, 400, 400);
+>>>>>>> master
 	}	
 }
