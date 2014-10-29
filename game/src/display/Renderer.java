@@ -60,6 +60,7 @@ public class Renderer {
 			if (node.getIsChanged()) {
 				//Update the node
 				bg = getFromCache(node.getBackground());
+				
 				g.drawImage(bg, xCoord, yCoord, null);
 
 				actor = node.getActor();

@@ -15,7 +15,7 @@ public class Display {
 		//renderer really only needs the dimensions, but it currently calculates this from map
 		//Maybe we could fix this later, if we ever make the tiles a dynamic size?
 		renderer = new Renderer(map);
-		gameFrame = new GameWindow(mapName,firstAIName,difficulty,is2Player);
+		gameFrame = new GameWindow(mapName,firstAIName,difficulty, is2Player, map.getRows(), map.getCols());
 		gameFrame.setVisible(true);
 		window = gameFrame.getGamePanel();
 	}

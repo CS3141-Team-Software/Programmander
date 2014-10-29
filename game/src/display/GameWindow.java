@@ -1,13 +1,11 @@
 package display;
 
-import gameEngine.GameEngine;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-
-import java.awt.Color;
 import java.awt.Dimension;
-import java.io.IOException;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
 
 import javax.swing.JLabel;
 import javax.swing.JButton;
@@ -15,7 +13,7 @@ import javax.swing.JButton;
 public class GameWindow extends JFrame {
 	
 	//SCREEN DIMENSIONS
-	private Dimension screen;
+	private Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 	private double dynamicWindowHeight = 0;
 	private double dynamicWindowWidth = 0;
 	
@@ -23,7 +21,7 @@ public class GameWindow extends JFrame {
 	JLabel gameMapTitle = new JLabel("Game");
 	
 	//Drawing game window elements
-	GamePanel game = new GamePanel();
+	GamePanel game;
 	
 	//JFrame window labels.
 	private String mapName;
@@ -32,15 +30,26 @@ public class GameWindow extends JFrame {
 	private String difficulty; 
 	private boolean is2Player;
 	
+	//Game Panel Variables
+	private int gameMapNumberOfRows;
+	private int gameMapNumberOfCols;
+	private int mapHeight;
+	private int mapWidth;
+	private Rectangle gamePanelBounds;
+	private Dimension gamePanelDim;
+	private Point gamePanelLocation;
+	
 	/**
 	 * Constructor for the new gamewindow.
 	 * @param mapName
 	 * @param firstAIName
 	 * @param difficulty
 	 * @param is2Player
+	 * @param j 
+	 * @param i 
 	 */
-	public GameWindow(String mapName, String firstAIName, String difficulty, boolean is2Player) {
-		initializeGameInformation(mapName, firstAIName, difficulty, is2Player);
+	public GameWindow(String mapName, String firstAIName, String difficulty, boolean is2Player, int mapHeightInRows, int mapWidthInCols) {
+		initializeGameInformation(mapName, firstAIName, difficulty, is2Player, mapHeightInRows, mapWidthInCols);
 		initializeScreenSize();
 		initializeGUIElements();
 	}
@@ -57,7 +66,7 @@ public class GameWindow extends JFrame {
 	 * @param firstAIName 
 	 * @param mapName2 
 	 */
-	private void initializeGameInformation(String mapName, String firstAIName, String difficulty, boolean is2Player){
+	private void initializeGameInformation(String mapName, String firstAIName, String difficulty, boolean is2Player, int mapRows, int mapCols){
 		this.mapName = mapName;
 		this.AI1 = firstAIName;
 		this.is2Player = is2Player;
@@ -66,14 +75,30 @@ public class GameWindow extends JFrame {
 		} else{
 			this.difficulty = difficulty;
 		}
+		this.gameMapNumberOfRows = mapRows;
+		this.gameMapNumberOfCols = mapCols;
+		this.mapHeight = gameMapNumberOfRows * 50;
+		this.mapWidth = gameMapNumberOfCols * 50;
+		intitializeGamePanelBounds();
 	}
 	
+	/**
+	 * initialize the location and bounds of the game panel.
+	 */
+	private void intitializeGamePanelBounds() {
+		this.gamePanelDim = new Dimension(mapWidth, mapHeight);
+		this.gamePanelLocation = new Point((int) (((screen.getWidth())/2) - (mapWidth/2)), (int) ((screen.getHeight()/2) - (mapHeight/2)));
+		this.gamePanelBounds = new Rectangle(gamePanelLocation, gamePanelDim);
+	}
+
+	/**
+	 * Initializes the window size
+	 */
 	private void initializeScreenSize(){
 		//Screen dimension things.---------------------------------------
 		this.setExtendedState(MAXIMIZED_BOTH);
 		this.setUndecorated(true);
 		this.setVisible(true);
-		screen = new Dimension(this.getWidth(), this.getHeight());
 		this.setDynamicWindowHeight(screen.getHeight());
 		this.setDynamicWindowWidth(screen.getWidth());
 		getContentPane().setSize(screen);
@@ -84,10 +109,6 @@ public class GameWindow extends JFrame {
 	}
 	
 	private void initializeGUIElements(){
-		
-		//gameMapTitle.setBounds(902, 9, 69, 15);
-		//gameMapTitle.setText(this.mapName);
-		//getContentPane().add(gameMapTitle);
 		initializeGamePanel();
 	}
 	
@@ -95,14 +116,9 @@ public class GameWindow extends JFrame {
 	 * This initializes the actual panel where the buffered image is drawn.
 	 */
 	private void initializeGamePanel(){
-		game.setWindowDimensions(screen);
-		game.setPreferredSize(new Dimension(950, 950));
-		game.setMinimumSize(new Dimension(950, 950));
-		game.setMaximumSize(new Dimension(950, 950));
-		game.setSize(new Dimension(950, 950));
-		game.setBounds(12, 24, 950, 950);
+		game = new GamePanel(gamePanelDim, gamePanelLocation, gamePanelBounds);
+		game.setLocation(gamePanelLocation);
 		getContentPane().add(game);
-		game.setBackground(Color.RED);
 	}
 	
 	

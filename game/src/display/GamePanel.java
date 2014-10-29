@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -17,55 +18,30 @@ public class GamePanel extends JPanel {
 	//Used to be GameWindow, unsure why it was that when it's a panel.
 	
 	//Variables for dimensions of this panel
-	private Integer originXPos = 0;
-	private Integer originYPos = 0;
-	private Integer panelWidth = 950;
-	private Integer panelHeight = 950;
-	private Graphics2D g;
 	private BufferedImage currFrame;
-	private Dimension gameJFrameWindowDim;
+	private Point gameImageLocation;
+	private Dimension gameImageDim;
+	private Rectangle gameImageBounds;
+	
+	/**
+	 * Default constructor
+	 */
+	public GamePanel() throws IOException{
+	}
+	
 	/**
 	 * Constructor that accepts no variables.
+	 * @param gamePanelBounds 
+	 * @param gamePanelLocation 
+	 * @param gamePanelDim 
 	 * @throws IOException
 	 */
-	public GamePanel(){
-		try {
-			initializePanel();
-		} catch (IOException e) {
-			System.err.println("Error initialising GamePanel");
-			e.printStackTrace();
-			System.exit(1);
-		}
-	}
-	
-	/**
-	 * This constructor takes the dimensions of the panel and the starting x and y values.
-	 * @param originX
-	 * @param originY
-	 * @param panelWidth
-	 * @param panelHeight
-	 * @throws IOException 
-	 */
-	public GamePanel(Integer originX, Integer originY,Integer panelWidth, Integer panelHeight) throws IOException{
-		this.originXPos = originX;
-		this.originYPos = originY;
-		this.panelWidth = panelWidth;
-		this.panelHeight = panelHeight;
-		g = (Graphics2D) this.getGraphics();
+	public GamePanel(Dimension gamePanelDim, Point gamePanelLocation, Rectangle gamePanelBounds){
+		gameImageDim = gamePanelDim;
+		gameImageLocation = gamePanelLocation;
+		gameImageBounds = gamePanelBounds;
+		
 		currFrame = null;
-		initializePanel();
-	}
-	
-	/**
-	 * Method to initialize things inside the panel
-	 * @throws IOException
-	 */
-	private void initializePanel() throws IOException {
-		setBounds(new Rectangle(panelWidth, panelHeight));
-	}
-	
-	public void setWindowDimensions(Dimension d){
-		this.gameJFrameWindowDim = d;
 	}
 	
 	public void setCurrFrame(BufferedImage i) {
@@ -76,6 +52,7 @@ public class GamePanel extends JPanel {
 	 */
 	public void paint(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
-		g2d.drawImage(currFrame, null, 0, 0);
+		g2d.fillRect(0, 0, this.getWidth(), this.getHeight());
+		g2d.drawImage(currFrame, null, (int)gameImageLocation.getX(), (int)gameImageLocation.getY());
 	}	
 }
