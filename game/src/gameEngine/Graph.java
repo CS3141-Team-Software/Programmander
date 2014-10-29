@@ -16,7 +16,6 @@ import javax.imageio.ImageIO;
 
 import launcher.LauncherWindow;
 import api.Actor;
-import api.Graph;
 /**
  * Graph
  * @author Caleb Chapman
@@ -25,20 +24,20 @@ import api.Graph;
 //import GraphNode;
 
 
-public class GraphImplementation implements Graph {
+public class Graph{
 
 	private int size;
-	private GraphNodeImplementation[][] map;
+	private GraphNode[][] map;
 	private int rows;
 	private int cols;
-	private GraphNodeImplementation[] list;
+	private GraphNode[] list;
 
 	/*
 	 * Constructor given a text file
 	 * will create a graph based on the values within
 	 * Tutorial Maps
 	 */
-	public GraphImplementation(String fileName) {
+	public Graph(String fileName) {
 		BufferedReader mapFile = null;
 		
 		try {
@@ -83,7 +82,7 @@ public class GraphImplementation implements Graph {
 					//Implement castle checks
 					//if obstrct.equals("BlueCastle"); // generate a new Blue team spawner
 					//else if obstruct.equals("RedCastle"); //generate a new enemy spawner
-					map[posX][posY].setObstruction(new ObstructionImplementation(map[posX][posY], obstrct));
+					map[posX][posY].setObstruction(new Obstruction(map[posX][posY], obstrct));
 				}
 
 				if(in.hasNext()) {
@@ -104,7 +103,7 @@ public class GraphImplementation implements Graph {
 	/*
 	 * Constructor
 	 */
-	public GraphImplementation(int x, int y){
+	public Graph(int x, int y){
 		makeGraph(x, y);
 	}
 
@@ -117,8 +116,8 @@ public class GraphImplementation implements Graph {
 		rows = y;
 		cols = x;
 
-		map = new GraphNodeImplementation[y][x];
-		list = new GraphNodeImplementation[x * y]; 
+		map = new GraphNode[y][x];
+		list = new GraphNode[x * y]; 
 
 
 			int posX = -1;
@@ -128,7 +127,7 @@ public class GraphImplementation implements Graph {
 			int k = 0;
 		for(int i = 0; i < y; i++){
 			for(int j = 0; j < x; j++){
-				map[i][j] = new GraphNodeImplementation(i, j);
+				map[i][j] = new GraphNode(i, j);
 				list[k] = map[i][j];
 				k++;
 			}
@@ -161,7 +160,7 @@ public class GraphImplementation implements Graph {
 	 * Get Node
 	 * returns the node at the specified coordinates 
 	 */
-	public GraphNodeImplementation getNode(int x, int y){
+	public GraphNode getNode(int x, int y){
 		if(x >= cols || y >= rows){
 			return null;
 		}
@@ -174,7 +173,7 @@ public class GraphImplementation implements Graph {
 	 * Get nodes
 	 * Returns the 2D array
 	 */
-	public GraphNodeImplementation[][] getNodes(){
+	public GraphNode[][] getNodes(){
 		return map;
 	}
 	
@@ -182,7 +181,7 @@ public class GraphImplementation implements Graph {
 	 * getNodesSing
 	 * returns a list of nodes existing in the graph
 	 */
-	public GraphNodeImplementation[] getNodesSing(){
+	public GraphNode[] getNodesSing(){
 		return list;
 	}
 	

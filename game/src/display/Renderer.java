@@ -1,10 +1,8 @@
 package display;
 
 import api.Actor;
-import api.Graph;
-import api.GraphNode;
-import gameEngine.GraphImplementation;
-import gameEngine.GraphNodeImplementation;
+import gameEngine.Graph;
+import gameEngine.GraphNode;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
