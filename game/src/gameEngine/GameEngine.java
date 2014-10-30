@@ -24,7 +24,6 @@ public class GameEngine {
 
 	private boolean gameOver = false;
 	private Graph map;
-	private GameLogic logic;
 	private GameState current;
 
 	private ArrayList<Actor> actors;
@@ -38,9 +37,8 @@ public class GameEngine {
 		map = new Graph(mapName);
 		display = new Display(mapName, firstAIName, difficulty, is2Player, map);
 
-		actors = map.getActors();	
 		//TODO: Need to place the spawners as actors
-
+		
 		//Initialize 1st player's AI by calling Mark's magic code.
 
 		if (is2Player) {
@@ -48,14 +46,17 @@ public class GameEngine {
 		} else {
 			//Initialize our AI based on which difficulty was selected
 		}
+		
+		actors = map.getActors();
+		current = new GameState(map, actors);
 	}
 
 	//Run the game!
 	public void run() {
 
 		//while(!gameOver) {
-
-		current = updateGameState(new GameState(this.map,this.actors));
+		 
+		updateGameState(current);
 
 		//Generates and paints a bufferedImage of the current frame
 		display.render(current);
@@ -67,9 +68,9 @@ public class GameEngine {
 
 	}
 
-	public GameState updateGameState(GameState state) {
+	public void updateGameState(GameState state) {
 		//Go through actors and update them
-
+		
 		//TODO after gamestate is created
 		for (Actor a : actors) {
 			int aMove = a.update(new GameState(a.getX(), a.getY(), a.getVision()));
@@ -130,6 +131,7 @@ public class GameEngine {
 							if(enemy.getHealth() < 0){
 								actual.setActor(null);
 								actual.setIsChanged(true);
+								actors.remove(enemy);
 							}
 						}
 						//Retaliation!
@@ -138,12 +140,12 @@ public class GameEngine {
 							if(a.getHealth() < 0){
 								map.getNode(a.getX(), a.getY()).setActor(null);
 								map.getNode(a.getX(), a.getY()).setIsChanged(true);
+								actors.remove(a);
 							}
 						}
 					}
 				}
 			}
 		}
-		return new GameState(map, actors );
 	}
 }
