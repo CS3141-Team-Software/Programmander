@@ -31,6 +31,8 @@ public class Graph{
 	private int rows;
 	private int cols;
 	private GraphNode[] list;
+	private GraphNode redCastle;
+	private GraphNode blueCastle;
 
 	/*
 	 * Constructor given a text file
@@ -80,9 +82,14 @@ public class Graph{
 				
 				if(!obstrct.equals("0")){
 					//Implement castle checks
-					//if obstrct.equals("BlueCastle"); // generate a new Blue team spawner
-					//else if obstruct.equals("RedCastle"); //generate a new enemy spawner
-					map[posX][posY].setObstruction(new Obstruction(map[posX][posY], obstrct));
+					if (obstrct.equals("BlueCastle")) {
+						map[posX][posY].setCastle("BlueCastle");
+						blueCastle = map[posX][posY];
+					} else if (obstrct.equals("RedCastle")) {
+						map[posX][posY].setCastle("RedCastle");
+						redCastle = map[posX][posY];
+					}
+					else map[posX][posY].setObstruction(new Obstruction(map[posX][posY], obstrct));
 				}
 
 				if(in.hasNext()) {
