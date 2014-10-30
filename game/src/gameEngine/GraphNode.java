@@ -21,6 +21,9 @@ public class GraphNode {
 	private Actor actor;
 	private boolean isChanged;
 	
+	private boolean isBlueCastle;
+	private boolean isRedCastle;
+	
 	/*
 	 * Constructor for making an individual node
 	 * ...for whatever
@@ -31,6 +34,8 @@ public class GraphNode {
 		east = e;
 		west = w;
 		actor = null;
+		isBlueCastle = false;
+		isRedCastle = false;
 	}
 	
 	/*
@@ -40,12 +45,14 @@ public class GraphNode {
 	public GraphNode(int y,int x){
 		actor = null;
 		north = null;
-		south = null;
+		south = null;// TODO Auto-generated method stub
 		east = null;
 		west = null;
 		row = y;
 		col = x;
 		isChanged = true;
+		isBlueCastle = false;
+		isRedCastle = false;
 	}
 	
 	/*
@@ -173,7 +180,7 @@ public class GraphNode {
 		return ("[Row: " + row + ", Col: " + col + "]");
 	}
 	
-	public boolean getIsChanged() {
+	public boolean getIsChanged() {// TODO Auto-generated method stub
 		return isChanged;
 	}
 	
@@ -185,5 +192,22 @@ public class GraphNode {
 	}
 	public int getY(){
 		return row;
+	}
+
+	public void setCastle(String s) {
+		if (s.equals("BlueCastle")) {
+			isBlueCastle = true;
+		}
+		else isRedCastle = true;
+	}
+	
+	public String getCastle() {
+		if (isBlueCastle == true) {
+			return "Blue";
+		}
+		else if (isRedCastle == true) {
+			return "Red";
+		}
+		else return null;
 	}
 }
