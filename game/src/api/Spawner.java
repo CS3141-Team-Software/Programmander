@@ -29,7 +29,7 @@ public class Spawner {
 	/**
 	 * This is the interface for SpawnStrategy
 	 */
-	private interface SpawnStrategy{
+	protected interface SpawnStrategy{
 		Actor update(GameState G);
 	}
 }
