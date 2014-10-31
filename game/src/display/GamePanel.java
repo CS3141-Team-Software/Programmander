@@ -1,5 +1,7 @@
 package display;
 
+import gameEngine.GameEngine;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -7,11 +9,15 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 public class GamePanel extends JPanel {
@@ -40,7 +46,27 @@ public class GamePanel extends JPanel {
 		gameImageDim = gamePanelDim;
 		gameImageLocation = gamePanelLocation;
 		gameImageBounds = gamePanelBounds;
+		BufferedImage closeImage = null; 
+		try {
+			closeImage = ImageIO.read(getClass().getResource("/assets/art/x.png").openStream());
+		} catch (Exception e){
+			e.printStackTrace();
+			System.err.println("Error: Could not fetch file names");
+			System.exit(1);
+		}
 		
+		if (closeImage == null) {
+			System.err.println("Error: Could not find custom cursor");
+			System.exit(1);
+		}
+		ImageIcon closeIcon = new ImageIcon(closeImage);
+		JButton closeButton = new JButton(closeIcon);
+		closeButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				System.exit(0);
+			}
+		});
+		add(closeButton);
 		currFrame = null;
 	}
 	

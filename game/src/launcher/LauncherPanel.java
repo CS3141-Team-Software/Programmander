@@ -75,7 +75,6 @@ public class LauncherPanel extends JPanel {
 	public void paintPanelBackround(Graphics2D g){
 
 		BufferedImage background = null;
-
 		try {
 			background = ImageIO.read(getClass().getResource("/assets/art/launcherWindowBackground.png").openStream());
 
@@ -84,7 +83,6 @@ public class LauncherPanel extends JPanel {
 			System.err.println("Error: Could not fetch file names");
 			System.exit(1);
 		}
-		
 		g.drawImage(background, 0, 0, null);
 	}
 }
