@@ -25,14 +25,26 @@ public class Spawner extends Actor {
 		return current.update(G);
 	}
 	
-	public void setStrategy(SpawnStrategy pCurrent){
-		current = pCurrent;
-	}
-
 	/**
 	 * This is the interface for SpawnStrategy
 	 */
 	private interface SpawnStrategy{
 		int update(GameState G);
+	}
+
+	/**
+	 * Getters and Setters
+	 */
+	public void setStrategy(SpawnStrategy pCurrent){
+		current = pCurrent;
+	}
+	public int getX(){
+		return x;
+	}
+	public int getY(){
+		return y;
+	}
+	public int getTeam(){
+		return team;
 	}
 }
