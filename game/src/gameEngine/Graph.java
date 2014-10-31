@@ -33,6 +33,7 @@ public class Graph{
 	private GraphNode[] list;
 	private GraphNode redCastle;
 	private GraphNode blueCastle;
+	private int numUnits;
 
 	/*
 	 * Constructor given a text file
@@ -60,6 +61,10 @@ public class Graph{
 			}
 			if(in.hasNext()){
 				cols = in.nextInt();
+			}
+			
+			if (in.hasNext()) {
+				numUnits = in.nextInt();
 			}
 
 			makeGraph(cols, rows);
@@ -221,7 +226,14 @@ public class Graph{
 	public int getCols() {
 		return cols;
 	}
-
+	
+	public GraphNode getBlueCastle() {
+		return blueCastle;
+	}
+	
+	public GraphNode getRedCastle() { 
+		return redCastle;
+	}
 }	
 
 
