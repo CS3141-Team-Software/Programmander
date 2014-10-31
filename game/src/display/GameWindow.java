@@ -1,12 +1,18 @@
 package display;
 
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 
@@ -39,6 +45,7 @@ public class GameWindow extends JFrame {
 	private Dimension gamePanelDim;
 	private Point gamePanelLocation;
 	
+//	JButton closeButton = new JButton("X");
 	/**
 	 * Constructor for the new gamewindow.
 	 * @param mapName
@@ -98,12 +105,12 @@ public class GameWindow extends JFrame {
 		//Screen dimension things.---------------------------------------
 		this.setExtendedState(MAXIMIZED_BOTH);
 		this.setUndecorated(true);
-		this.setVisible(true);
 		this.setDynamicWindowHeight(screen.getHeight());
 		this.setDynamicWindowWidth(screen.getWidth());
 		getContentPane().setSize(screen);
 		getContentPane().setPreferredSize(screen);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setVisible(true);
 		setTitle("Programmander");
 		//---------------------------------------------------------------
 	}
@@ -111,16 +118,14 @@ public class GameWindow extends JFrame {
 	private void initializeGUIElements(){
 		initializeGamePanel();
 	}
-	
+
 	/**
 	 * This initializes the actual panel where the buffered image is drawn.
 	 */
 	private void initializeGamePanel(){
 		game = new GamePanel(gamePanelDim, gamePanelLocation, gamePanelBounds);
-		game.setLocation(gamePanelLocation);
 		getContentPane().add(game);
 	}
-	
 	
 	//Getters and setters ------------------------------------------------------------
 	public double getDynamicWindowHeight() {
