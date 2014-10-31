@@ -14,7 +14,7 @@ public class Spawner {
 	private GameState state;
 	protected SpawnStrategy current;
 
-	public Spawner(int t) {
+	public void setTeam(int t) {
 		team = t;
 	}
 	
@@ -44,4 +44,5 @@ public class Spawner {
 	public int getTeam(){
 		return team;
 	}
+
 }

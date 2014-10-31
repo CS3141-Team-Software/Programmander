@@ -6,6 +6,9 @@ import java.util.Dictionary;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.*;
+import java.io.File;
+import java.net.URL;
+import java.net.URLClassLoader;
 
 import javax.swing.JPanel;
 
@@ -36,10 +39,34 @@ public class GameEngine {
 
 		map = new Graph(mapName);
 		display = new Display(mapName, firstAIName, difficulty, is2Player, map);
-
+		spawners = new ArrayList<Spawner>();
+		
+		
 		//TODO: Need to place the spawners as actors
 
 		//Initialize 1st player's AI by calling Mark's magic code.
+		
+		
+		//---------------Just don't look
+		Spawner playerSpawner = null;
+		File f = new File("ais/" + firstAIName);
+	    URLClassLoader urlCl;
+		try {
+			urlCl = new URLClassLoader(new URL[] { f.toURI().toURL()},Spawner.class.getClassLoader());
+			System.out.println(firstAIName.substring(0,firstAIName.length() - 4));
+		    Class<?> testAI = urlCl.loadClass("playerCode." + firstAIName.substring(0,firstAIName.length() - 4));
+		    Class<? extends Spawner> myAIClass = testAI.asSubclass(Spawner.class);
+		    playerSpawner = myAIClass.newInstance();
+		    playerSpawner.setTeam(0);
+		    spawners.add(playerSpawner);
+
+		} catch (Exception e) {
+			System.err.println("ERR: Loading their code");
+			e.printStackTrace();
+			System.exit(1);
+		}
+		//-----------------You can look now
+		
 
 		if (is2Player) {
 			//Initialize 2nd player's AI
@@ -56,16 +83,18 @@ public class GameEngine {
 	public void run() {
 
 		//while(!gameOver) {
+		for(int i=0;i<3;i++){
+			updateGameState(current);
 
-		updateGameState(current);
-
-		//Generates and paints a bufferedImage of the current frame
-		display.render(current);
-
-
-		//Paint nextFrame to the screen
-		//window.repaint();
-		//}
+			//Generates and paints a bufferedImage of the current frame
+			display.render(current);
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}  
+		}
 
 	}
 
@@ -187,6 +216,6 @@ public class GameEngine {
 					}
 				}
 			}
-		}
-	}
-}
+		}//End foreach actors
+	}//End updateGameState method
+}//End gameenging

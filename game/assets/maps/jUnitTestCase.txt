@@ -1,6 +1,6 @@
 1 4 50
 
-0 0 wall grass
+0 0 bluecastle grass
 0 1 0 grass
 0 2 0 dirt
-0 3 0 grass 
+0 3 redcastle grass 

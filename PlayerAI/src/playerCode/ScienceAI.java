@@ -4,8 +4,7 @@ import api.*;
 
 public class ScienceAI extends Spawner {
 
-	public ScienceAI(int t) {
-		super(t);
+	public ScienceAI() {
 		System.out.println("New ScienceAI");
 		current = new MyStrategy();
 	}
