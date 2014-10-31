@@ -1,6 +1,5 @@
 package api;
 
-import api.Actor.Strategy;
 
 public class Spawner {
 	/* 

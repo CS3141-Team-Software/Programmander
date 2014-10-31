@@ -1,6 +1,5 @@
 package api;
 
-import api.MeleeActor.MeleeStrategy;
 import gameEngine.GameEngine;
 import gameEngine.Graph;
 import gameEngine.GraphNode;
@@ -207,7 +206,7 @@ public abstract class Actor {
 	/**
 	 * This is the interface for MeleeStrategy
 	 */
-	private interface Strategy{
+	protected interface Strategy{
 		int update(GameState G);
 	}
 }
