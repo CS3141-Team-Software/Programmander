@@ -1,27 +1,25 @@
 package api;
 
-public class Spawner extends Actor {
+import api.Actor.Strategy;
 
-	SpawnStrategy current;
+public class Spawner {
+	/* 
+	 * X and y deschribe the actors position.
+	 * Team indicates the Player that controls the Spawner
+	 * The Spawner Strategy is different from other Strategies since 
+	 * it returns Actors instead of integers
+	 */
+	int x;
+	int y;
+	int team;
+	private GameState state;
+	protected SpawnStrategy current;
 
 	public Spawner(int t) {
 		team = t;
 	}
 	
-	@Override
-	public int attackThrow() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int defenseThrow() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int update(GameState G){
+	public Actor update(GameState G){
 		return current.update(G);
 	}
 	
@@ -33,6 +31,6 @@ public class Spawner extends Actor {
 	 * This is the interface for SpawnStrategy
 	 */
 	private interface SpawnStrategy{
-		int update(GameState G);
+		Actor update(GameState G);
 	}
 }

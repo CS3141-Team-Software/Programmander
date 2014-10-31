@@ -42,8 +42,6 @@ public abstract class Actor {
 	 * X and y deschribe the actors position.
 	 */
 
-	protected Graph map;
-
 	int x;
 	int y;
 
