@@ -41,8 +41,6 @@ public abstract class Actor {
 	 * X and y deschribe the actors position.
 	 */
 
-	protected Graph map;
-
 	int x;
 	int y;
 
@@ -83,6 +81,7 @@ public abstract class Actor {
 	static int WEST = 6;
 	static int NORTHWEST = 7;
 	private GameState state;
+	protected Strategy current;
 
 	/*
 	 * These functions are needed
@@ -194,5 +193,20 @@ public abstract class Actor {
 	}
 	public void setDefense(int pDefense){
 		defense = pDefense;
+	}
+	/*
+	 * Behavioural patterns can be implemented with the strategy design pattern
+	 * The MeleeStrategy is an interface defined within this class
+	 */	
+		public void setStrategy(Strategy pCurrent){
+			current = pCurrent;
+		}
+
+
+	/**
+	 * This is the interface for MeleeStrategy
+	 */
+	protected interface Strategy{
+		int update(GameState G);
 	}
 }
