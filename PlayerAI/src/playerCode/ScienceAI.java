@@ -2,12 +2,12 @@ package playerCode;
 
 import api.*;
 
-public class ScienceAI implements Spawner {
-	public ScienceAI(){
-		System.out.println("ScienceAI constructor");
+public class ScienceAI extends Spawner {
+
+	public ScienceAI(int t) {
+		super(t);
+		// TODO Auto-generated constructor stub
 	}
-	public void printSomething(){
-		System.out.println("Something Mk 1.0");
-	}
+
 }
 
