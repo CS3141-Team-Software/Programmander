@@ -9,7 +9,7 @@ public class GameState {
 	private ArrayList<Actor> actors;
 	
 	//This Gamestate is passed tho and fro GameEngine and GameLogic
-	public GameState(Graph map,ArrayList<Actor> actors){
+	public GameState(Graph map, ArrayList<Actor> actors){
 		this.map = map;
 		this.actors = actors;
 	}
