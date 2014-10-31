@@ -1,5 +1,6 @@
 package api;
 
+import api.MeleeActor.MeleeStrategy;
 import gameEngine.GameEngine;
 import gameEngine.Graph;
 import gameEngine.GraphNode;
@@ -83,6 +84,7 @@ public abstract class Actor {
 	static int WEST = 6;
 	static int NORTHWEST = 7;
 	private GameState state;
+	protected Strategy current;
 
 	/*
 	 * These functions are needed
@@ -194,5 +196,20 @@ public abstract class Actor {
 	}
 	public void setDefense(int pDefense){
 		defense = pDefense;
+	}
+	/*
+	 * Behavioural patterns can be implemented with the strategy design pattern
+	 * The MeleeStrategy is an interface defined within this class
+	 */	
+		public void setStrategy(Strategy pCurrent){
+			current = pCurrent;
+		}
+
+
+	/**
+	 * This is the interface for MeleeStrategy
+	 */
+	private interface Strategy{
+		int update(GameState G);
 	}
 }
