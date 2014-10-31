@@ -1,4 +1,12 @@
 <project basedir="." name="Programmander" default="build">
+	<target name="clean">
+		<ant antfile="build.xml" dir="game" target="clean" />
+		<delete>
+			<fileset file="PlayerAI/game-api.jar"/>
+			<fileset file="PlayerAI/game.jar"/>
+		</delete>
+		<ant antfile="build.xml" dir="PlayerAI" target="clean" />
+	</target>
 	<target name="build">
 		<ant antfile="build.xml" dir="game" target="build" />
 		<copy todir="PlayerAI" overwrite="true">

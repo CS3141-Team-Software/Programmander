@@ -17,17 +17,11 @@ import gameEngine.Graph;
  */
 
 public class MeleeActor extends Actor {
-	MeleeStrategy current;
 	
 	
 	
-/*
- * Behavioural patterns can be implemented with the strategy design pattern
- * The MeleeStrategy is an interface defined within this class
- */	
-	public void setStrategy(MeleeStrategy pCurrent){
-		current = pCurrent;
-	}
+	
+
 		
 /*
  * Some thinking on the actual fighting system:
@@ -48,10 +42,5 @@ public class MeleeActor extends Actor {
 	}
 
 		
-/**
- * This is the interface for MeleeStrategy
- */
-	private interface MeleeStrategy{
-		int update(GameState G);
-	}
+
 }
