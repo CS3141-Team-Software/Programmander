@@ -49,6 +49,7 @@ public class GameEngine {
 
 		actors = map.getActors();
 		current = new GameState(map, actors);
+		
 	}
 
 	//Run the game!
@@ -68,24 +69,25 @@ public class GameEngine {
 
 	}
 
+	@SuppressWarnings("null")
 	public void updateGameState(GameState state) {
-		
+
 		//Go through spawners and update them
 		for (Spawner s : spawners) {
 			Actor unit = s.update(state);
-			
+
 			if (unit != null) {
-				GraphNode castlePos;
-				GraphNode currPos;
+				GraphNode castlePos = null;
+				GraphNode currPos = null;
 				if (s.getTeam() == 0) {
 					castlePos = map.getBlueCastle();
 				} else castlePos = map.getRedCastle();
-				
+
 				int castleX = castlePos.getX();
 				int castleY = castlePos.getY();
-				
-			for (int i = 0; i < 8; i++) {
-				switch(i){
+
+				for (int i = 0; i < 8; i++) {
+					switch(i){
 					case 0: currPos = map.getNode(castleX, castleY).getNNode(); break;
 					case 1: currPos = map.getNode(castleX, castleY).getNENode(); break;
 					case 2: currPos = map.getNode(castleX, castleY).getENode(); break;
@@ -94,22 +96,22 @@ public class GameEngine {
 					case 5: currPos = map.getNode(castleX, castleY).getSWNode(); break;
 					case 6: currPos = map.getNode(castleX, castleY).getWNode(); break;
 					case 7: currPos = map.getNode(castleX, castleY).getNWNode(); break;
+					}
+
+					if (currPos != null || currPos.getActor() == null) {
+						break;
+					} 
 				}
-				
-				if (currPos != null || currPos.getActor() == null) {
-					break;
-				} 
-			}
-			//currPos is the node to spawn the actor into.
-			currPos.setActor(unit);
-			for (int i = 0; i < actors.size(); i++) {
-				if (actors.get(i).getAgility() <= unit.getAgility()) {
-					actors.add(i, unit);
+				//currPos is the node to spawn the actor into.
+				currPos.setActor(unit);
+				for (int i = 0; i < actors.size(); i++) {
+					if (actors.get(i).getAgility() <= unit.getAgility()) {
+						actors.add(i, unit);
+					}
 				}
-			}
 			}
 		}
-		
+
 		//iterate through actors and update the map with the move each actor wants to take.
 		for (Actor a : actors) {
 			int aMove = a.update(new GameState(a.getX(), a.getY(), a.getVision()));
@@ -120,16 +122,16 @@ public class GameEngine {
 				a.setDefending(-1);
 				GraphNode actual = null;
 				switch(dir){
-					case 0: actual = map.getNode(a.getX(), a.getY()).getNNode(); break;
-					case 1: actual = map.getNode(a.getX(), a.getY()).getNENode(); break;
-					case 2: actual = map.getNode(a.getX(), a.getY()).getENode(); break;
-					case 3: actual = map.getNode(a.getX(), a.getY()).getSENode(); break;
-					case 4: actual = map.getNode(a.getX(), a.getY()).getSNode(); break;
-					case 5: actual = map.getNode(a.getX(), a.getY()).getSWNode(); break;
-					case 6: actual = map.getNode(a.getX(), a.getY()).getWNode(); break;
-					case 7: actual = map.getNode(a.getX(), a.getY()).getNWNode(); break;
+				case 0: actual = map.getNode(a.getX(), a.getY()).getNNode(); break;
+				case 1: actual = map.getNode(a.getX(), a.getY()).getNENode(); break;
+				case 2: actual = map.getNode(a.getX(), a.getY()).getENode(); break;
+				case 3: actual = map.getNode(a.getX(), a.getY()).getSENode(); break;
+				case 4: actual = map.getNode(a.getX(), a.getY()).getSNode(); break;
+				case 5: actual = map.getNode(a.getX(), a.getY()).getSWNode(); break;
+				case 6: actual = map.getNode(a.getX(), a.getY()).getWNode(); break;
+				case 7: actual = map.getNode(a.getX(), a.getY()).getNWNode(); break;
 				}
-				
+
 				//Check the node that the actor wants to move into and make sure it's valid
 				if(actual != null && actual.getActor() == null && actual.getObstruction() == null){
 					map.getNode(a.getX(), a.getY()).setActor(null);
