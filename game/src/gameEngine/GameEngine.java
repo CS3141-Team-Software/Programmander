@@ -2,18 +2,10 @@ package gameEngine;
 
 
 import java.util.ArrayList;
-import java.util.Dictionary;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.image.*;
 import java.io.File;
 import java.net.URL;
 import java.net.URLClassLoader;
-
-import javax.swing.JPanel;
-
 import display.Display;
-import display.GamePanel;
 import api.Actor;
 import api.GameState;
 import api.Spawner;
@@ -33,6 +25,8 @@ public class GameEngine {
 	private ArrayList<Spawner> spawners;
 
 	private Display display;
+	private long turnTime = 1000;
+	private long currTime;
 
 
 	public GameEngine(String mapName, String firstAIName, String difficulty, boolean is2Player) {
@@ -40,9 +34,6 @@ public class GameEngine {
 		map = new Graph(mapName);
 		display = new Display(mapName, firstAIName, difficulty, is2Player, map);
 		spawners = new ArrayList<Spawner>();
-		
-		
-		//TODO: Need to place the spawners as actors
 
 		//Initialize 1st player's AI by calling Mark's magic code.
 		
@@ -81,24 +72,24 @@ public class GameEngine {
 
 	//Run the game!
 	public void run() {
-
-		//while(!gameOver) {
-		for(int i=0;i<3;i++){
+		
+		//while(!gameOver) should be subbed with this for loop {
+		for(int i=0;i<5;i++){
 			updateGameState(current);
 
-			//Generates and paints a bufferedImage of the current frame
+			//Generates and paints a bufferedImage of the current frame	
 			display.render(current);
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}  
+			
+			currTime = System.currentTimeMillis();
+			
+			while (System.currentTimeMillis() < currTime + turnTime) {
+				continue;
+			}
+			
 		}
 
 	}
 
-	@SuppressWarnings("null")
 	public void updateGameState(GameState state) {
 
 		//Go through spawners and update them

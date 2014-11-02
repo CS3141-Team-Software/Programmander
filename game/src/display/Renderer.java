@@ -26,7 +26,6 @@ public class Renderer {
 	private TreeMap<String, Image> cache;
 	//Used to paint our image to the GameWindow.
 	private BufferedImage currFrame;
-	private BufferedImage nextFrame;
 	private int xDim, yDim;
 	private Graphics2D g;
 
@@ -37,16 +36,12 @@ public class Renderer {
 		xDim = map.getCols() * 50;
 		yDim = map.getRows() * 50;
 		currFrame = new BufferedImage(xDim, yDim, BufferedImage.TYPE_INT_RGB);
-		nextFrame = new BufferedImage(xDim, yDim, BufferedImage.TYPE_INT_RGB);
-		g = nextFrame.createGraphics();
+		g = currFrame.createGraphics();
 	}
 
 
 	//Paint image into the buffered image
 	public BufferedImage generateImage(GameState state) {
-		currFrame = nextFrame;
-		nextFrame = new BufferedImage(xDim, yDim, BufferedImage.TYPE_INT_RGB);
-		g = nextFrame.createGraphics();
 		Image bg = null;
 		Image obstruction = null;
 		Image unit = null;
@@ -60,11 +55,11 @@ public class Renderer {
 				//Update the node
 				bg = getFromCache(node.getBackground());
 				
-				g.drawImage(bg, xCoord, yCoord, null);
+				this.g.drawImage(bg, xCoord, yCoord, null);
 				
 				if (node.getObstruction() != null) {
 					obstruction = getFromCache(node.getObstruction().getType());
-					g.drawImage(obstruction, xCoord, yCoord, null);
+					this.g.drawImage(obstruction, xCoord, yCoord, null);
 				}
 
 				actor = node.getActor();
@@ -78,12 +73,12 @@ public class Renderer {
 			}
 			xCoord = xCoord + 50;
  
-			if (xCoord >= xDim) {
+			if (xCoord >= this.xDim) {
 				xCoord = 0;
 				yCoord = yCoord + 50;
 			}
 		}
-		return nextFrame;
+		return this.currFrame;
 	}
 
 	/*

@@ -124,6 +124,7 @@ public class GameWindow extends JFrame {
 	 */
 	private void initializeGamePanel(){
 		game = new GamePanel(gamePanelDim, gamePanelLocation, gamePanelBounds);
+		game.setVisible(true);
 		getContentPane().add(game);
 	}
 	
