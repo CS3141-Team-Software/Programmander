@@ -82,8 +82,7 @@ public class GameEngine {
 	//Run the game!
 	public void run() {
 
-		//while(!gameOver) {
-		for(int i=0;i<3;i++){
+		for(int i=0;i<1;i++){
 			updateGameState(current);
 
 			//Generates and paints a bufferedImage of the current frame
@@ -93,10 +92,9 @@ public class GameEngine {
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}  
-		}
-
-	}
+			}
+		}//End gameloop
+	}//End run func
 
 	@SuppressWarnings("null")
 	public void updateGameState(GameState state) {
