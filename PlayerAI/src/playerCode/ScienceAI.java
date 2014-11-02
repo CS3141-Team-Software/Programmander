@@ -1,11 +1,13 @@
 package playerCode;
 
-import api.*;
+import api.Actor;
+import api.GameState;
+import api.MeleeActor;
+import api.Spawner;
 
 public class ScienceAI extends Spawner {
 
 	public ScienceAI() {
-		System.out.println("New ScienceAI");
 		current = new MyStrategy();
 	}
 
@@ -13,16 +15,24 @@ public class ScienceAI extends Spawner {
 
 		@Override
 		public Actor update(GameState G) {
-			System.out.println("Changing strategy to s2");
-			setStrategy(new MyStrategy2());
-			return null;
+			System.out.println("Spanwer creating actor");
+			return new MyActor();
 		}
 	}
-	public class MyStrategy2 implements SpawnStrategy{
-		@Override
-		public Actor update(GameState G) {
-			System.out.println("Strategy S2 update");
-			return null;
+	
+	
+	public class MyActor extends MeleeActor{
+		public MyActor(){
+			this.current = new MyActorStrat();
+		}
+		public class MyActorStrat implements ActorStrategy{
+
+			@Override
+			public int update(GameState G) {
+				System.out.println("Actor not moving");
+				return 0;
+			}
+			
 		}
 	}
 }
