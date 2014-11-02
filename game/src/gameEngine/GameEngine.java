@@ -134,17 +134,31 @@ public class GameEngine {
 						break;
 					}
 
-					if (currPos != null || currPos.getActor() == null) {
+					if (currPos != null && currPos.getActor() == null) {
 						break;
 					}
 				}
 				// currPos is the node to spawn the actor into.
 				currPos.setActor(unit);
-				for (int i = 0; i < actors.size(); i++) {
-					if (actors.get(i).getAgility() <= unit.getAgility()) {
-						actors.add(i, unit);
+
+
+				//Add new actor to actor list
+				//This bit works by running a loop till i is found, and exiting the loop when it is,
+				//and then adding the unit after i to the array
+				boolean foundPos = false;
+				int i=0;
+				while(!foundPos){
+					if(i+1 >= actors.size()){
+						//At end of list, add to end
+						foundPos = true;
+					}else if(actors.get(i).getAgility() > unit.getAgility()) {//If new actor is greater
+						//add here
+						foundPos = true;
+					}else{
+						i++;
 					}
 				}
+				actors.add(i,unit);
 			}
 		}
 

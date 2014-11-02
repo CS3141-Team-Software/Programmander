@@ -1,23 +1,17 @@
 package display;
 
-import api.Actor;
 import gameEngine.Graph;
 import gameEngine.GraphNode;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Dictionary;
-import java.util.Map;
 import java.util.TreeMap;
 
 import javax.imageio.ImageIO;
 
+import api.Actor;
 import api.GameState;
 
 public class Renderer {
@@ -59,9 +53,9 @@ public class Renderer {
 			if (node.getIsChanged()) {
 				//Update the node
 				bg = getFromCache(node.getBackground());
-				
+
 				g.drawImage(bg, xCoord, yCoord, null);
-				
+
 				if (node.getObstruction() != null) {
 					obstruction = getFromCache(node.getObstruction().getType());
 					g.drawImage(obstruction, xCoord, yCoord, null);
@@ -69,15 +63,15 @@ public class Renderer {
 
 				actor = node.getActor();
 				if (actor != null) {
-					//unit = getFromCache(actor.getType());
-					//g.drawImage(unit, xCoord, yCoord, null);
+					unit = getFromCache("scout");//actor.getType());
+					g.drawImage(unit, xCoord, yCoord, null);
 				}
 
 				//THIS LINE MUST BE AT THE END OF THIS IF STATEMENT
 				node.setIsChanged(false);
 			}
 			xCoord = xCoord + 50;
- 
+
 			if (xCoord >= xDim) {
 				xCoord = 0;
 				yCoord = yCoord + 50;
@@ -96,7 +90,7 @@ public class Renderer {
 	public Image getFromCache(String str){
 		if(cache.get(str) == null) {
 
-			BufferedImage imageFile = null; 
+			BufferedImage imageFile = null;
 			str = str.toLowerCase();
 
 			try {
@@ -110,9 +104,9 @@ public class Renderer {
 				System.err.println("Error loading map tile art " + str);
 				System.exit(1);
 			}
-			
+
 			return imageFile;
-			
+
 		} else {
 			return cache.get(str);
 		}

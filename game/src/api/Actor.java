@@ -1,13 +1,10 @@
 package api;
 
-import gameEngine.GameEngine;
-import gameEngine.Graph;
-import gameEngine.GraphNode;
 
 /**
- * Actor 
+ * Actor
  * 
- * Class so an actor can get information and interface with the game map. 
+ * Class so an actor can get information and interface with the game map.
  * 
  * @author Frederick Nolte
  *
@@ -27,7 +24,7 @@ public abstract class Actor {
 	 * Unit not defending have defending -1
 	 * Then it is 0=North, 1=Northeast etc.
 	 * 
-	 * The maxPoints describe the maximum points that can 
+	 * The maxPoints describe the maximum points that can
 	 * divded up for the stats
 	 */
 
@@ -36,8 +33,8 @@ public abstract class Actor {
 	int team;
 
 	/*
-	 * The actor needs to know Graph cause he will be passed a 
-	 * Graph with the Gamestate. 
+	 * The actor needs to know Graph cause he will be passed a
+	 * Graph with the Gamestate.
 	 * X and y deschribe the actors position.
 	 */
 
@@ -51,7 +48,7 @@ public abstract class Actor {
 	 *  * This is the movement Method the Player uses
 	 * Return Values always 2 digits
 	 * 
-	 * First digit 
+	 * First digit
 	 * 1 = MOVE
 	 * 2 = DEFEND
 	 * 3 = ATTACK
@@ -81,7 +78,7 @@ public abstract class Actor {
 	static int WEST = 6;
 	static int NORTHWEST = 7;
 	private GameState state;
-	protected Strategy current;
+	protected ActorStrategy current;
 
 	/*
 	 * These functions are needed
@@ -197,16 +194,16 @@ public abstract class Actor {
 	/*
 	 * Behavioural patterns can be implemented with the strategy design pattern
 	 * The MeleeStrategy is an interface defined within this class
-	 */	
-		public void setStrategy(Strategy pCurrent){
-			current = pCurrent;
-		}
+	 */
+	public void setStrategy(ActorStrategy pCurrent){
+		current = pCurrent;
+	}
 
 
 	/**
 	 * This is the interface for MeleeStrategy
 	 */
-	protected interface Strategy{
+	protected interface ActorStrategy{
 		int update(GameState G);
 	}
 }

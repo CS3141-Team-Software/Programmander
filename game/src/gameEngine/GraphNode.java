@@ -20,10 +20,10 @@ public class GraphNode {
 	private String backImg;
 	private Actor actor;
 	private boolean isChanged;
-	
+
 	private boolean isBlueCastle;
 	private boolean isRedCastle;
-	
+
 	/*
 	 * Constructor for making an individual node
 	 * ...for whatever
@@ -37,7 +37,7 @@ public class GraphNode {
 		isBlueCastle = false;
 		isRedCastle = false;
 	}
-	
+
 	/*
 	 * Constructor the graph uses for
 	 * making nodes
@@ -54,10 +54,10 @@ public class GraphNode {
 		isBlueCastle = false;
 		isRedCastle = false;
 	}
-	
+
 	/*
 	 * Getter Methods for
-	 * North South East West 
+	 * North South East West
 	 */
 	public GraphNode getNNode(){
 		return north;
@@ -71,7 +71,7 @@ public class GraphNode {
 	public GraphNode getWNode(){
 		return west;
 	}
-	
+
 	public GraphNode getNENode(){
 		if(north == null){
 			return null;
@@ -83,13 +83,13 @@ public class GraphNode {
 			return null;
 		}
 	}
-	
+
 	/*
 	 * Getter Method// TODO Auto-generated method stubs for
 	 * NorthEast SouthEast
 	 * NorthWest SouthWest
 	 */
-	
+
 	public GraphNode getSENode(){
 		if(south == null){
 			return null;
@@ -101,7 +101,7 @@ public class GraphNode {
 			return null;
 		}
 	}
-	
+
 	public GraphNode getNWNode(){
 		if(north == null){
 			return null;
@@ -113,7 +113,7 @@ public class GraphNode {
 			return null;
 		}
 	}
-	
+
 	public GraphNode getSWNode(){
 		if(south == null){
 			return null;
@@ -125,22 +125,22 @@ public class GraphNode {
 			return null;
 		}
 	}
-	
+
 	public Obstruction getObstruction(){
 		return obs;
 	}
-	
+
 	public String getBackground(){
 		return backImg;
 	}
-	
+
 	public Actor getActor(){
 		return actor;
 	}
 	/*
 	 * End of Getter Methods
 	 */
-	
+
 	/*
 	 * Setter Methods
 	 */
@@ -156,34 +156,34 @@ public class GraphNode {
 	public void setWNode(GraphNode w){
 		west = w;
 	}
-	
+
 	public void setObstruction(Obstruction o){
 		obs = o;
 	}
 	public void setBackground(String str){
 		backImg = str;
 	}
-	
+
 	public void setActor(Actor a){
 		actor = a;
 	}
 	/*
 	 * End of Setter Methods
 	 */
-	
+
 	/*
 	 * getCoordinates
-	 * returns the coordinates of the node as 
+	 * returns the coordinates of the node as
 	 * they were set in the constructor
 	 */
 	public String getCoordinates(){
 		return ("[Row: " + row + ", Col: " + col + "]");
 	}
-	
+
 	public boolean getIsChanged() {// TODO Auto-generated method stub
 		return isChanged;
 	}
-	
+
 	public void setIsChanged(boolean b) {
 		isChanged = b;
 	}
@@ -197,10 +197,21 @@ public class GraphNode {
 	public void setCastle(String s) {
 		if (s.equals("BlueCastle")) {
 			isBlueCastle = true;
+			obs = new Obstruction(this, "bluecastle");
+		}else if(s.equals("RedCastle")){
+			isRedCastle = true;
+			obs = new Obstruction(this, "redcastle");
+		}else{
+			try {
+				throw new Exception("setCastle invalid argument");
+			} catch (Exception e) {
+				System.err.println("Invalid argument passed to setCastle");
+				e.printStackTrace();
+				System.exit(1);
+			}
 		}
-		else isRedCastle = true;
 	}
-	
+
 	public String getCastle() {
 		if (isBlueCastle == true) {
 			return "Blue";
