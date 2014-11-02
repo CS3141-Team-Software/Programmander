@@ -1,41 +1,35 @@
 package display;
 
 
-import javax.imageio.ImageIO;
-import javax.swing.JFrame;
-
+import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
-import java.awt.image.BufferedImage;
 
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JButton;
 
 public class GameWindow extends JFrame {
-	
+
 	//SCREEN DIMENSIONS
 	private Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 	private double dynamicWindowHeight = 0;
 	private double dynamicWindowWidth = 0;
-	
-	//JFrame Window elements. 
+
+	//JFrame Window elements.
 	JLabel gameMapTitle = new JLabel("Game");
-	
+
 	//Drawing game window elements
 	GamePanel game;
-	
+
 	//JFrame window labels.
 	private String mapName;
 	private String AI1;
-	private String AI2; 
-	private String difficulty; 
+	private String AI2;
+	private String difficulty;
 	private boolean is2Player;
-	
+
 	//Game Panel Variables
 	private int gameMapNumberOfRows;
 	private int gameMapNumberOfCols;
@@ -44,23 +38,24 @@ public class GameWindow extends JFrame {
 	private Rectangle gamePanelBounds;
 	private Dimension gamePanelDim;
 	private Point gamePanelLocation;
-	
-//	JButton closeButton = new JButton("X");
+
+	//	JButton closeButton = new JButton("X");
 	/**
 	 * Constructor for the new gamewindow.
 	 * @param mapName
 	 * @param firstAIName
 	 * @param difficulty
 	 * @param is2Player
-	 * @param j 
-	 * @param i 
+	 * @param j
+	 * @param i
 	 */
 	public GameWindow(String mapName, String firstAIName, String difficulty, boolean is2Player, int mapHeightInRows, int mapWidthInCols) {
 		initializeGameInformation(mapName, firstAIName, difficulty, is2Player, mapHeightInRows, mapWidthInCols);
 		initializeScreenSize();
 		initializeGUIElements();
+		this.setBackground(new Color(31, 41, 48));
 	}
-	
+
 	//get the gamepanel reference.
 	public GamePanel getGamePanel(){
 		return game;
@@ -68,10 +63,10 @@ public class GameWindow extends JFrame {
 
 	/**
 	 * Initialize the game information
-	 * @param is2Player2 
-	 * @param difficulty2 
-	 * @param firstAIName 
-	 * @param mapName2 
+	 * @param is2Player2
+	 * @param difficulty2
+	 * @param firstAIName
+	 * @param mapName2
 	 */
 	private void initializeGameInformation(String mapName, String firstAIName, String difficulty, boolean is2Player, int mapRows, int mapCols){
 		this.mapName = mapName;
@@ -88,7 +83,7 @@ public class GameWindow extends JFrame {
 		this.mapWidth = gameMapNumberOfCols * 50;
 		intitializeGamePanelBounds();
 	}
-	
+
 	/**
 	 * initialize the location and bounds of the game panel.
 	 */
@@ -109,7 +104,7 @@ public class GameWindow extends JFrame {
 		this.setMinimumSize(d);
 		this.setMaximumSize(d);
 		this.setPreferredSize(d);
-		
+
 		//this.setUndecorated(true);
 		this.setDynamicWindowHeight(screen.getHeight());
 		this.setDynamicWindowWidth(screen.getWidth());
@@ -120,7 +115,7 @@ public class GameWindow extends JFrame {
 		setTitle("Programmander");
 		//---------------------------------------------------------------
 	}
-	
+
 	private void initializeGUIElements(){
 		initializeGamePanel();
 	}
@@ -138,7 +133,7 @@ public class GameWindow extends JFrame {
 		game.setMaximumSize(d);
 		System.out.println("gamepanel, post init: " + game);
 	}
-	
+
 	//Getters and setters ------------------------------------------------------------
 	public double getDynamicWindowHeight() {
 		return dynamicWindowHeight;
@@ -155,8 +150,8 @@ public class GameWindow extends JFrame {
 	public void setDynamicWindowWidth(double dynamicWindowWidth) {
 		this.dynamicWindowWidth = dynamicWindowWidth;
 	}
-	
-	public GamePanel changePanel() { 
+
+	public GamePanel changePanel() {
 		getContentPane().remove(game);
 		initializeGamePanel();
 		game.revalidate();

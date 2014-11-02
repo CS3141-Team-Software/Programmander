@@ -1,23 +1,14 @@
 package display;
 
-import gameEngine.GameEngine;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JPanel;
 
 public class GamePanel extends JPanel {
@@ -37,17 +28,17 @@ public class GamePanel extends JPanel {
 
 	/**
 	 * Constructor that accepts no variables.
-	 * @param gamePanelBounds 
-	 * @param gamePanelLocation 
-	 * @param gamePanelDim 
+	 * @param gamePanelBounds
+	 * @param gamePanelLocation
+	 * @param gamePanelDim
 	 * @throws IOException
 	 */
 	public GamePanel(Dimension gamePanelDim, Point gamePanelLocation, Rectangle gamePanelBounds) {
 		gameImageDim = gamePanelDim;
 		gameImageLocation = gamePanelLocation;
 		gameImageBounds = gamePanelBounds;
-
 		currFrame = null;
+		this.setForeground(new Color(31, 41, 48));
 		this.setVisible(true);
 	}
 
@@ -55,15 +46,13 @@ public class GamePanel extends JPanel {
 		currFrame = i;
 		update(this.getGraphics());
 	}
-	
+
 	/**
 	 * Method used to paint things to the panel such as background.
 	 */
-	
+
 	public void paintComponent(Graphics g) {
-	
 		Graphics2D g2d = (Graphics2D) g;
-		g2d.fillRect(0, 0, this.getWidth(), this.getHeight());
 		g2d.drawImage(currFrame, null, (int)gameImageLocation.getX(), (int)gameImageLocation.getY());
 	}
 }

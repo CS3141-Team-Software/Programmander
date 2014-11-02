@@ -5,15 +5,15 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 
-import display.Display;
 import api.Actor;
 import api.GameState;
 import api.Spawner;
+import display.Display;
 
 
 /**
  * @author Frederick Nolte
- * 
+ *
  */
 public class GameEngine {
 
@@ -23,6 +23,7 @@ public class GameEngine {
 
 	private ArrayList<Actor> actors;
 	private ArrayList<Spawner> spawners;
+	private int blueNumUnits, redNumUnits, mapNumUnits;
 
 	private Display display;
 	private long turnTime = 1000;
@@ -34,6 +35,9 @@ public class GameEngine {
 		map = new Graph(mapName);
 		display = new Display(mapName, firstAIName, difficulty, is2Player, map);
 		spawners = new ArrayList<Spawner>();
+		blueNumUnits = 0;
+		redNumUnits = 0;
+		mapNumUnits = map.getNumUnits();
 
 		//Initialize 1st player's AI by calling Mark's magic code.
 		//---------------Just don't look
@@ -75,13 +79,13 @@ public class GameEngine {
 	public void run() {
 
 		//while(!gameOver) should be subbed with this for loop {
-		for(int i=0;i<3;i++){
+		for(int i=0;i<50;i++){
 			updateGameState(current);
-			//Generates and paints a bufferedImage of the current frame	
+			//Generates and paints a bufferedImage of the current frame
 			display.render(current);
-			
+
 			currTime = System.currentTimeMillis();
-			
+
 			while (System.currentTimeMillis() < currTime + turnTime) {
 				continue;
 			}
@@ -95,6 +99,18 @@ public class GameEngine {
 			Actor unit = s.update(state);
 
 			if (unit != null) {
+				//Set the team of the unit & make sure we can spawn that unit
+				if (s.getTeam() == 0) {
+					if (blueNumUnits <= mapNumUnits) {
+						unit.setTeam(0);
+					} else continue;
+				} else {
+					if (redNumUnits <= mapNumUnits) {
+						unit.setTeam(1);
+					} else continue;
+				}
+
+				//If we want to spawn a unit, make sure we have space
 				GraphNode castlePos = null;
 				GraphNode currPos = null;
 				if (s.getTeam() == 0) {

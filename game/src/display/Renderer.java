@@ -80,7 +80,7 @@ public class Renderer {
 	 * gets the matched image from the provided string
 	 * if the image isn't found in the dictionary, then find
 	 * it in the art folder
-	 * 
+	 *
 	 */
 	public Image getFromCache(String str){
 		if(cache.get(str) == null) {
