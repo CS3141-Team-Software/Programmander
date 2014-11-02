@@ -3,9 +3,9 @@ package api;
 
 /**
  * Actor
- * 
+ *
  * Class so an actor can get information and interface with the game map.
- * 
+ *
  * @author Frederick Nolte
  *
  */
@@ -19,11 +19,12 @@ public abstract class Actor {
 	int agility;
 	int vision;
 	int defense;
+	String type;
 
 	/*
 	 * Unit not defending have defending -1
 	 * Then it is 0=North, 1=Northeast etc.
-	 * 
+	 *
 	 * The maxPoints describe the maximum points that can
 	 * divded up for the stats
 	 */
@@ -44,15 +45,15 @@ public abstract class Actor {
 	/*
 	 * These Variables are needed as macro so that the
 	 * user can just type direction + action
-	 * 
+	 *
 	 *  * This is the movement Method the Player uses
 	 * Return Values always 2 digits
-	 * 
+	 *
 	 * First digit
 	 * 1 = MOVE
 	 * 2 = DEFEND
 	 * 3 = ATTACK
-	 * 
+	 *
 	 * Second digit
 	 * 0 = North
 	 * 1 = North-East
@@ -62,7 +63,7 @@ public abstract class Actor {
 	 * 5 = South-West
 	 * 6 = West
 	 * 7 = North-West
-	 * 
+	 *
 	 */
 
 	static int MOVE = 10;

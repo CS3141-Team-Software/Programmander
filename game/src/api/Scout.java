@@ -1,14 +1,15 @@
 package api;
 
-public class Scout extends MeleeActor {
-	Scout(){
-		this.setAgility(20);
-		this.setAttack(5);
-		this.setDefense(5);
-		this.setVision(3);
-		this.setHealth(10);
-	}
+public class Scout extends MeleeActor{
 
+	public Scout() {
+		agility = 20;
+		attack = 5;
+		defense = 5;
+		vision = 3;
+		health = 10;
+		type = "scout";
+	}
 
 }
 
