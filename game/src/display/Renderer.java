@@ -55,11 +55,11 @@ public class Renderer {
 				//Update the node
 				bg = getFromCache(node.getBackground());
 				
-				this.g.drawImage(bg, xCoord, yCoord, null);
+				g.drawImage(bg, xCoord, yCoord, null);
 				
 				if (node.getObstruction() != null) {
 					obstruction = getFromCache(node.getObstruction().getType());
-					this.g.drawImage(obstruction, xCoord, yCoord, null);
+					g.drawImage(obstruction, xCoord, yCoord, null);
 				}
 
 				actor = node.getActor();
@@ -78,7 +78,7 @@ public class Renderer {
 				yCoord = yCoord + 50;
 			}
 		}
-		return this.currFrame;
+		return currFrame;
 	}
 
 	/*

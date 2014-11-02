@@ -20,9 +20,8 @@ public class Display {
 		renderer = new Renderer(map);
 	}
 	
-	public void render(GameState state){
+	public void render(GameState state) {
+		//Sets the new image to render and repaints it
 		panel.setCurrFrame(renderer.generateImage(state));
-		panel.paintNewFrame();
-		System.out.println("Repainted");
 	}
 }

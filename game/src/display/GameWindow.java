@@ -103,8 +103,14 @@ public class GameWindow extends JFrame {
 	 */
 	private void initializeScreenSize(){
 		//Screen dimension things.---------------------------------------
-		this.setExtendedState(MAXIMIZED_BOTH);
-		this.setUndecorated(true);
+		//this.setExtendedState(MAXIMIZED_BOTH);
+		Dimension d = new Dimension(1920, 1080);
+		this.setSize(d);
+		this.setMinimumSize(d);
+		this.setMaximumSize(d);
+		this.setPreferredSize(d);
+		
+		//this.setUndecorated(true);
 		this.setDynamicWindowHeight(screen.getHeight());
 		this.setDynamicWindowWidth(screen.getWidth());
 		getContentPane().setSize(screen);
@@ -124,8 +130,13 @@ public class GameWindow extends JFrame {
 	 */
 	private void initializeGamePanel(){
 		game = new GamePanel(gamePanelDim, gamePanelLocation, gamePanelBounds);
-		game.setVisible(true);
 		getContentPane().add(game);
+		game.setPreferredSize(new Dimension(1920, 1080));
+		Dimension d = new Dimension(1920, 1080);
+		game.setSize(d);
+		game.setMinimumSize(d);
+		game.setMaximumSize(d);
+		System.out.println("gamepanel, post init: " + game);
 	}
 	
 	//Getters and setters ------------------------------------------------------------
@@ -145,5 +156,11 @@ public class GameWindow extends JFrame {
 		this.dynamicWindowWidth = dynamicWindowWidth;
 	}
 	
+	public GamePanel changePanel() { 
+		getContentPane().remove(game);
+		initializeGamePanel();
+		game.revalidate();
+		return game;
+	}
 }
 

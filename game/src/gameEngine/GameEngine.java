@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.io.File;
 import java.net.URL;
 import java.net.URLClassLoader;
+
 import display.Display;
 import api.Actor;
 import api.GameState;
@@ -74,9 +75,8 @@ public class GameEngine {
 	public void run() {
 		
 		//while(!gameOver) should be subbed with this for loop {
-		for(int i=0;i<5;i++){
+		for(int i=0;i<3;i++){
 			updateGameState(current);
-
 			//Generates and paints a bufferedImage of the current frame	
 			display.render(current);
 			
@@ -85,9 +85,7 @@ public class GameEngine {
 			while (System.currentTimeMillis() < currTime + turnTime) {
 				continue;
 			}
-			
 		}
-
 	}
 
 	public void updateGameState(GameState state) {

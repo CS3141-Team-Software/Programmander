@@ -46,53 +46,24 @@ public class GamePanel extends JPanel {
 		gameImageDim = gamePanelDim;
 		gameImageLocation = gamePanelLocation;
 		gameImageBounds = gamePanelBounds;
-	
-		/*BufferedImage closeImage = null; 
 
-		try {
-			closeImage = ImageIO.read(getClass().getResource("/assets/art/x.png").openStream());
-		} catch (Exception e){
-			e.printStackTrace();
-			System.err.println("Error: Could not fetch file names");
-			System.exit(1);
-		}
-
-		if (closeImage == null) {
-			System.err.println("Error: Could not find custom cursor");
-			System.exit(1);
-		}
-
-
-		ImageIcon closeIcon = new ImageIcon(closeImage);
-		JButton closeButton = new JButton(closeIcon);
-		closeButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				System.exit(0);
-			}
-		});
-		add(closeButton);
-		 */
 		currFrame = null;
 		this.setVisible(true);
 	}
 
 	public void setCurrFrame(BufferedImage i) {
 		currFrame = i;
+		update(this.getGraphics());
 	}
+	
 	/**
 	 * Method used to paint things to the panel such as background.
 	 */
+	
 	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
+	
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.fillRect(0, 0, this.getWidth(), this.getHeight());
-		System.out.println(currFrame);
-
 		g2d.drawImage(currFrame, null, (int)gameImageLocation.getX(), (int)gameImageLocation.getY());
 	}
-
-	public void paintNewFrame() {
-		super.repaint();
-		repaint();		
-	}	
 }
