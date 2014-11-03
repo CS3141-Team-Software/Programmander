@@ -59,7 +59,7 @@ public abstract class Actor {
 	 * 1 = North-East
 	 * 2 = East
 	 * 3 = South-East
-	 * 4 = South
+	 * 4 = Souths town
 	 * 5 = South-West
 	 * 6 = West
 	 * 7 = North-West
@@ -206,5 +206,10 @@ public abstract class Actor {
 	 */
 	protected interface ActorStrategy{
 		int update(GameState G);
+	}
+
+
+	public void setTeam(int i) {
+		team = i;
 	}
 }

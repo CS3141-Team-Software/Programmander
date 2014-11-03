@@ -20,7 +20,6 @@ public class Renderer {
 	private TreeMap<String, Image> cache;
 	//Used to paint our image to the GameWindow.
 	private BufferedImage currFrame;
-	private BufferedImage nextFrame;
 	private int xDim, yDim;
 	private Graphics2D g;
 
@@ -31,16 +30,12 @@ public class Renderer {
 		xDim = map.getCols() * 50;
 		yDim = map.getRows() * 50;
 		currFrame = new BufferedImage(xDim, yDim, BufferedImage.TYPE_INT_RGB);
-		nextFrame = new BufferedImage(xDim, yDim, BufferedImage.TYPE_INT_RGB);
-		g = nextFrame.createGraphics();
+		g = currFrame.createGraphics();
 	}
 
 
 	//Paint image into the buffered image
 	public BufferedImage generateImage(GameState state) {
-		currFrame = nextFrame;
-		nextFrame = new BufferedImage(xDim, yDim, BufferedImage.TYPE_INT_RGB);
-		g = nextFrame.createGraphics();
 		Image bg = null;
 		Image obstruction = null;
 		Image unit = null;
@@ -72,12 +67,12 @@ public class Renderer {
 			}
 			xCoord = xCoord + 50;
 
-			if (xCoord >= xDim) {
+			if (xCoord >= this.xDim) {
 				xCoord = 0;
 				yCoord = yCoord + 50;
 			}
 		}
-		return nextFrame;
+		return currFrame;
 	}
 
 	/*
@@ -85,7 +80,7 @@ public class Renderer {
 	 * gets the matched image from the provided string
 	 * if the image isn't found in the dictionary, then find
 	 * it in the art folder
-	 * 
+	 *
 	 */
 	public Image getFromCache(String str){
 		if(cache.get(str) == null) {
