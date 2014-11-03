@@ -11,6 +11,7 @@ public class PlayerExample1 extends Spawner {
 
 	public PlayerExample1() {
 		current = new MyStrategy();
+		System.out.println("Player Example 1 exists");
 	}
 
 	public class MyStrategy implements SpawnStrategy{
@@ -20,10 +21,12 @@ public class PlayerExample1 extends Spawner {
 			System.out.println("Spanwer creating actor");
 			if(spawn){
 				spawn = false;
+				System.out.println("Spawning scout");
 				return new MyScout();
 			}
 			else{
 				spawn = true;
+				System.out.println("Spawning knight");
 				return new MyKnight();
 			}
 		}

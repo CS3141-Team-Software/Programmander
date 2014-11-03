@@ -58,7 +58,7 @@ public class Renderer {
 
 				actor = node.getActor();
 				if (actor != null) {
-					unit = getFromCache("scout");//actor.getType());
+					unit = getFromCache(actor.getType());
 					g.drawImage(unit, xCoord, yCoord, null);
 				}
 
