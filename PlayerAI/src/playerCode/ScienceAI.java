@@ -6,7 +6,7 @@ import api.MeleeActor;
 import api.Spawner;
 
 public class ScienceAI extends Spawner {
-
+	boolean science = true;
 	public ScienceAI() {
 		current = new MyStrategy();
 	}
@@ -16,7 +16,12 @@ public class ScienceAI extends Spawner {
 		@Override
 		public Actor update(GameState G) {
 			System.out.println("Spanwer creating actor");
-			return new MyActor();
+			if(science){
+				science = false;
+				return new MyActor();
+			}else{
+				return null;
+			}
 		}
 	}
 	
@@ -29,8 +34,8 @@ public class ScienceAI extends Spawner {
 
 			@Override
 			public int update(GameState G) {
-				System.out.println("Actor not moving");
-				return 0;
+				System.out.println("Actor moving left");
+				return 12;
 			}
 			
 		}

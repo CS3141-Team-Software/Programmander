@@ -1,5 +1,7 @@
 package api;
 
+import java.awt.Point;
+
 
 /**
  * Actor
@@ -19,6 +21,7 @@ public abstract class Actor {
 	int agility;
 	int vision;
 	int defense;
+	String type;
 
 	/*
 	 * Unit not defending have defending -1
@@ -210,5 +213,10 @@ public abstract class Actor {
 
 	public void setTeam(int i) {
 		team = i;
+	}
+	public void setPoint(Point point) {
+		x = (int) point.getX();
+		y = (int) point.getY();
+
 	}
 }

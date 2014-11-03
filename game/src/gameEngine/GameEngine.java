@@ -94,6 +94,85 @@ public class GameEngine {
 
 	public void updateGameState(GameState state) {
 
+		// iterate through actors and update the map with the move each actor
+		// wants to take.
+		for (Actor a : actors) {
+			int aMove = a.update(new GameState(a.getX(), a.getY(), a
+					.getVision()));
+			int action = aMove / 10;
+			int dir = aMove % 10;
+			// If there is a movement
+			if (action == 1) {
+				a.setDefending(-1);
+				GraphNode actual = null;
+				switch(dir){
+				case 0: actual = map.getNode(a.getX(), a.getY()).getNNode(); break;
+				case 1: actual = map.getNode(a.getX(), a.getY()).getNENode(); break;
+				case 2: actual = map.getNode(a.getX(), a.getY()).getENode(); break;
+				case 3: actual = map.getNode(a.getX(), a.getY()).getSENode(); break;
+				case 4: actual = map.getNode(a.getX(), a.getY()).getSNode(); break;
+				case 5: actual = map.getNode(a.getX(), a.getY()).getSWNode(); break;
+				case 6: actual = map.getNode(a.getX(), a.getY()).getWNode(); break;
+				case 7: actual = map.getNode(a.getX(), a.getY()).getNWNode(); break;
+				}
+
+				//Check the node that the actor wants to move into and make sure it's valid
+				if(actual != null && actual.getActor() == null && actual.getObstruction() == null){
+					map.getNode(a.getX(), a.getY()).setActor(null);
+					map.getNode(a.getX(), a.getY()).setIsChanged(true);
+					actual.setActor(a);
+					actual.setIsChanged(true);
+				}else{//Cannot move
+					System.out.println("Actor blocked");
+				}
+			}
+			if (action == 2) {
+				a.setDefending(dir);
+			}
+
+			if (action == 3) {
+				a.setDefending(-1);
+				GraphNode actual = null;
+				switch(dir){
+				case 0: actual = map.getNode(a.getX(), a.getY()).getNNode(); break;
+				case 1: actual = map.getNode(a.getX(), a.getY()).getNENode(); break;
+				case 2: actual = map.getNode(a.getX(), a.getY()).getENode(); break;
+				case 3: actual = map.getNode(a.getX(), a.getY()).getSENode(); break;
+				case 4: actual = map.getNode(a.getX(), a.getY()).getSNode(); break;
+				case 5: actual = map.getNode(a.getX(), a.getY()).getSWNode(); break;
+				case 6: actual = map.getNode(a.getX(), a.getY()).getWNode(); break;
+				case 7: actual = map.getNode(a.getX(), a.getY()).getNWNode(); break;
+				}
+
+				Actor enemy = actual.getActor();
+				if (enemy != null) {
+					if (enemy.getTeam() == a.getTeam()) {
+						int att = a.attackThrow();
+						int def = enemy.defenseThrow();
+						// Simple Fighting System
+						if (att > def) {
+							enemy.setHealth(enemy.getHealth() - (att - def));
+							if (enemy.getHealth() < 0) {
+								actual.setActor(null);
+								actual.setIsChanged(true);
+								actors.remove(enemy);
+							}
+						}
+						// Retaliation!
+						else {
+							a.setHealth(a.getHealth() - (def - att) / 2);
+							if (a.getHealth() < 0) {
+								map.getNode(a.getX(), a.getY()).setActor(null);
+								map.getNode(a.getX(), a.getY()).setIsChanged(
+										true);
+								actors.remove(a);
+							}
+						}
+					}
+				}
+			}
+		}//End foreach actors
+
 		//Go through spawners and update them
 		for (Spawner s : spawners) {
 			Actor unit = s.update(state);
@@ -160,85 +239,6 @@ public class GameEngine {
 				}
 				actors.add(i,unit);
 			}
-		}
-
-		// iterate through actors and update the map with the move each actor
-		// wants to take.
-		for (Actor a : actors) {
-			int aMove = a.update(new GameState(a.getX(), a.getY(), a
-					.getVision()));
-			int action = aMove / 10;
-			int dir = aMove % 10;
-			// If there is a movement
-			if (action == 1) {
-				a.setDefending(-1);
-				GraphNode actual = null;
-				switch(dir){
-				case 0: actual = map.getNode(a.getX(), a.getY()).getNNode(); break;
-				case 1: actual = map.getNode(a.getX(), a.getY()).getNENode(); break;
-				case 2: actual = map.getNode(a.getX(), a.getY()).getENode(); break;
-				case 3: actual = map.getNode(a.getX(), a.getY()).getSENode(); break;
-				case 4: actual = map.getNode(a.getX(), a.getY()).getSNode(); break;
-				case 5: actual = map.getNode(a.getX(), a.getY()).getSWNode(); break;
-				case 6: actual = map.getNode(a.getX(), a.getY()).getWNode(); break;
-				case 7: actual = map.getNode(a.getX(), a.getY()).getNWNode(); break;
-				}
-
-				//Check the node that the actor wants to move into and make sure it's valid
-				if(actual != null && actual.getActor() == null && actual.getObstruction() == null){
-					map.getNode(a.getX(), a.getY()).setActor(null);
-					map.getNode(a.getX(), a.getY()).setIsChanged(true);
-					a.setX(actual.getX());
-					a.setY(actual.getY());
-					actual.setActor(a);
-					actual.setIsChanged(true);
-				}
-			}
-			if (action == 2) {
-				a.setDefending(dir);
-			}
-
-			if (action == 3) {
-				a.setDefending(-1);
-				GraphNode actual = null;
-				switch(dir){
-				case 0: actual = map.getNode(a.getX(), a.getY()).getNNode(); break;
-				case 1: actual = map.getNode(a.getX(), a.getY()).getNENode(); break;
-				case 2: actual = map.getNode(a.getX(), a.getY()).getENode(); break;
-				case 3: actual = map.getNode(a.getX(), a.getY()).getSENode(); break;
-				case 4: actual = map.getNode(a.getX(), a.getY()).getSNode(); break;
-				case 5: actual = map.getNode(a.getX(), a.getY()).getSWNode(); break;
-				case 6: actual = map.getNode(a.getX(), a.getY()).getWNode(); break;
-				case 7: actual = map.getNode(a.getX(), a.getY()).getNWNode(); break;
-				}
-
-				Actor enemy = actual.getActor();
-				if (enemy != null) {
-					if (enemy.getTeam() == a.getTeam()) {
-						int att = a.attackThrow();
-						int def = enemy.defenseThrow();
-						// Simple Fighting System
-						if (att > def) {
-							enemy.setHealth(enemy.getHealth() - (att - def));
-							if (enemy.getHealth() < 0) {
-								actual.setActor(null);
-								actual.setIsChanged(true);
-								actors.remove(enemy);
-							}
-						}
-						// Retaliation!
-						else {
-							a.setHealth(a.getHealth() - (def - att) / 2);
-							if (a.getHealth() < 0) {
-								map.getNode(a.getX(), a.getY()).setActor(null);
-								map.getNode(a.getX(), a.getY()).setIsChanged(
-										true);
-								actors.remove(a);
-							}
-						}
-					}
-				}
-			}
-		}//End foreach actors
+		}//End spawner
 	}//End updateGameState method
 }//End gameenging
