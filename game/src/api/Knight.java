@@ -10,6 +10,12 @@ public class Knight extends MeleeActor{
 		health = 15;
 		type = "knight";
 	}
+
+	@Override
+	public int update(GameState G) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }
 
 

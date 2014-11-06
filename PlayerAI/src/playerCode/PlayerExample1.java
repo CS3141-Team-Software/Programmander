@@ -55,6 +55,7 @@ public class PlayerExample1 extends Spawner {
 			public int update(GameState G) {
 				int dir = 0;
 				switch(dir){
+				
 				case 0: dir++; return 10;
 				case 1: dir++; return 12;
 				case 2: dir++; return 14;
