@@ -12,7 +12,7 @@ import display.Display;
 
 /**
  * @author Frederick Nolte
- * 
+ *
  */
 public class GameEngine {
 
@@ -41,14 +41,10 @@ public class GameEngine {
 		File f = new File("ais/" + firstAIName);
 		URLClassLoader urlCl;
 		try {
-			urlCl = new URLClassLoader(new URL[] { f.toURI().toURL() },
-					Spawner.class.getClassLoader());
-			System.out.println(firstAIName.substring(0,
-					firstAIName.length() - 4));
-			Class<?> testAI = urlCl.loadClass("playerCode."
-					+ firstAIName.substring(0, firstAIName.length() - 4));
-			Class<? extends Spawner> myAIClass = testAI
-					.asSubclass(Spawner.class);
+			urlCl = new URLClassLoader(new URL[] { f.toURI().toURL() },	Spawner.class.getClassLoader());
+			System.out.println(firstAIName.substring(0,	firstAIName.length() - 4));
+			Class<?> testAI = urlCl.loadClass("playerCode."	+ firstAIName.substring(0, firstAIName.length() - 4));
+			Class<? extends Spawner> myAIClass = testAI.asSubclass(Spawner.class);
 			playerSpawner = myAIClass.newInstance();
 			playerSpawner.setTeam(0);
 			spawners.add(playerSpawner);
@@ -59,7 +55,7 @@ public class GameEngine {
 			System.exit(1);
 		}
 		// -----------------You can look now
-
+		System.out.println("Huzza!");
 		if (is2Player) {
 			// Initialize 2nd player's AI
 		} else {
