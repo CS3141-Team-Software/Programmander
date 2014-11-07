@@ -45,14 +45,10 @@ public class GameEngine {
 		File f = new File("ais/" + firstAIName);
 		URLClassLoader urlCl;
 		try {
-			urlCl = new URLClassLoader(new URL[] { f.toURI().toURL() },
-					Spawner.class.getClassLoader());
-			System.out.println(firstAIName.substring(0,
-					firstAIName.length() - 4));
-			Class<?> testAI = urlCl.loadClass("playerCode."
-					+ firstAIName.substring(0, firstAIName.length() - 4));
-			Class<? extends Spawner> myAIClass = testAI
-					.asSubclass(Spawner.class);
+			urlCl = new URLClassLoader(new URL[] { f.toURI().toURL() },	Spawner.class.getClassLoader());
+			System.out.println(firstAIName.substring(0,	firstAIName.length() - 4));
+			Class<?> testAI = urlCl.loadClass("playerCode."	+ firstAIName.substring(0, firstAIName.length() - 4));
+			Class<? extends Spawner> myAIClass = testAI.asSubclass(Spawner.class);
 			playerSpawner = myAIClass.newInstance();
 			playerSpawner.setTeam(0);
 			spawners.add(playerSpawner);
@@ -63,7 +59,7 @@ public class GameEngine {
 			System.exit(1);
 		}
 		// -----------------You can look now
-
+		System.out.println("Huzza!");
 		if (is2Player) {
 			//Initialize 2nd player's AI
 		} else {
@@ -78,8 +74,12 @@ public class GameEngine {
 	//Run the game!
 	public void run() {
 
+<<<<<<< HEAD
+		for (int i = 0; i < 50; i++) {
+=======
 		//while(!gameOver) should be subbed with this for loop {
 		for(int i=0;i<50;i++){
+>>>>>>> bc4a4482105dc3d15df85ce7e85e2f4002692bee
 			updateGameState(current);
 			//Generates and paints a bufferedImage of the current frame
 			display.render(current);
@@ -93,6 +93,79 @@ public class GameEngine {
 	}// End run func
 
 	public void updateGameState(GameState state) {
+<<<<<<< HEAD
+		// Go through spawners and update them
+		for (Spawner s : spawners) {
+			Actor unit = s.update(state);
+
+			if (unit != null) {
+				GraphNode castlePos = null;
+				GraphNode currPos = null;
+				if (s.getTeam() == 0) {
+					castlePos = map.getBlueCastle();
+				} else
+					castlePos = map.getRedCastle();
+
+				int castleX = castlePos.getX();
+				int castleY = castlePos.getY();
+
+				for (int i = 0; i < 8; i++) {
+					switch (i) {
+					case 0:
+						currPos = map.getNode(castleX, castleY).getNNode();
+						break;
+					case 1:
+						currPos = map.getNode(castleX, castleY).getNENode();
+						break;
+					case 2:
+						currPos = map.getNode(castleX, castleY).getENode();
+						break;
+					case 3:
+						currPos = map.getNode(castleX, castleY).getSENode();
+						break;
+					case 4:
+						currPos = map.getNode(castleX, castleY).getSNode();
+						break;
+					case 5:
+						currPos = map.getNode(castleX, castleY).getSWNode();
+						break;
+					case 6:
+						currPos = map.getNode(castleX, castleY).getWNode();
+						break;
+					case 7:
+						currPos = map.getNode(castleX, castleY).getNWNode();
+						break;
+					}
+
+					if (currPos != null && currPos.getActor() == null) {
+						break;
+					}
+				}
+				// currPos is the node to spawn the actor into.
+				currPos.setActor(unit);
+
+
+				//Add new actor to actor list
+				//This bit works by running a loop till i is found, and exiting the loop when it is,
+				//and then adding the unit after i to the array
+				boolean foundPos = false;
+				int i=0;
+				while(!foundPos){
+					if(i+1 >= actors.size()){
+						//At end of list, add to end
+						foundPos = true;
+					}else if(actors.get(i).getAgility() > unit.getAgility()) {//If new actor is greater
+						//add here
+						foundPos = true;
+					}else{
+						i++;
+					}
+				}
+				actors.add(i,unit);
+			}
+		}
+=======
+>>>>>>> bc4a4482105dc3d15df85ce7e85e2f4002692bee
 
 		// iterate through actors and update the map with the move each actor
 		// wants to take.
@@ -171,6 +244,11 @@ public class GameEngine {
 					}
 				}
 			}
+<<<<<<< HEAD
+		}// End foreach actors
+	}// End updateGameState method
+}// End gameengine
+=======
 		}//End foreach actors
 
 		//Go through spawners and update them
@@ -242,3 +320,4 @@ public class GameEngine {
 		}//End spawner
 	}//End updateGameState method
 }//End gameenging
+>>>>>>> bc4a4482105dc3d15df85ce7e85e2f4002692bee

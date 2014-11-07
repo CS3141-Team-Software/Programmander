@@ -112,7 +112,7 @@ public class Graph{
 	}
 
 	public void makeGraph(int x, int y) {
-		if (x > 19 || y > 19) {
+		if (x > 20 || y > 20) {
 			System.out.println("BAD MAP!");
 			return;
 		}
@@ -225,6 +225,10 @@ public class Graph{
 
 	public GraphNode getRedCastle() {
 		return redCastle;
+	}
+
+	public int getNumUnits() {
+		return numUnits;
 	}
 }
 

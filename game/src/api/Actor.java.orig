@@ -199,9 +199,15 @@ public abstract class Actor {
 	 */
 
 
+
 	/**
 	 * This is the interface for MeleeStrategy
 	 */
+<<<<<<< HEAD
+=======
+	protected interface ActorStrategy{
+		int update(GameState G);
+	}
 
 
 	public void setTeam(int i) {
@@ -215,4 +221,5 @@ public abstract class Actor {
 	public String getType() {
 		return type;
 	}
+>>>>>>> bc4a4482105dc3d15df85ce7e85e2f4002692bee
 }

@@ -1,5 +1,7 @@
 package gameEngine;
 
+import java.awt.Point;
+
 import api.Actor;
 
 /**
@@ -166,10 +168,18 @@ public class GraphNode {
 
 	public void setActor(Actor a){
 		actor = a;
+		if(a != null){
+			a.setPoint(this.getPoint());
+		}
 	}
 	/*
 	 * End of Setter Methods
 	 */
+
+	private Point getPoint() {
+		// TODO Auto-generated method stub
+		return new Point(col,row);
+	}
 
 	/*
 	 * getCoordinates

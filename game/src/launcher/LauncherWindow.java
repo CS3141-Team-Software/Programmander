@@ -209,29 +209,6 @@ public class LauncherWindow extends JFrame {
 		runAI.setBounds((int) (dynamicWindowWidth/2 - (250/2)), startBoxYs + 75, 250, 90);
 		getContentPane().add(runAI);
 		runAI.setBackground(runButtonColor);
-		
-		BufferedImage closeImage = null; 
-		try {
-			closeImage = ImageIO.read(getClass().getResource("/assets/art/x.png").openStream());
-		} catch (Exception e){
-			e.printStackTrace();
-			System.err.println("Error: Could not fetch file names");
-			System.exit(1);
-		}
-		
-		if (closeImage == null) {
-			System.err.println("Error: Could not find custom cursor");
-			System.exit(1);
-		}
-		ImageIcon closeIcon = new ImageIcon(closeImage);
-		JButton closeButton = new JButton(closeIcon);
-		closeButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				System.exit(0);
-			}
-		});
-		add(closeButton);
-		
 	}
 
 	/**47
