@@ -17,17 +17,14 @@ public class MainLauncher {
 	/** 
 	 * This method is used to set up all the frames that we will need.
 	 * Passes them to the mainwindow so that we can choose which frames
-	 * are going to be visable based on what button is pressed. 
+	 * are going to be visible based on what button is pressed. 
 	 * @throws IOException 
 	 */
 	private static void initializeWindows() throws IOException{
-
-		new EditorWindow().setVisible(true);
-		/*
+		
 		EditorWindow editor = new EditorWindow();
 		editor.pack();
 		editor.setVisible(false);
-		
 		
 		frames.add(editor);
 		
@@ -36,7 +33,7 @@ public class MainLauncher {
 		
 		//This might be important? 
 		//launcher.setMainFrame(main);
-		*/
+		
 
 	}
 	

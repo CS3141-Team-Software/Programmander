@@ -55,7 +55,7 @@ public class MainWindow extends JFrame {
 	private Toolkit kit = this.getToolkit();
 	private double dynamicWindowHeight = 0;
 	private double dynamicWindowWidth = 0;
-	Cursor cursor = kit.createCustomCursor(ImageIO.read(new File(System.getProperty("user.dir") + "/assets/art/cursor.png")), new Point(0,0), "cursor");
+	//Cursor cursor = kit.createCustomCursor(ImageIO.read(new File(System.getProperty("user.dir") + "/assets/art/cursor.png")), new Point(0,0), "cursor");
 	
 	//Constructor creating the frame
 	public MainWindow(ArrayList<JFrame> f) throws IOException{
@@ -71,7 +71,7 @@ public class MainWindow extends JFrame {
 	 */
 	private void initializeScreenSize() {
 		//Screen dimension things.---------------------------------------
-		this.setCursor(cursor);
+		//this.setCursor(cursor);
 		this.setExtendedState(MAXIMIZED_BOTH);
 		this.setUndecorated(true);
 		this.setVisible(true);
@@ -124,7 +124,7 @@ public class MainWindow extends JFrame {
 		editButton.setLocation(buttonX, buttonY);
 		editButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionCommand) {
-				frames.get(1).setVisible(true);
+				frames.get(0).setVisible(true);
 				setVisible(false);
 			}
 		});

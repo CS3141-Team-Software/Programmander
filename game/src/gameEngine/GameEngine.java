@@ -49,8 +49,7 @@ public class GameEngine {
 					Spawner.class.getClassLoader());
 			System.out.println(firstAIName.substring(0,
 					firstAIName.length() - 4));
-			Class<?> testAI = urlCl.loadClass("playerCode."
-					+ firstAIName.substring(0, firstAIName.length() - 4));
+			Class<?> testAI = urlCl.loadClass("playerCode."	+ firstAIName.substring(0, firstAIName.length() - 4));
 			Class<? extends Spawner> myAIClass = testAI
 					.asSubclass(Spawner.class);
 			playerSpawner = myAIClass.newInstance();

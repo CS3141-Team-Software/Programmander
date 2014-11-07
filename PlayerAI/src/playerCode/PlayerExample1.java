@@ -16,7 +16,7 @@ public class PlayerExample1 extends Spawner {
 
 	public class MyStrategy implements SpawnStrategy{
 		boolean spawn = true;
-		
+
 		public Actor update(GameState G) {
 			System.out.println("Spanwer creating actor");
 			if(spawn){
@@ -31,11 +31,11 @@ public class PlayerExample1 extends Spawner {
 			}
 		}
 	}
-	
-/*
- * 
- */
-	
+
+	/*
+	 * 
+	 */
+
 	public class MyScout extends Scout{
 		public MyScout(){
 			this.current = new Explorer();
@@ -45,10 +45,10 @@ public class PlayerExample1 extends Spawner {
 			public int update(GameState G) {
 				return 12;
 			}
-			
+
 		}
 	}
-	
+
 	public class MyKnight extends Knight {
 		public MyKnight(){
 			this.current = new Huzzar();
@@ -63,11 +63,11 @@ public class PlayerExample1 extends Spawner {
 				case 2: dir++; return 14;
 				case 3: dir = 0; return 16;
 				}
-				
+
 				//Should never get here
 				return -1;
 			}
-			
+
 		}
 	}
 }

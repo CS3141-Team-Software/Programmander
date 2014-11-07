@@ -100,6 +100,7 @@ public class Renderer {
 				System.exit(1);
 			}
 
+			cache.put(str, imageFile);
 			return imageFile;
 
 		} else {
