@@ -70,7 +70,7 @@ public class GameEngine {
 	// Run the game!
 	public void run() {
 
-		for (int i = 0; i < 1; i++) {
+		for (int i = 0; i < 50; i++) {
 			updateGameState(current);
 
 			// Generates and paints a bufferedImage of the current frame
@@ -86,7 +86,6 @@ public class GameEngine {
 
 	@SuppressWarnings("null")
 	public void updateGameState(GameState state) {
-
 		// Go through spawners and update them
 		for (Spawner s : spawners) {
 			Actor unit = s.update(state);
@@ -271,4 +270,4 @@ public class GameEngine {
 			}
 		}// End foreach actors
 	}// End updateGameState method
-}// End gameenging
+}// End gameengine
