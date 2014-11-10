@@ -219,4 +219,7 @@ public abstract class Actor {
 		y = (int) point.getY();
 
 	}
+	public String getType() {
+		return type;
+	}
 }
