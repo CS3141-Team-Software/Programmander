@@ -75,7 +75,7 @@ public class MainWindow extends JFrame {
 		this.setExtendedState(MAXIMIZED_BOTH);
 		this.setUndecorated(true);
 		this.setVisible(true);
-		screen = new Dimension(this.getWidth(), this.getHeight());
+		screen = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setDynamicWindowHeight(screen.getHeight());
 		this.setDynamicWindowWidth(screen.getWidth());
 		getContentPane().setSize(screen);
