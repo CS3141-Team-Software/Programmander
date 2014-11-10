@@ -18,4 +18,6 @@
 	<target name="run" depends="build">
 		<ant antfile="build.xml" dir="PlayerAI" target="run" />
 	</target>
+	<target name="runClean" depends="clean,run">
+	</target>
 </project>

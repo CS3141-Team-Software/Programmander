@@ -11,9 +11,10 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.security.CodeSource;
 import java.util.ArrayList;
@@ -29,10 +30,10 @@ import javax.swing.JLabel;
 
 
 /**
- * This class displays the launcher window. 
- * The purpose of this class is to launch the game based on the 
- * information that the user has put into the forms. 
- * 
+ * This class displays the launcher window.
+ * The purpose of this class is to launch the game based on the
+ * information that the user has put into the forms.
+ *
  * @author Kyle Derosha
  *
  */
@@ -77,7 +78,7 @@ public class LauncherWindow extends JFrame {
 	private int ai2LabelWidth = 308;
 	private int diffLabelWidth = 263;
 
-	//Flags so it loads correctly every time 
+	//Flags so it loads correctly every time
 
 	//Main constructor
 	public LauncherWindow() throws IOException {
@@ -92,7 +93,7 @@ public class LauncherWindow extends JFrame {
 		initializeButtons();
 		getContentPane().add(new LauncherPanel());
 
-		BufferedImage cursorFile = null; 
+		BufferedImage cursorFile = null;
 
 		try {
 			cursorFile = ImageIO.read(getClass().getResource("/assets/art/cursor.png").openStream());
@@ -108,7 +109,7 @@ public class LauncherWindow extends JFrame {
 		}
 
 		//custom cursor image that comes from cursor.png in art assets
-		cursor = kit.createCustomCursor(cursorFile, new Point(0,0), "cursor");		
+		cursor = kit.createCustomCursor(cursorFile, new Point(0,0), "cursor");
 
 	}
 
@@ -136,7 +137,7 @@ public class LauncherWindow extends JFrame {
 	 */
 	private void initializeComboBoxes(){
 
-		//This is the maps combo box. 
+		//This is the maps combo box.
 		//Maps are read in through files that are used to populate the comboBox for the user to choose from.
 
 		comboBoxMaps.setBounds(comboBoxStaticXCoord, (startBoxYs), comboBoxWidth, comboBoxHeight);
@@ -164,7 +165,7 @@ public class LauncherWindow extends JFrame {
 					comboBoxPlayer2AI.setVisible(true);
 					player2AILabel.setVisible(true);
 					isThereAPlayer2 = true;
-				} 
+				}
 			}
 		});
 		getContentPane().add(comboBoxDifficulty);
@@ -299,28 +300,27 @@ public class LauncherWindow extends JFrame {
 	}
 
 	public ArrayList<String> getAIList(){
-		File aiDir = new File("ais/");
-
 		ArrayList<String> AINames = new ArrayList<String>();
-
-		if(aiDir.isDirectory()){
-			File[] fileList = aiDir.listFiles();
-
-			int actNum = 0;
-			for(int i = 0; i < fileList.length; i++){
-				String name = fileList[i].getName();
-				if(name.endsWith(".jar")) {
-					AINames.add(name);
-				}
-			}
-
-			return AINames;
-		}
-		else{
-			System.err.println("getAIList: error with fetching ais. Unacceptable directory path.");
+		String str;
+		BufferedReader in = null;
+		try{
+			in = new BufferedReader(new FileReader("ais/aiNames"));
+		}catch(FileNotFoundException e) {
+			System.err.println("Could not load aiNames file");
+			e.printStackTrace();
 			System.exit(1);
 		}
-		return null;
+		try{
+			while((str = in.readLine()) != null){
+				AINames.add(str);
+			}
+		}catch(IOException e) {
+			System.err.println("Could not read aiNames");
+			e.printStackTrace();
+			System.exit(1);
+		}
+
+		return AINames;
 	}
 
 	public double getDynamicWindowHeight() {

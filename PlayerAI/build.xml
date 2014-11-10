@@ -1,16 +1,7 @@
 <project basedir="." name="PlayerAI" default="build">
 
-	<!--You need to set this to the name of your AI-->
-	<property name="ai"		value="PlayerExample1"/>
-
-
-	<!--You don't need to modify anything below this-->
-
-	<!--This is how we decide what to run. If you don't do '-Darg0 aiName', it will use whatever ai is set to.-->
-
 	<property name="src"		value="src"/>
 	<property name="bin"		value="bin"/>
-	<property name="jar"		value="ais"/>
 	<property name="debuglevel" value="source,lines,vars"/>
 	<property name="api"		value="game-api.jar"/>
 	<property name="main-class" value="launcher.Launcher"/>
@@ -34,9 +25,31 @@
 	</target>
 
 	<target name="build" depends="compile">
-		<mkdir dir="${jar}" />
-		<jar destfile="${jar}/${ai}.jar" basedir="${bin}/">
+		<mkdir dir="${ais}" />
+		<jar destfile="${ais}/ai.jar" basedir="${bin}/">
 		</jar>
+
+		<fileset id="ais" dir="${src}" includes="**/*.java">
+			<contains text="extends Spawner"/>
+		</fileset>
+
+		<pathconvert pathsep="${line.separator}" property="aiNames" refid="ais">
+			<!-- Add this if you want the path stripped -->
+			<mapper>
+				<flattenmapper />
+			</mapper>
+		</pathconvert>
+		<touch file="ais/aiNames"/>
+		<loadresource property="aiNamesOut">
+			<propertyresource name="aiNames"/>
+			<filterchain>
+				<tokenfilter>
+					<filetokenizer/>
+					<replacestring from=".java" to=""/>
+				</tokenfilter>
+			</filterchain>
+		</loadresource>
+		<echo file="ais/aiNames">${aiNamesOut}</echo>
 	</target>
 	<target name="run" depends="build">
 		<java fork="true" classname ="${main-class}">
