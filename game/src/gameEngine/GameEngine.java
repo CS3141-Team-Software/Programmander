@@ -42,21 +42,16 @@ public class GameEngine {
 		//Initialize 1st player's AI by calling Mark's magic code.
 		//---------------Just don't look
 		Spawner playerSpawner = null;
-		File f = new File("ais/" + firstAIName);
+		File f = new File("ais/ai.jar");
 		URLClassLoader urlCl;
 		try {
-			urlCl = new URLClassLoader(new URL[] { f.toURI().toURL() },
-					Spawner.class.getClassLoader());
-			System.out.println(firstAIName.substring(0,
-					firstAIName.length() - 4));
-			Class<?> testAI = urlCl.loadClass("playerCode."
-					+ firstAIName.substring(0, firstAIName.length() - 4));
-			Class<? extends Spawner> myAIClass = testAI
-					.asSubclass(Spawner.class);
+			urlCl = new URLClassLoader(new URL[] { f.toURI().toURL() },	Spawner.class.getClassLoader());
+			System.out.println(firstAIName);
+			Class<?> testAI = urlCl.loadClass("playerCode."	+ firstAIName);
+			Class<? extends Spawner> myAIClass = testAI.asSubclass(Spawner.class);
 			playerSpawner = myAIClass.newInstance();
 			playerSpawner.setTeam(0);
 			spawners.add(playerSpawner);
-
 		} catch (Exception e) {
 			System.err.println("ERR: Loading their code");
 			e.printStackTrace();
