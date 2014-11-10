@@ -9,17 +9,18 @@ import api.Actor;
 
 public class PlayerExample1 extends Spawner {
 	public PlayerExample1(){
-		
+
 	}
 	public Actor update(GameState G) {
-		System.out.println("Spanwer creating actor");
 		boolean spawn = true;
 		if(spawn){
 			spawn = false;
+			System.out.println("Spanwer creating scout");
 			return new MyScout();
 		}
 		else{
 			spawn = true;
+			System.out.println("Spanwer creating knight");
 			return new MyKnight();
 		}
 	}
@@ -30,17 +31,15 @@ public class PlayerExample1 extends Spawner {
 	 */
 
 	public class MyScout extends Scout{
-		public int update(){
+		public int update(GameState G) {
 			return 12;
-		}
 
+
+		}
 	}
 
 
-
 	public class MyKnight extends Knight {
-
-
 		public int update(GameState G) {
 			int dir = 0;
 			switch(dir%4){
@@ -54,8 +53,7 @@ public class PlayerExample1 extends Spawner {
 			//Should never get here
 			return -1;
 		}
-
-
 	}
 }
+
 

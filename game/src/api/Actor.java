@@ -193,15 +193,7 @@ public abstract class Actor {
 	public void setDefense(int pDefense){
 		defense = pDefense;
 	}
-	/*
-	 * Behavioural patterns can be implemented with the strategy design pattern
-	 * The MeleeStrategy is an interface defined within this class
-	 */
 
-
-	/**
-	 * This is the interface for MeleeStrategy
-	 */
 
 
 	public void setTeam(int i) {
@@ -215,4 +207,5 @@ public abstract class Actor {
 	public String getType() {
 		return type;
 	}
+
 }

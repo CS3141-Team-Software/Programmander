@@ -1,5 +1,6 @@
 package api;
 
+
 public class Knight extends MeleeActor{
 
 	public Knight() {
