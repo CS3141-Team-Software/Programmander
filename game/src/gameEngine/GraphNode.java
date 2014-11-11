@@ -169,7 +169,8 @@ public class GraphNode {
 	public void setActor(Actor a){
 		actor = a;
 		if(a != null){
-			a.setPoint(this.getPoint());
+			a.setX(col);
+			a.setY(row);
 		}
 	}
 	/*

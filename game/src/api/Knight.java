@@ -1,5 +1,6 @@
 package api;
 
+
 public class Knight extends MeleeActor{
 
 	public Knight() {
@@ -9,6 +10,12 @@ public class Knight extends MeleeActor{
 		vision = 1;
 		health = 15;
 		type = "knight";
+	}
+
+	@Override
+	public int update(GameState G) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }
 

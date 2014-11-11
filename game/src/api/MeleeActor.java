@@ -14,7 +14,7 @@ package api;
  *
  */
 
-public class MeleeActor extends Actor {
+public abstract class MeleeActor extends Actor {
 
 
 	public MeleeActor(){
@@ -37,9 +37,6 @@ public class MeleeActor extends Actor {
 		return (int)(defense * Math.random());
 	}
 
-	public int update(GameState G){
-		return current.update(G);
-	}
 
 
 

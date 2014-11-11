@@ -81,7 +81,6 @@ public abstract class Actor {
 	static int WEST = 6;
 	static int NORTHWEST = 7;
 	private GameState state;
-	protected ActorStrategy current;
 
 	/*
 	 * These functions are needed
@@ -194,21 +193,7 @@ public abstract class Actor {
 	public void setDefense(int pDefense){
 		defense = pDefense;
 	}
-	/*
-	 * Behavioural patterns can be implemented with the strategy design pattern
-	 * The MeleeStrategy is an interface defined within this class
-	 */
-	public void setStrategy(ActorStrategy pCurrent){
-		current = pCurrent;
-	}
 
-
-	/**
-	 * This is the interface for MeleeStrategy
-	 */
-	protected interface ActorStrategy{
-		int update(GameState G);
-	}
 
 
 	public void setTeam(int i) {
@@ -222,4 +207,5 @@ public abstract class Actor {
 	public String getType() {
 		return type;
 	}
+
 }
