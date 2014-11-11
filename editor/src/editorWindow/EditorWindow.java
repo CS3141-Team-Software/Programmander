@@ -2,6 +2,9 @@ package editorWindow;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import javax.swing.JFrame;
 
@@ -41,6 +44,30 @@ public class EditorWindow extends JFrame {
 		
 		setTitle("Text Editor Demo");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+	
 	}
+	
+	private String openFile(String fileName) {
+		
+		return null;
+	}
+	
+	private String saveClass (String fileName, String className) {
+		try {
+			BufferedWriter writer = new BufferedWriter(new FileWriter(fileName + ".txt"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Error writing to a class file");
+			System.exit(-1);
+		}
+		return null;
+	}
+	
+	private String saveSpawner(String fileName, String spawnerName) {
+		
+		return null;
+	}
+	
+	
 
 }
