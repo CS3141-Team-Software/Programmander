@@ -32,8 +32,6 @@ public class MainLauncher {
 		
 		//This might be important? 
 		//launcher.setMainFrame(main);
-		
-
 	}
 	
 	/** 
