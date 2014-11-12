@@ -1,0 +1,48 @@
+<project basedir="." name="Programmander" default="build">
+	<property name="src"		value="src"/>
+	<property name="bin"		value="bin"/>
+	<property name="lib"		value="lib"/>
+	<property name="out"		value="out"/>
+	<property name="debuglevel"	value="source,lines,vars"/>
+	<property name="main-class"	value="launcher.Launcher"/>
+	<property name="jar.file"	value="${ant.project.name}.jar"/>
+
+	<path id="libs">
+		<fileset dir="${lib}" includes="**/*.jar"/>
+	</path>
+
+
+	<target name="clean">
+		<delete dir="${bin}"/>
+		<delete dir="${out}"/>
+		<delete file="${jar.file}"/>
+	</target>
+
+	<target name="compile">
+		<mkdir dir="${bin}" />
+		<javac debug="true" debuglevel="${debuglevel}" destdir="${bin}" includeantruntime="false">
+			<src path="${src}"/>
+			<classpath refid="libs"/>
+		</javac>
+	</target>
+
+	<target name="build" depends="compile">
+		<mkdir dir="${out}/${lib}" />
+		<copy todir="${out}/${lib}" flatten="true">
+			<path refid="libs"/>
+		</copy>
+
+		<manifestclasspath property="manifest.classpath" jarfile="${jar.file}">
+			<classpath refid="libs"/>
+		</manifestclasspath>
+
+		<jar destfile="${out}/${jar.file}">
+			<fileset dir="${bin}" includes="**/*.class" />
+			<fileset dir="${src}" includes="**/*.java" />
+			<manifest>
+				<attribute name="Main-Class" value="launcher.MainLauncher"/>
+				<attribute name="Class-Path" value="${manifest.classpath}"/>
+			</manifest>
+		</jar>
+	</target>
+</project>
