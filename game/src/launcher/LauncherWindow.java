@@ -22,7 +22,6 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -314,6 +313,7 @@ public class LauncherWindow extends JFrame {
 			while((str = in.readLine()) != null){
 				AINames.add(str);
 			}
+			in.close();
 		}catch(IOException e) {
 			System.err.println("Could not read aiNames");
 			e.printStackTrace();

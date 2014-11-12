@@ -4,10 +4,16 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Point;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Scanner;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -92,9 +98,9 @@ public class EditorWindow extends JFrame {
 	private void initializeComboBoxes(){
 		//Set up the file select combo box
 		comboBoxFileSelector.setBounds(20, 5, 300, 35);
-//		for(String s : getMapList()){
-//			comboBoxFileSelector.addItem(s);
-//		}
+		for(String s : getAIList()){
+			comboBoxFileSelector.addItem(s);
+		}
 		getContentPane().add(comboBoxFileSelector);
 	}
 	
@@ -147,8 +153,89 @@ public class EditorWindow extends JFrame {
 		}
 		
 	}
-
-	private void saveClass (String textAreaText) {
+	
+	//Open their selected file. 
+	private String openFile (String fileName) {
+		String unitType = null;
+		
+		String fileText = null;
+		try {
+			fileText = readFile(new File(fileName));
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.err.println("Error reading user file.");
+			System.exit(-1);
+		}
+		
+		if (fileText != null) {
+			//Parse out the first line to get the unit type
+			if (fileText.startsWith("//Scout")) {
+				unitType = "Scout";
+			} else if (fileText.startsWith("//Knight")) {
+				unitType = "Knight";
+			} else if (fileText.startsWith("//Spawner")) {
+				unitType = "Spawner";
+			} else {
+				System.err.println("Invalid file heading. First line needs to be \"//(UnitType)\"");
+				System.exit(-1);
+			}
+		}
+		createFile(fileName, unitType); //rewrite the unit header into the file
+		
+		
+		//TODO: Parse out the update method
+		return null;
+	}
+	
+	//Create a NEW file with their specified file name and unit type.
+	private void createFile(String fileName, String unitType) {
+		
+		currFile = new File(fileName + ".java");
+		
+		File unitHeader = null;
+		
+		if (unitType == "Scout") {
+			unitHeader = new File("scout.head");
+		} else if (unitType == "Knight") {
+			unitHeader = new File("knight.head");
+		} else if (unitType == "Spawner") {
+			unitHeader = new File("spawner.head");
+		} else {
+			System.err.println("Problem loading header file.");
+			System.exit(-1);
+		}
+		
+		//Get string info from unitHeader file
+		String headerText = null;
+		
+		try {
+			headerText = readFile(unitHeader);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+			System.err.println("Problem reading header file.");
+			System.exit(-1);
+		}
+		
+		
+		try {
+			//Write info from unitHeader into the current file.
+			BufferedWriter writer = new BufferedWriter(new FileWriter(currFile));
+			
+			//Write the FULL text of the header to the file.
+			//Also write a comment that tells us what unit type they have.
+			writer.write("//" + unitType);
+			writer.write(headerText);			
+			writer.write("\n}");
+			writer.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Error writing to a class file");
+			System.exit(-1);
+		} 		
+	}
+	
+	//Save their written code 
+	private void saveFile (String textAreaText) {
 		try {
 			//Will append to end of our half-created file.
 			BufferedWriter writer = new BufferedWriter(new FileWriter(currFile, true));
@@ -159,6 +246,7 @@ public class EditorWindow extends JFrame {
 			
 			writer.write("\n}");
 			
+			writer.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("Error writing to a class file");
@@ -166,9 +254,47 @@ public class EditorWindow extends JFrame {
 		}
 	}
 
-	private String saveSpawner(String fileName, String spawnerName) {
+	
+	public ArrayList<String> getAIList(){
+		ArrayList<String> AINames = new ArrayList<String>();
+		String str;
+		BufferedReader in = null;
+		try{
+			in = new BufferedReader(new FileReader("ais/aiNames"));
+		}catch(FileNotFoundException e) {
+			System.err.println("Could not load aiNames file");
+			e.printStackTrace();
+			System.exit(1);
+		}
+		try{
+			while((str = in.readLine()) != null){
+				AINames.add(str);
+			}
+			
+			in.close();
+		}catch(IOException e) {
+			System.err.println("Could not read aiNames");
+			e.printStackTrace();
+			System.exit(1);
+		}
+		
+		return AINames;
+	}
+	
+	private String readFile(File fileName) throws IOException {
 
-		return null;
+	    StringBuilder fileContents = new StringBuilder((int)fileName.length());
+	    Scanner scanner = new Scanner(fileName);
+	    String lineSeparator = System.getProperty("line.separator");
+
+	    try {
+	        while(scanner.hasNextLine()) {        
+	            fileContents.append(scanner.nextLine() + lineSeparator);
+	        }
+	        return fileContents.toString();
+	    } finally {
+	        scanner.close();
+	    }
 	}
 	
 	/**
