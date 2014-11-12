@@ -1,11 +1,5 @@
 package playerCode;
-import api.Actor;
-import api.GameState;
-import api.Knight;
-import api.Scout;
-import api.Spawner;
-import api.MeleeActor;
-import api.Actor;
+import api.*;
 
 public class PlayerExample1 extends Spawner {
 	boolean spawn;

@@ -99,6 +99,7 @@ public class Graph{
 		}
 		catch(Exception e){
 			System.err.println("Map not found");
+			e.printStackTrace();
 			System.exit(1);
 		}
 	}
@@ -112,31 +113,37 @@ public class Graph{
 	}
 
 	public void makeGraph(int x, int y) {
-		if (x > 20 || y > 20) {
+		rows = y;
+		cols = x;
+		size = cols*rows;
+		if (cols > 20 || rows > 20) {
 			System.out.println("BAD MAP!");
 			return;
 		}
-		size = x*y;
-		rows = y;
-		cols = x;
 
-		map = new GraphNode[y][x];
-		list = new GraphNode[x * y];
+		map = new GraphNode[rows][cols];
+		list = new GraphNode[size];
 
 
-		int posX = -1;
-		int posY = -1;
-		String obstrct = "";
-		String background = "";//making an empty map...\
 		int k = 0;
-		for(int i = 0; i < y; i++){
-			for(int j = 0; j < x; j++){
-				map[i][j] = new GraphNode(i, j);
-				list[k] = map[i][j];
+		for(y = 0; y < rows; y++){
+			for(x = 0; x < cols; x++){
+				map[y][x] = new GraphNode(y,x);
+				list[k] = map[y][x];
 				k++;
 			}
 		}
-
+		/*
+		 *
+		 *
+		 * 0,0   1,0
+		 * 0,1
+		 *
+		 *
+		 *
+		 *
+		 *
+		 */
 		//Connect all nodes together
 		for(int i = 0; i < y ; i++){
 			for(int j = 0; j < x ; j++){
