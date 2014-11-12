@@ -3,16 +3,14 @@ package editorWindow;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-
+import java.awt.Point;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -36,7 +34,8 @@ public class EditorWindow extends JFrame {
 	
 	//Buttons
 	private JButton loadFileButton = new JButton("Load File");
-
+	private JButton saveFileButton = new JButton("Save File");
+	
 	private int innerWidth;
 	private int innerHeight;
 	
@@ -52,7 +51,7 @@ public class EditorWindow extends JFrame {
 
 		//Initialize the text area that gives you syntax highlighting.
 		innerWidth = (int)screenSize.getWidth() - getInsets().left - getInsets().right;
-		innerHeight = (int)screenSize.getHeight() - getInsets().top - getInsets().bottom - 130;	 //-130 for reasons
+		innerHeight = (int)screenSize.getHeight() - getInsets().bottom - 135;	 //-130 for reasons
 		initializeTextArea(innerWidth, innerHeight, null);
 		initializeComboBoxes();
 		initializeButton();
@@ -65,7 +64,7 @@ public class EditorWindow extends JFrame {
 	 */
 	private void initializeButton(){
 		Color runButtonColor = new Color(233, 233, 233);
-		//Run AI Button
+		//loadFile Button
 		loadFileButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				loadFile("string");
@@ -75,6 +74,16 @@ public class EditorWindow extends JFrame {
 		loadFileButton.setBounds(350, 5, 150, 35);
 		getContentPane().add(loadFileButton);
 		loadFileButton.setBackground(runButtonColor);
+		
+		saveFileButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				createSaveFilePopup();
+			}
+		});
+		saveFileButton.setFont(new Font("Comic Sans MS", Font.BOLD, 20));
+		saveFileButton.setBounds(1400, 800, 150, 35);
+		getContentPane().add(saveFileButton);
+		saveFileButton.setBackground(runButtonColor);
 	}
 	
 	/**
@@ -160,5 +169,14 @@ public class EditorWindow extends JFrame {
 	private String saveSpawner(String fileName, String spawnerName) {
 
 		return null;
+	}
+	
+	/**
+	 * Method to create the save file frame that chooses options.
+	 */
+	private void createSaveFilePopup() {
+		SaveFilePopupFrame saveFrame = new SaveFilePopupFrame();
+		saveFrame.setLocation(new Point(1300, 100));
+		saveFrame.setVisible(true);
 	}
 }
