@@ -27,32 +27,32 @@ import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 public class EditorWindow extends JFrame {
-	
+
 	private File currFile;
 	private String currUnitType;
 	private String currFileName;
-	
+
 	private RSyntaxTextArea textArea = new RSyntaxTextArea(10, 10);
 	private Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-	
+
 	//Comboboxes
 	private JComboBox<String> comboBoxFileSelector = new JComboBox<String>();
-	
+
 	//Buttons
 	private JButton loadFileButton = new JButton("Load File");
 	private JButton saveFileButton = new JButton("Save File");
-	
+
 	private int innerWidth;
 	private int innerHeight;
-	
+
 	public EditorWindow() {
-		
+
 		//Sets the dimensions of the JFrame.
 		this.setSize(screenSize);
 		this.setMinimumSize(screenSize);
 		this.setMaximumSize(screenSize);
 		this.setPreferredSize(screenSize);
-		
+
 		getContentPane().setLayout(null);
 
 		//Initialize the text area that gives you syntax highlighting.
@@ -64,7 +64,7 @@ public class EditorWindow extends JFrame {
 		setTitle("Text Editor Demo");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
-	
+
 	/**
 	 * Method to initializeButton
 	 */
@@ -80,7 +80,7 @@ public class EditorWindow extends JFrame {
 		loadFileButton.setBounds(350, 5, 150, 35);
 		getContentPane().add(loadFileButton);
 		loadFileButton.setBackground(runButtonColor);
-		
+
 		saveFileButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				createSaveFilePopup();
@@ -91,19 +91,19 @@ public class EditorWindow extends JFrame {
 		getContentPane().add(saveFileButton);
 		saveFileButton.setBackground(runButtonColor);
 	}
-	
+
 	/**
 	 * Method to initialize the 
 	 */
 	private void initializeComboBoxes(){
 		//Set up the file select combo box
 		comboBoxFileSelector.setBounds(20, 5, 300, 35);
-		for(String s : getAIList()){
-			comboBoxFileSelector.addItem(s);
-		}
+		//for(String s : getAIList()){
+		//	comboBoxFileSelector.addItem(s);
+		//}
 		getContentPane().add(comboBoxFileSelector);
 	}
-	
+
 	/**
 	 * Method to load up a file that was selected by the combo box.
 	 */
@@ -114,7 +114,7 @@ public class EditorWindow extends JFrame {
 		innerHeight = (int)screenSize.getHeight() - getInsets().top - getInsets().bottom - 130;	 //-130 for reasons
 		initializeTextArea(innerWidth, innerHeight, fileStringBasedOnComboBox);
 	}
-	
+
 	/**
 	 * 
 	 * @param innerWidth2
@@ -127,9 +127,9 @@ public class EditorWindow extends JFrame {
 			textArea.setAlignmentX(Component.LEFT_ALIGNMENT);
 			textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
 			textArea.setCodeFoldingEnabled(true);
-	
+
 			RTextScrollPane sp = new RTextScrollPane(textArea);
-			
+
 			int textWidth = (int)(innerWidth *.66);
 			sp.setBounds(10, 50, textWidth, innerHeight);
 			sp.setVisible(true);
@@ -142,22 +142,20 @@ public class EditorWindow extends JFrame {
 			textArea.setAlignmentX(Component.LEFT_ALIGNMENT);
 			textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
 			textArea.setCodeFoldingEnabled(true);
-	
+
 			RTextScrollPane sp = new RTextScrollPane(newTextArea);
-			
+
 			int textWidth = (int)(innerWidth *.66);
 			sp.setBounds(10, 50, textWidth, innerHeight);
 			sp.setVisible(true);
 			textArea.setVisible(true);
 			getContentPane().add(sp);
 		}
-		
+
 	}
-	
+
 	//Open their selected file. 
 	private String openFile (String fileName) {
-		String unitType = null;
-		
 		String fileText = null;
 		try {
 			fileText = readFile(new File(fileName));
@@ -166,48 +164,69 @@ public class EditorWindow extends JFrame {
 			System.err.println("Error reading user file.");
 			System.exit(-1);
 		}
-		
-		if (fileText != null) {
-			//Parse out the first line to get the unit type
-			if (fileText.startsWith("//Scout")) {
-				unitType = "Scout";
-			} else if (fileText.startsWith("//Knight")) {
-				unitType = "Knight";
-			} else if (fileText.startsWith("//Spawner")) {
-				unitType = "Spawner";
-			} else {
-				System.err.println("Invalid file heading. First line needs to be \"//(UnitType)\"");
-				System.exit(-1);
-			}
-		}
-		createFile(fileName, unitType); //rewrite the unit header into the file
-		
-		
+
 		//TODO: Parse out the update method
-		return null;
+		ArrayList<String> AINames = new ArrayList<String>();
+		String theirCode = "";
+		String fileLine;
+		BufferedReader in = null;
+		try{
+			in = new BufferedReader(new FileReader("src/playerCode"));
+		}catch(FileNotFoundException e) {
+			System.err.println("Could not load aiNames file");
+			e.printStackTrace();
+			System.exit(1);
+		}
+		try{
+			while((fileLine = in.readLine()) != null){
+				//Is it the update() line?
+				if (fileLine.contains("update(Gamestate")) {
+					theirCode = fileLine;
+					break; //we found the update method!
+				}
+			}
+			
+			while((fileLine = in.readLine()) != null){
+				theirCode = theirCode + fileLine;
+			}
+			
+
+			in.close();
+		}catch(IOException e) {
+			System.err.println("Could not read aiNames");
+			e.printStackTrace();
+			System.exit(1);
+		}
+		
+		return theirCode;
 	}
+
 	
 	//Create a NEW file with their specified file name and unit type.
-	private void createFile(String fileName, String unitType) {
-		
-		currFile = new File(fileName + ".java");
-		
-		File unitHeader = null;
-		
-		if (unitType == "Scout") {
-			unitHeader = new File("scout.head");
-		} else if (unitType == "Knight") {
-			unitHeader = new File("knight.head");
-		} else if (unitType == "Spawner") {
-			unitHeader = new File("spawner.head");
+	public void saveFile(String fileName, String textAreaText, String unitType) {
+
+		if (fileName.endsWith(".java")) {
+			currFile = new File(fileName);
 		} else {
-			System.err.println("Problem loading header file.");
+			currFile = new File(fileName + ".java");
+		}
+
+		File unitHeader = null;
+
+		if (unitType == "Scout") {
+			unitHeader = new File("Scout.head");
+		} else if (unitType == "Knight") {
+			unitHeader = new File("Knight.head");
+		} else if (unitType == "Spawner") {
+			unitHeader = new File("Spawner.head");
+		} else {
+			System.err.println("Error reading header files/unit types.");
 			System.exit(-1);
 		}
-		
+
 		//Get string info from unitHeader file
 		String headerText = null;
-		
+
 		try {
 			headerText = readFile(unitHeader);
 		} catch (IOException e1) {
@@ -215,16 +234,18 @@ public class EditorWindow extends JFrame {
 			System.err.println("Problem reading header file.");
 			System.exit(-1);
 		}
-		
-		
+
+
 		try {
 			//Write info from unitHeader into the current file.
 			BufferedWriter writer = new BufferedWriter(new FileWriter(currFile));
-			
+
 			//Write the FULL text of the header to the file.
-			//Also write a comment that tells us what unit type they have.
-			writer.write("//" + unitType);
 			writer.write(headerText);			
+			writer.write("\n");
+
+			//Write the FULL text of the update() method to the file
+			writer.write(textAreaText);			
 			writer.write("\n}");
 			writer.close();
 		} catch (Exception e) {
@@ -232,35 +253,14 @@ public class EditorWindow extends JFrame {
 			System.out.println("Error writing to a class file");
 			System.exit(-1);
 		} 		
-	}
-	
-	//Save their written code 
-	private void saveFile (String textAreaText) {
-		try {
-			//Will append to end of our half-created file.
-			BufferedWriter writer = new BufferedWriter(new FileWriter(currFile, true));
-			
-			writer.write("\n");
-			//Write the FULL text of the update() method to the file
-			writer.write(textAreaText);			
-			
-			writer.write("\n}");
-			
-			writer.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("Error writing to a class file");
-			System.exit(-1);
-		}
-	}
+	}	
 
-	
 	public ArrayList<String> getAIList(){
 		ArrayList<String> AINames = new ArrayList<String>();
 		String str;
 		BufferedReader in = null;
 		try{
-			in = new BufferedReader(new FileReader("ais/aiNames"));
+			in = new BufferedReader(new FileReader("src/playerCode"));
 		}catch(FileNotFoundException e) {
 			System.err.println("Could not load aiNames file");
 			e.printStackTrace();
@@ -270,33 +270,33 @@ public class EditorWindow extends JFrame {
 			while((str = in.readLine()) != null){
 				AINames.add(str);
 			}
-			
+
 			in.close();
 		}catch(IOException e) {
 			System.err.println("Could not read aiNames");
 			e.printStackTrace();
 			System.exit(1);
 		}
-		
+
 		return AINames;
 	}
-	
+
 	private String readFile(File fileName) throws IOException {
 
-	    StringBuilder fileContents = new StringBuilder((int)fileName.length());
-	    Scanner scanner = new Scanner(fileName);
-	    String lineSeparator = System.getProperty("line.separator");
+		StringBuilder fileContents = new StringBuilder((int)fileName.length());
+		Scanner scanner = new Scanner(fileName);
+		String lineSeparator = System.getProperty("line.separator");
 
-	    try {
-	        while(scanner.hasNextLine()) {        
-	            fileContents.append(scanner.nextLine() + lineSeparator);
-	        }
-	        return fileContents.toString();
-	    } finally {
-	        scanner.close();
-	    }
+		try {
+			while(scanner.hasNextLine()) {        
+				fileContents.append(scanner.nextLine() + lineSeparator);
+			}
+			return fileContents.toString();
+		} finally {
+			scanner.close();
+		}
 	}
-	
+
 	/**
 	 * Method to create the save file frame that chooses options.
 	 */
