@@ -110,8 +110,7 @@ public class GraphNode {
 		}
 		if(north.getWNode() != null){
 			return north.getWNode();
-		}
-		else{
+		}else{
 			return null;
 		}
 	}
@@ -172,6 +171,7 @@ public class GraphNode {
 			a.setX(col);
 			a.setY(row);
 		}
+		this.setIsChanged(true);
 	}
 	/*
 	 * End of Setter Methods

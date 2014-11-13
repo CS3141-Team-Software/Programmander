@@ -74,7 +74,7 @@ public class GameEngine {
 	public void run() {
 
 		//while(!gameOver) should be subbed with this for loop {
-		for(int i=0;i<50;i++){
+		for(;;){
 			updateGameState(current);
 			//Generates and paints a bufferedImage of the current frame
 			display.render(current);
@@ -114,11 +114,9 @@ public class GameEngine {
 				//Check the node that the actor wants to move into and make sure it's valid
 				if(actual != null && actual.getActor() == null && actual.getObstruction() == null){
 					map.getNode(a.getX(), a.getY()).setActor(null);
-					map.getNode(a.getX(), a.getY()).setIsChanged(true);
 					actual.setActor(a);
-					actual.setIsChanged(true);
 				}else{//Cannot move
-					System.out.println("Actor blocked");
+					//System.out.println("Actor blocked");
 				}
 			}
 			if (action == 2) {
@@ -149,7 +147,6 @@ public class GameEngine {
 							enemy.setHealth(enemy.getHealth() - (att - def));
 							if (enemy.getHealth() < 0) {
 								actual.setActor(null);
-								actual.setIsChanged(true);
 								actors.remove(enemy);
 							}
 						}
@@ -158,8 +155,6 @@ public class GameEngine {
 							a.setHealth(a.getHealth() - (def - att) / 2);
 							if (a.getHealth() < 0) {
 								map.getNode(a.getX(), a.getY()).setActor(null);
-								map.getNode(a.getX(), a.getY()).setIsChanged(
-										true);
 								actors.remove(a);
 							}
 						}
@@ -206,15 +201,13 @@ public class GameEngine {
 					case 5: currPos = map.getNode(castleX, castleY).getSWNode(); break;
 					case 6: currPos = map.getNode(castleX, castleY).getWNode(); break;
 					case 7: currPos = map.getNode(castleX, castleY).getNWNode(); break;
+					default: currPos = null;
 					}
-
 					if (currPos != null && currPos.getActor() == null) {
+						currPos.setActor(unit);
 						break;
 					}
 				}
-				//currPos is the node to spawn the actor into.
-				currPos.setActor(unit);
-
 
 				//Add new actor to actor list
 				//This bit works by running a loop till i is found, and exiting the loop when it is,

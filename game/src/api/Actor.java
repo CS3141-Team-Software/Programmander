@@ -1,5 +1,8 @@
 package api;
 
+import gameEngine.Graph;
+import gameEngine.GraphNode;
+
 import java.awt.Point;
 
 
@@ -105,6 +108,9 @@ public abstract class Actor {
 	}
 
 
+	private int Pathfinder(){
+		return 0;
+	}
 	//Shouts
 
 	public void callAllies(){
@@ -112,6 +118,8 @@ public abstract class Actor {
 
 	public int checkAllies(){
 		int CloseAllies = 0;
+		Graph map = state.map;
+		GraphNode[][] actorP = map.getNodes();
 		return CloseAllies;
 	}
 
