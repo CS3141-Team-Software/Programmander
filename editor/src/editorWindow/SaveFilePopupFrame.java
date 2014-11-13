@@ -47,6 +47,10 @@ public class SaveFilePopupFrame extends JFrame{
 		initializeButtons();
 	}
 	
+	private boolean fileExistsAlready(){
+		return false;
+	}
+	
 	//============================================Initialize Methods Below=====================================================
 	private void initializeTextFields() {
 		Rectangle saveFileTextFieldBounds = new Rectangle(96,40,150,20);
@@ -67,9 +71,14 @@ public class SaveFilePopupFrame extends JFrame{
 				if(fileName.length() == 0){
 					JOptionPane.showMessageDialog(null,"Please give a file name for your AI");
 					
-				} else {
+				} else if (fileExistsAlready()){ //TODO: Method to check if the file is already existing.
+					DecisionWindow fileExists = new DecisionWindow("Do you want to overwrite " + fileName, editorReference, fileName, unitTypes);
+					
+				} else if (!fileExistsAlready()){
 					JOptionPane.showMessageDialog(null,"File Saved");
-					editorReference.saveFile(fileName, textAreaText, (String) unitTypesComboBox.getSelectedItem());
+					//editorReference.saveFile(fileName, textAreaText, (String) unitTypesComboBox.getSelectedItem());
+				}	else {
+					JOptionPane.showMessageDialog(null,"Congratzs you did something logically impossible.");
 				}
 				
 			}
