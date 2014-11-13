@@ -7,6 +7,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+
 public class SaveFilePopupFrame extends JFrame{
 	
 	//Size of pop up window
@@ -16,7 +18,8 @@ public class SaveFilePopupFrame extends JFrame{
 	private String[] unitTypes = {"Scout", "Knight", "Spawner"};
 	
 	//file name to be saved.
-	private String fileName = "";
+	private String fileName;
+	private RSyntaxTextArea textAreaText;
 	
 	//Combo boxes
 	JComboBox<String> unitTypesComboBox = new JComboBox<String>();
@@ -28,12 +31,15 @@ public class SaveFilePopupFrame extends JFrame{
 	//TextFields
 	private JTextField saveFileTextField = new JTextField("Enter file name", 20);
 	
+	private EditorWindow editorReference;
 	private JButton saveFileButton = new JButton("SAVE");
 	private JButton cancelButton = new JButton("CANCEL");
 	/**
 	 * Constructor
 	 */
-	public SaveFilePopupFrame(){
+	public SaveFilePopupFrame(RSyntaxTextArea textAreaText, EditorWindow editor){
+		editorReference = editor;
+		this.textAreaText = textAreaText;
 		initializeScreenSize();
 		initializeComboBoxes();
 		initializeJLabels();
@@ -41,11 +47,6 @@ public class SaveFilePopupFrame extends JFrame{
 		initializeButtons();
 	}
 	
-	public void saveFile(){
-		
-	}
-	
-
 	//============================================Initialize Methods Below=====================================================
 	private void initializeTextFields() {
 		Rectangle saveFileTextFieldBounds = new Rectangle(96,40,150,20);
@@ -63,13 +64,14 @@ public class SaveFilePopupFrame extends JFrame{
 				
 				fileName = saveFileTextField.getText();
 				//CHECK THE FILE NAME HERE
-				if(!(fileName.substring(fileName.length() - 5, fileName.length()).equalsIgnoreCase(".java"))){
-					JOptionPane.showMessageDialog(null,"Make sure your file name ends in .java faggot");
+				if(fileName.length() == 0){
+					JOptionPane.showMessageDialog(null,"Please give a file name for your AI");
+					
 				} else {
 					JOptionPane.showMessageDialog(null,"File Saved");
-					
+					editorReference.saveFile(fileName, textAreaText.getText(), (String) unitTypesComboBox.getSelectedItem());
 				}
-				saveFile();
+				
 			}
 		});
 		getContentPane().add(saveFileButton);
@@ -78,6 +80,11 @@ public class SaveFilePopupFrame extends JFrame{
 		//Set cancel button bounds
 		Rectangle cancelButtonBounds = new Rectangle(10,90,100,25);
 		cancelButton.setBounds(cancelButtonBounds);
+		cancelButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				dispose();
+			}
+		});
 		getContentPane().add(cancelButton);
 		cancelButton.setVisible(true);
 	}

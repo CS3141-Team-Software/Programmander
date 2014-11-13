@@ -98,9 +98,9 @@ public class EditorWindow extends JFrame {
 	private void initializeComboBoxes(){
 		//Set up the file select combo box
 		comboBoxFileSelector.setBounds(20, 5, 300, 35);
-		//for(String s : getAIList()){
-		//	comboBoxFileSelector.addItem(s);
-		//}
+		for(String s : getAIList()) {
+			comboBoxFileSelector.addItem(s);
+		}
 		getContentPane().add(comboBoxFileSelector);
 	}
 
@@ -171,7 +171,7 @@ public class EditorWindow extends JFrame {
 		String fileLine;
 		BufferedReader in = null;
 		try{
-			in = new BufferedReader(new FileReader("src/playerCode"));
+			in = new BufferedReader(new FileReader(fileText));
 		}catch(FileNotFoundException e) {
 			System.err.println("Could not load aiNames file");
 			e.printStackTrace();
@@ -201,7 +201,6 @@ public class EditorWindow extends JFrame {
 		return theirCode;
 	}
 
-	
 	//Create a NEW file with their specified file name and unit type.
 	public void saveFile(String fileName, String textAreaText, String unitType) {
 
@@ -235,7 +234,6 @@ public class EditorWindow extends JFrame {
 			System.exit(-1);
 		}
 
-
 		try {
 			//Write info from unitHeader into the current file.
 			BufferedWriter writer = new BufferedWriter(new FileWriter(currFile));
@@ -252,8 +250,8 @@ public class EditorWindow extends JFrame {
 			e.printStackTrace();
 			System.out.println("Error writing to a class file");
 			System.exit(-1);
-		} 		
-	}	
+		}
+	}
 
 	public ArrayList<String> getAIList(){
 		ArrayList<String> AINames = new ArrayList<String>();
@@ -301,7 +299,7 @@ public class EditorWindow extends JFrame {
 	 * Method to create the save file frame that chooses options.
 	 */
 	private void createSaveFilePopup() {
-		SaveFilePopupFrame saveFrame = new SaveFilePopupFrame();
+		SaveFilePopupFrame saveFrame = new SaveFilePopupFrame(textArea, this);
 		saveFrame.setLocation(new Point(1300, 100));
 		saveFrame.setVisible(true);
 	}
