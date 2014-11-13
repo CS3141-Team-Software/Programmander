@@ -90,6 +90,7 @@ public class EditorWindow extends JFrame {
 		saveFileButton.setBounds(1400, 800, 150, 35);
 		getContentPane().add(saveFileButton);
 		saveFileButton.setBackground(runButtonColor);
+		
 	}
 	
 	/**
@@ -98,9 +99,9 @@ public class EditorWindow extends JFrame {
 	private void initializeComboBoxes(){
 		//Set up the file select combo box
 		comboBoxFileSelector.setBounds(20, 5, 300, 35);
-		for(String s : getAIList()){
-			comboBoxFileSelector.addItem(s);
-		}
+//		for(String s : getAIList()){
+//			comboBoxFileSelector.addItem(s);
+//		}
 		getContentPane().add(comboBoxFileSelector);
 	}
 	
@@ -235,7 +236,7 @@ public class EditorWindow extends JFrame {
 	}
 	
 	//Save their written code 
-	private void saveFile (String textAreaText) {
+	public void saveFile (String textAreaText, RSyntaxTextArea textAreaText2, String string) {
 		try {
 			//Will append to end of our half-created file.
 			BufferedWriter writer = new BufferedWriter(new FileWriter(currFile, true));
@@ -301,7 +302,7 @@ public class EditorWindow extends JFrame {
 	 * Method to create the save file frame that chooses options.
 	 */
 	private void createSaveFilePopup() {
-		SaveFilePopupFrame saveFrame = new SaveFilePopupFrame();
+		SaveFilePopupFrame saveFrame = new SaveFilePopupFrame(textArea, this);
 		saveFrame.setLocation(new Point(1300, 100));
 		saveFrame.setVisible(true);
 	}
