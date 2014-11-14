@@ -4,6 +4,7 @@ import gameEngine.Graph;
 import gameEngine.GraphNode;
 
 import java.awt.Point;
+import java.util.ArrayList;
 
 
 /**
@@ -19,6 +20,12 @@ public abstract class Actor {
 	/*
 	 * The basic stats of units
 	 */
+	Point basePos;
+	Point flagPos;
+	Point rallyPoint;
+	Point enBasePos;
+
+
 	int health;
 	int attack;
 	int agility;
@@ -84,7 +91,7 @@ public abstract class Actor {
 	static int SOUTHWEST = 5;
 	static int WEST = 6;
 	static int NORTHWEST = 7;
-	private GameState state;
+
 
 	/*
 	 * These functions are needed
@@ -101,35 +108,74 @@ public abstract class Actor {
 	//Redundant
 	public void goToClosestMarker(){
 	}
+	/**
+	 * Path finding Functions
+	 * these return the first step towards
+	 * their destinations/VICTORY
+	 */
 
-	public void returnToBase(){
+	public int returnToBase(GameState G){
+		Graph map = G.map;
+		return map.pathFinder(new Point(x,y), basePos);
 
 	}
 
-	public void goToFlag(){
+	public int goToFlag(GameState G){
+		Graph map = G.map;
+		if(flagPos != null){
+			return map.pathFinder(new Point(x,y), flagPos);
+		}else{
+			return 0;
+		}
 	}
+
+	public int goToRally(GameState G){
+		Graph map = G.map;
+		if(rallyPoint != null){
+			return map.pathFinder(new Point(x,y), rallyPoint);
+		}else{
+			return 0;
+		}
+	}
+
+	public int goToEnemyBase(GameState G){
+		Graph map = G.map;
+		if(enBasePos != null){
+			return map.pathFinder(new Point(x,y), enBasePos);
+		}else{
+			return 0;
+		}
+	}
+	//END OF PATHFINDING FUNCTIONS
+
+	/**
+	 * "Tattling" Functions
+	 * lest the user know if the actor knows
+	 * the position of something
+	 */
+	public boolean knowFlagPosition(){
+		return (flagPos != null);
+	}
+	public boolean knowEnemyBasePosition(){
+		return (enBasePos != null);
+	}
+	public boolean heardRally(){
+		return (rallyPoint != null);
+	}
+	//END OF TATTLING FUNCTIONS
+
 
 	//Shouts
 
 	public void callAllies(){
 	}
 
-	public int checkAllies(){
-		int CloseAllies = 0;
-		Graph map = state.map;
-		GraphNode[][] actorP = map.getNodes();
-		return CloseAllies;
+	public int checkAllies(GameState G){
+
+
 	}
 
-	public int offensivePower(){
-		int offensivePower = 0;
-		return offensivePower;
-	}
 
-	public int defensivePower(){
-		int defensivePower = 0;
-		return defensivePower;
-	}
 
 	/*
 	 * This is the function the player will use to take any action
@@ -200,7 +246,9 @@ public abstract class Actor {
 		defense = pDefense;
 	}
 
-
+	public void setBasePos(Point b){
+		basePos = b;
+	}
 
 	public void setTeam(int i) {
 		team = i;
@@ -214,4 +262,37 @@ public abstract class Actor {
 		return type;
 	}
 
+	public Point getFlagPos() {
+		return flagPos;
+	}
+	public void setFlagPos(Point flagPos) {
+		this.flagPos = flagPos;
+	}
+	public Point getRallyPoint() {
+		return rallyPoint;
+	}
+	public void setRallyPoint(Point rallyPoint) {
+		this.rallyPoint = rallyPoint;
+	}
+	public Point getEnBasePos() {
+		return enBasePos;
+	}
+	public void setEnBasePos(Point enBasePos) {
+		this.enBasePos = enBasePos;
+	}
+
+	private ArrayList<GraphNode> returnLimmitedView(GameState G){
+		Graph map = G.map;
+		ArrayList<GraphNode> array = new ArrayList<GraphNode>();
+		for(int i =(-1 * vision); i <= vision; i++){
+			for(int j = (-1 * vision); j <= vision; j++){
+
+				if(map.getNode(x+i, y+j) != null){
+					array.add(map.getNode(x+i, y+j));
+				}
+			}
+		}
+
+		return array;
+	}
 }

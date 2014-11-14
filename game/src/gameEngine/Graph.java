@@ -277,18 +277,36 @@ public class Graph{
 
 		Point ret = traceBack(dest, costMap);
 
-		System.out.println(ret.toString());
+		if(ret == null){// we couldn't find a rout to dest
+			return 0;
+		}
+		else{
+			int act = 0;
+			GraphNode currPos = null;
+			GraphNode myPos = map[(int) start.getY()][(int) start.getX()];
+			for (int i = 0; i <= 8; i++) {
+				switch(i){
+				case 0: currPos = myPos.getNNode(); act = 10; break;
+				case 1: currPos = myPos.getNENode(); act = 11; break;
+				case 2: currPos = myPos.getENode(); act = 12; break;
+				case 3: currPos = myPos.getSENode(); act = 13; break;
+				case 4: currPos = myPos.getSNode(); act = 14; break;
+				case 5: currPos = myPos.getSWNode(); act = 15; break;
+				case 6: currPos = myPos.getWNode(); act = 16; break;
+				case 7: currPos = myPos.getNWNode(); act = 17; break;
+				default: currPos = null;
+				}
 
-		for (int i = 0; i < rows; i++){
-			String temp = ">>";
-			for (int j = 0; j < cols; j++){
-				temp += ("  ["+i+"]["+j+"]: " + costMap[i][j]);
+				if(currPos != (null)){
+					if((currPos.getX() == (int)ret.getX()) && (currPos.getY() == (int)ret.getY())){
+						return act;
+					}
+				}
+
 			}
-			temp += " <<";
-			System.out.println(temp);
 		}
 
-		return 0;
+		return 0;// should never reach this
 	}
 
 	private Point traceBack(Point pnt, int[][] costMap){

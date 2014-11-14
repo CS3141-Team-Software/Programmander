@@ -1,5 +1,6 @@
 package gameEngine;
 
+import java.awt.Point;
 import java.io.File;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -92,8 +93,7 @@ public class GameEngine {
 		// iterate through actors and update the map with the move each actor
 		// wants to take.
 		for (Actor a : actors) {
-			int aMove = a.update(new GameState(a.getX(), a.getY(), a
-					.getVision()));
+			int aMove = a.update(state);
 			int action = aMove / 10;
 			int dir = aMove % 10;
 			// If there is a movement
@@ -206,6 +206,7 @@ public class GameEngine {
 					if (currPos != null && currPos.getActor() == null) {//if currPos is valid
 						System.out.println("spawn position" + currPos.getX() + ", " + currPos.getY());
 						currPos.setActor(unit);
+						unit.setBasePos(new Point(castleX,castleY));
 
 						//Add new actor to actor list
 						//This bit works by running a loop till i is found, and exiting the loop when it is,
