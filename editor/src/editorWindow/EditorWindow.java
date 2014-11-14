@@ -42,7 +42,7 @@ public class EditorWindow extends JFrame {
 		//Initialize the text area that gives you syntax highlighting.
 		innerWidth = (int)screenSize.getWidth() - getInsets().left - getInsets().right;
 		innerHeight = (int)screenSize.getHeight() - getInsets().bottom - 135;	 //-135 for reasons
-		
+
 		//Initialize windows.
 		initializeTextArea(innerWidth, innerHeight, null);
 		initializeComboBoxes();
@@ -50,7 +50,7 @@ public class EditorWindow extends JFrame {
 		setTitle("Text Editor Demo");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
-	
+
 	//======================================Save and load file operation methods========================================
 	/**
 	 * Method to load up a file that was selected by the combo box.
@@ -62,7 +62,7 @@ public class EditorWindow extends JFrame {
 		innerHeight = (int)screenSize.getHeight() - getInsets().top - getInsets().bottom - 130;	 //-130 for reasons
 		initializeTextArea(innerWidth, innerHeight, fileStringBasedOnComboBox);
 	}
-	
+
 	//Open their selected file. 
 	private String openFile (String fileName) {
 		String fileText = null;
@@ -111,43 +111,44 @@ public class EditorWindow extends JFrame {
 
 	//Create a NEW file with their specified file name and unit type.
 	public void saveFile(String fileName, String textAreaText, String unitType) {
-		
+
 		File dir = new File("./src/playerCode"); 
-		
-		if ( (dir.exists() && dir.isDirectory()) ) {
-			dir.mkdir();
+
+		if (!dir.exists()) {
+			dir.mkdirs();
 		}
 
 		if (fileName.endsWith(".java")) {
 			currFile = new File("./src/playerCode/" + fileName);
-			
+
 			boolean exists = false;
-			 for (int i = 0; i < comboBoxFileSelector.getItemCount(); i++) {
-			   if (comboBoxFileSelector.getItemAt(i) == fileName) {
-			     exists = true;
-			   }
-			 }
-			 if (!exists) {
-				 comboBoxFileSelector.addItem(fileName);
-			 }
-			 
+			for (int i = 0; i < comboBoxFileSelector.getItemCount(); i++) {
+				if (comboBoxFileSelector.getItemAt(i) == fileName) {
+					exists = true;
+				}
+			}
+			if (!exists) {
+				comboBoxFileSelector.addItem(fileName);
+			}
+
 		} else {
 			currFile = new File("./src/playerCode/" + fileName + ".java");
-			
+
 			boolean exists = false;
-			 for (int i = 0; i < comboBoxFileSelector.getItemCount(); i++) {
-			   if (comboBoxFileSelector.getItemAt(i) == (fileName + ".java")) {
-			     exists = true;
-			   }
-			 }
-			 if (!exists) {
-				 comboBoxFileSelector.addItem(fileName + ".java");
-			 }
+			for (int i = 0; i < comboBoxFileSelector.getItemCount(); i++) {
+				if (comboBoxFileSelector.getItemAt(i) == (fileName + ".java")) {
+					exists = true;
+				}
+			}
+			if (!exists) {
+				comboBoxFileSelector.addItem(fileName + ".java");
+			}
 		}
 
 		File unitHeader = null;
-		
+
 		//Set the correct header file
+
 		if (unitType == "Scout") {
 			unitHeader = new File("./includes/Scout.head");
 		} else if (unitType == "Knight") {
@@ -169,14 +170,14 @@ public class EditorWindow extends JFrame {
 			System.err.println("Problem reading header file.");
 			System.exit(-1);
 		}
-		
+
 		if (fileName.endsWith(".java")) {
 			//replace the fileName with the fileName - .java
 			headerText.replace("**x**", fileName.substring(0, fileName.length()-6)); 
 		} else {
 			headerText.replace("**x**", fileName);
 		}
-		
+
 		try {
 			//Write info from unitHeader into the current file.
 			BufferedWriter writer = new BufferedWriter(new FileWriter(currFile));
@@ -187,7 +188,7 @@ public class EditorWindow extends JFrame {
 
 			//Write the FULL text of the update() method to the file
 			writer.write(textAreaText);
-			
+
 			writer.write("\n\n}");
 			writer.close();
 		} catch (Exception e) {
@@ -196,7 +197,7 @@ public class EditorWindow extends JFrame {
 			System.exit(-1);
 		}
 	}
-	
+
 	/**
 	 * This method reads a file name to load things into the text area in the editor window.
 	 * @param fileName
@@ -227,8 +228,8 @@ public class EditorWindow extends JFrame {
 		saveFrame.setLocation(new Point(1300, 100));
 		saveFrame.setVisible(true);
 	}
-	
-	
+
+
 	//==============================================Getters and setters=================================================
 	/**
 	 * This method gets the list of playercoded AI's from the directory.
@@ -238,7 +239,7 @@ public class EditorWindow extends JFrame {
 
 		ArrayList<String> AINames = new ArrayList<String>();
 		File directory = null;
-		
+
 		try{
 			directory = new File("./src/playerCode");
 		}catch(Exception e) {
@@ -246,18 +247,24 @@ public class EditorWindow extends JFrame {
 			e.printStackTrace();
 			System.exit(1);
 		}
-		
+
+		//If empty directory, don't do anything
+		if (directory.listFiles() ==  null) {
+			return AINames;
+		}
+
+		//If there's stuff to list, list it
 		File[] fileList = directory.listFiles();
-		
-		for (File f : fileList) {
-			if (f != null && f.getName().endsWith(".java")) {
-				AINames.add(f.getName());
+
+		for (int i = 0; i < fileList.length; i++) {
+			if (fileList[i] != null && fileList[i].getName().endsWith(".java")) {
+				AINames.add(fileList[i].getName());
 			}
 		}
-		
+
 		return AINames;
 	}
-	
+
 	/**
 	 * Method to get the textArea
 	 * @return
@@ -265,7 +272,7 @@ public class EditorWindow extends JFrame {
 	public RSyntaxTextArea getTextArea(){
 		return textArea;
 	}
-	
+
 	//==============================================Initialize Methods==================================================
 	/**
 	 * 
@@ -306,7 +313,7 @@ public class EditorWindow extends JFrame {
 		}
 
 	}
-	
+
 	/**
 	 * Method to initialize the 
 	 */
@@ -318,12 +325,12 @@ public class EditorWindow extends JFrame {
 		}
 		getContentPane().add(comboBoxFileSelector);
 	}
-	
+
 	/**
 	 * Method to initializeButton
 	 */
 	private void initializeButton(){
-		
+
 		Color runButtonColor = new Color(233, 233, 233);
 		//loadFile Button
 		loadFileButton.addActionListener(new ActionListener() {
@@ -347,5 +354,5 @@ public class EditorWindow extends JFrame {
 		getContentPane().add(saveFileButton);
 		saveFileButton.setBackground(runButtonColor);
 	}
-	
+
 }
