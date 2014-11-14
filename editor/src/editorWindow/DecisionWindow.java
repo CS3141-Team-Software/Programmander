@@ -31,11 +31,12 @@ public class DecisionWindow extends JFrame{
 		this.fileName = fileName;
 		this.unitType = unitType;
 		initializeScreenSize();
+		initializeButtons();
 		
 	}
 	
 	private void initializeButtons() {
-		Rectangle yesButtonBounds = new Rectangle(175,90,75,25);
+		Rectangle yesButtonBounds = new Rectangle(0,0,75,25);
 		yesButton.setBounds(yesButtonBounds);
 		yesButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -45,7 +46,7 @@ public class DecisionWindow extends JFrame{
 		getContentPane().add(yesButton);
 		yesButton.setVisible(true);
 		
-		Rectangle noButtonBounds = new Rectangle(10,90,75,25);
+		Rectangle noButtonBounds = new Rectangle(0,30,75,25);
 		noButton.setBounds(noButtonBounds);
 		noButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -64,5 +65,6 @@ public class DecisionWindow extends JFrame{
 		this.setMaximumSize(screenSize);
 		this.setPreferredSize(screenSize);
 		getContentPane().setLayout(null);
+		this.setVisible(true);
 	}
 }
