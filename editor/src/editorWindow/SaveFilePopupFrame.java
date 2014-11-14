@@ -1,6 +1,7 @@
 package editorWindow;
 
 import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -53,7 +54,7 @@ public class SaveFilePopupFrame extends JFrame{
 	 */
 	private boolean fileExistsAlready(){
 		for(String s : editorReference.getAIList()){
-			if(s.equalsIgnoreCase(fileName)){
+			if(s.equalsIgnoreCase(fileName + ".java")){
 				return true;
 			}
 		}
@@ -82,10 +83,11 @@ public class SaveFilePopupFrame extends JFrame{
 					
 				} else if (fileExistsAlready()){ //TODO: Method to check if the file is already existing.
 					DecisionWindow fileExists = new DecisionWindow("Do you want to overwrite " + fileName, editorReference, fileName, (String)unitTypesComboBox.getSelectedItem());
-					
+					fileExists.setLocation(new Point(1300,100));
 				} else if (!fileExistsAlready()){
 					JOptionPane.showMessageDialog(null,"File Saved");
 					editorReference.saveFile(fileName, textAreaText.getText(), (String) unitTypesComboBox.getSelectedItem());
+					dispose();
 				}	else {
 					JOptionPane.showMessageDialog(null,"Congratzs you did something logically impossible.");
 				}
