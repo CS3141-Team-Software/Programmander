@@ -11,7 +11,7 @@
 		<fileset dir="${lib}" includes="**/*.jar"/>
 	</path>
 	<path id="headers">
-		<fileset dir="headers" includes="*.java"/>
+		<fileset dir="headers" includes="*"/>
 	</path>
 
 
