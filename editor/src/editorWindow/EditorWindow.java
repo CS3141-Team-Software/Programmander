@@ -50,9 +50,6 @@ public class EditorWindow extends JFrame {
 		setTitle("Text Editor Demo");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
-
-	
-
 	
 	//======================================Save and load file operation methods========================================
 	/**
@@ -65,9 +62,7 @@ public class EditorWindow extends JFrame {
 		innerHeight = (int)screenSize.getHeight() - getInsets().top - getInsets().bottom - 130;	 //-130 for reasons
 		initializeTextArea(innerWidth, innerHeight, fileStringBasedOnComboBox);
 	}
-
 	
-
 	//Open their selected file. 
 	private String openFile (String fileName) {
 		String fileText = null;
@@ -166,9 +161,13 @@ public class EditorWindow extends JFrame {
 			System.exit(-1);
 		}
 	}
-
 	
-
+	/**
+	 * This method reads a file name to load things into the text area in the editor window.
+	 * @param fileName
+	 * @return fileContents - a string with the file contents for the text area to parse
+	 * @throws IOException
+	 */
 	private String readFile(File fileName) throws IOException {
 
 		StringBuilder fileContents = new StringBuilder((int)fileName.length());
@@ -240,6 +239,7 @@ public class EditorWindow extends JFrame {
 	 * @param fileStringBasedOnComboBox
 	 */
 	private void initializeTextArea(int innerWidth2, int innerHeight2, String fileStringBasedOnComboBox) {
+		//TODO: change this method to load up the text from a file that is already there if the file name from the combo box is not null
 		if(fileStringBasedOnComboBox == null){
 			textArea.setAlignmentY(Component.TOP_ALIGNMENT);
 			textArea.setAlignmentX(Component.LEFT_ALIGNMENT);
