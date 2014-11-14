@@ -303,4 +303,8 @@ public class EditorWindow extends JFrame {
 		saveFrame.setLocation(new Point(1300, 100));
 		saveFrame.setVisible(true);
 	}
+	
+	public RSyntaxTextArea getTextArea(){
+		return textArea;
+	}
 }

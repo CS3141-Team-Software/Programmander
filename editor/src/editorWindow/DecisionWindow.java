@@ -20,21 +20,39 @@ public class DecisionWindow extends JFrame{
 	private JButton yesButton = new JButton("YES");
 	private JButton noButton = new JButton("NO");
 	
-	public DecisionWindow(String question, EditorWindow editorReference, String fileName, String[] unitTypes){
+	//Class Variables
+	private EditorWindow editorReference;
+	private String fileName;
+	private String unitType;
+	
+	public DecisionWindow(String question, EditorWindow editorReference, String fileName, String unitType){
 		this.question = question;
+		this.editorReference = editorReference;
+		this.fileName = fileName;
+		this.unitType = unitType;
 		initializeScreenSize();
 		
 	}
 	
 	private void initializeButtons() {
-		Rectangle saveButtonBounds = new Rectangle(175,90,75,25);
-		yesButton.setBounds(saveButtonBounds);
+		Rectangle yesButtonBounds = new Rectangle(175,90,75,25);
+		yesButton.setBounds(yesButtonBounds);
 		yesButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+				editorReference.saveFile(fileName, editorReference.getTextArea().getText(), unitType);
 			}
 		});
 		getContentPane().add(yesButton);
+		yesButton.setVisible(true);
+		
+		Rectangle noButtonBounds = new Rectangle(10,90,75,25);
+		noButton.setBounds(noButtonBounds);
+		noButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				dispose();
+			}
+		});
+		getContentPane().add(noButton);
 		yesButton.setVisible(true);
 		
 	}

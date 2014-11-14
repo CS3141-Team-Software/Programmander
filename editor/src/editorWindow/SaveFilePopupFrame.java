@@ -47,7 +47,16 @@ public class SaveFilePopupFrame extends JFrame{
 		initializeButtons();
 	}
 	
+	/**
+	 * This method checks to see if the filename they want to use to save their ai file already exists.
+	 * @return
+	 */
 	private boolean fileExistsAlready(){
+		for(String s : editorReference.getAIList()){
+			if(s.equalsIgnoreCase(fileName)){
+				return true;
+			}
+		}
 		return false;
 	}
 	
@@ -72,7 +81,7 @@ public class SaveFilePopupFrame extends JFrame{
 					JOptionPane.showMessageDialog(null,"Please give a file name for your AI");
 					
 				} else if (fileExistsAlready()){ //TODO: Method to check if the file is already existing.
-					DecisionWindow fileExists = new DecisionWindow("Do you want to overwrite " + fileName, editorReference, fileName, unitTypes);
+					DecisionWindow fileExists = new DecisionWindow("Do you want to overwrite " + fileName, editorReference, fileName, (String)unitTypesComboBox.getSelectedItem());
 					
 				} else if (!fileExistsAlready()){
 					JOptionPane.showMessageDialog(null,"File Saved");
