@@ -10,6 +10,9 @@
 	<path id="libs">
 		<fileset dir="${lib}" includes="**/*.jar"/>
 	</path>
+	<path id="headers">
+		<fileset dir="headers" includes="*.java"/>
+	</path>
 
 
 	<target name="clean">
@@ -28,8 +31,12 @@
 
 	<target name="build" depends="compile">
 		<mkdir dir="${out}/${lib}" />
+		<mkdir dir="${out}/includes" />
 		<copy todir="${out}/${lib}" flatten="true">
 			<path refid="libs"/>
+		</copy>
+		<copy todir="${out}/includes" flatten="true">
+			<path refid="headers"/>
 		</copy>
 
 		<manifestclasspath property="manifest.classpath" jarfile="${jar.file}">
