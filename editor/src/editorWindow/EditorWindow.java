@@ -185,11 +185,11 @@ public class EditorWindow extends JFrame {
 					break; //we found the update method!
 				}
 			}
-			
+
 			while((fileLine = in.readLine()) != null){
 				theirCode = theirCode + fileLine;
 			}
-			
+
 
 			in.close();
 		}catch(IOException e) {
@@ -197,7 +197,7 @@ public class EditorWindow extends JFrame {
 			e.printStackTrace();
 			System.exit(1);
 		}
-		
+
 		return theirCode;
 	}
 
@@ -254,28 +254,24 @@ public class EditorWindow extends JFrame {
 	}
 
 	public ArrayList<String> getAIList(){
+
 		ArrayList<String> AINames = new ArrayList<String>();
-		String str;
-		BufferedReader in = null;
+		File directory = null;
+		
 		try{
-			in = new BufferedReader(new FileReader("src/playerCode"));
-		}catch(FileNotFoundException e) {
-			System.err.println("Could not load aiNames file");
+			directory = new File("./src/playerCode");
+		}catch(Exception e) {
+			System.err.println("Could not find playerCode folder");
 			e.printStackTrace();
 			System.exit(1);
 		}
-		try{
-			while((str = in.readLine()) != null){
-				AINames.add(str);
+
+		for (File f : directory.listFiles()) {
+			if (f.getName().endsWith(".java")) {
+				AINames.add(f.getName());
 			}
-
-			in.close();
-		}catch(IOException e) {
-			System.err.println("Could not read aiNames");
-			e.printStackTrace();
-			System.exit(1);
 		}
-
+		
 		return AINames;
 	}
 
