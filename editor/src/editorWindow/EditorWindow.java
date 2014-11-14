@@ -1,26 +1,10 @@
 package editorWindow;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Point;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Scanner;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.*;
+import java.util.*;
+import javax.swing.*;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
@@ -53,57 +37,21 @@ public class EditorWindow extends JFrame {
 		this.setMaximumSize(screenSize);
 		this.setPreferredSize(screenSize);
 
-		getContentPane().setLayout(null);
+		getContentPane().setLayout(null);		//Set absolute layout.
 
 		//Initialize the text area that gives you syntax highlighting.
 		innerWidth = (int)screenSize.getWidth() - getInsets().left - getInsets().right;
-		innerHeight = (int)screenSize.getHeight() - getInsets().bottom - 135;	 //-130 for reasons
+		innerHeight = (int)screenSize.getHeight() - getInsets().bottom - 135;	 //-135 for reasons
+		
+		//Initialize windows.
 		initializeTextArea(innerWidth, innerHeight, null);
 		initializeComboBoxes();
 		initializeButton();
 		setTitle("Text Editor Demo");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
-
-	/**
-	 * Method to initializeButton
-	 */
-	private void initializeButton(){
-		Color runButtonColor = new Color(233, 233, 233);
-		//loadFile Button
-		loadFileButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				loadFile("string");
-			}
-		});
-		loadFileButton.setFont(new Font("Comic Sans MS", Font.BOLD, 20));
-		loadFileButton.setBounds(350, 5, 150, 35);
-		getContentPane().add(loadFileButton);
-		loadFileButton.setBackground(runButtonColor);
-
-		saveFileButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				createSaveFilePopup();
-			}
-		});
-		saveFileButton.setFont(new Font("Comic Sans MS", Font.BOLD, 20));
-		saveFileButton.setBounds(1400, 800, 150, 35);
-		getContentPane().add(saveFileButton);
-		saveFileButton.setBackground(runButtonColor);
-	}
-
-	/**
-	 * Method to initialize the 
-	 */
-	private void initializeComboBoxes(){
-		//Set up the file select combo box
-		comboBoxFileSelector.setBounds(20, 5, 300, 35);
-		for(String s : getAIList()) {
-			comboBoxFileSelector.addItem(s);
-		}
-		getContentPane().add(comboBoxFileSelector);
-	}
-
+	
+	//======================================Save and load file operation methods========================================
 	/**
 	 * Method to load up a file that was selected by the combo box.
 	 */
@@ -114,46 +62,7 @@ public class EditorWindow extends JFrame {
 		innerHeight = (int)screenSize.getHeight() - getInsets().top - getInsets().bottom - 130;	 //-130 for reasons
 		initializeTextArea(innerWidth, innerHeight, fileStringBasedOnComboBox);
 	}
-
-	/**
-	 * 
-	 * @param innerWidth2
-	 * @param innerHeight2
-	 * @param fileStringBasedOnComboBox
-	 */
-	private void initializeTextArea(int innerWidth2, int innerHeight2, String fileStringBasedOnComboBox) {
-		if(fileStringBasedOnComboBox == null){
-			textArea.setAlignmentY(Component.TOP_ALIGNMENT);
-			textArea.setAlignmentX(Component.LEFT_ALIGNMENT);
-			textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
-			textArea.setCodeFoldingEnabled(true);
-
-			RTextScrollPane sp = new RTextScrollPane(textArea);
-
-			int textWidth = (int)(innerWidth *.66);
-			sp.setBounds(10, 50, textWidth, innerHeight);
-			sp.setVisible(true);
-			textArea.setVisible(true);
-			getContentPane().add(sp);
-		} else {
-			RSyntaxTextArea newTextArea = new RSyntaxTextArea("string to add");
-			getContentPane().remove(textArea);
-			textArea.setAlignmentY(Component.TOP_ALIGNMENT);
-			textArea.setAlignmentX(Component.LEFT_ALIGNMENT);
-			textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
-			textArea.setCodeFoldingEnabled(true);
-
-			RTextScrollPane sp = new RTextScrollPane(newTextArea);
-
-			int textWidth = (int)(innerWidth *.66);
-			sp.setBounds(10, 50, textWidth, innerHeight);
-			sp.setVisible(true);
-			textArea.setVisible(true);
-			getContentPane().add(sp);
-		}
-
-	}
-
+	
 	//Open their selected file. 
 	private String openFile (String fileName) {
 		String fileText = null;
@@ -257,31 +166,13 @@ public class EditorWindow extends JFrame {
 			System.exit(-1);
 		}
 	}
-
-	public ArrayList<String> getAIList(){
-
-		ArrayList<String> AINames = new ArrayList<String>();
-		File directory = null;
-		
-		try{
-			directory = new File("./src/playerCode");
-		}catch(Exception e) {
-			System.err.println("Could not find playerCode folder");
-			e.printStackTrace();
-			System.exit(1);
-		}
-		
-		File[] fileList = directory.listFiles();
-		
-		for (File f : fileList) {
-			if (f != null && f.getName().endsWith(".java")) {
-				AINames.add(f.getName());
-			}
-		}
-		
-		return AINames;
-	}
-
+	
+	/**
+	 * This method reads a file name to load things into the text area in the editor window.
+	 * @param fileName
+	 * @return fileContents - a string with the file contents for the text area to parse
+	 * @throws IOException
+	 */
 	private String readFile(File fileName) throws IOException {
 
 		StringBuilder fileContents = new StringBuilder((int)fileName.length());
@@ -307,7 +198,124 @@ public class EditorWindow extends JFrame {
 		saveFrame.setVisible(true);
 	}
 	
+	
+	//==============================================Getters and setters=================================================
+	/**
+	 * This method gets the list of playercoded AI's from the directory.
+	 * @return
+	 */
+	public ArrayList<String> getAIList(){
+
+		ArrayList<String> AINames = new ArrayList<String>();
+		File directory = null;
+		
+		try{
+			directory = new File("./src/playerCode");
+		}catch(Exception e) {
+			System.err.println("Could not find playerCode folder");
+			e.printStackTrace();
+			System.exit(1);
+		}
+		
+		File[] fileList = directory.listFiles();
+		
+		for (File f : fileList) {
+			if (f != null && f.getName().endsWith(".java")) {
+				AINames.add(f.getName());
+			}
+		}
+		
+		return AINames;
+	}
+	
+	/**
+	 * Method to get the textArea
+	 * @return
+	 */
 	public RSyntaxTextArea getTextArea(){
 		return textArea;
 	}
+	
+	//==============================================Initialize Methods==================================================
+	/**
+	 * 
+	 * @param innerWidth2
+	 * @param innerHeight2
+	 * @param fileStringBasedOnComboBox
+	 */
+	private void initializeTextArea(int innerWidth2, int innerHeight2, String fileStringBasedOnComboBox) {
+		//TODO: change this method to load up the text from a file that is already there if the file name from the combo box is not null
+		if(fileStringBasedOnComboBox == null){
+			textArea.setAlignmentY(Component.TOP_ALIGNMENT);
+			textArea.setAlignmentX(Component.LEFT_ALIGNMENT);
+			textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+			textArea.setCodeFoldingEnabled(true);
+
+			RTextScrollPane sp = new RTextScrollPane(textArea);
+
+			int textWidth = (int)(innerWidth *.66);
+			sp.setBounds(10, 50, textWidth, innerHeight);
+			sp.setVisible(true);
+			textArea.setVisible(true);
+			getContentPane().add(sp);
+		} else {
+			RSyntaxTextArea newTextArea = new RSyntaxTextArea("string to add");
+			getContentPane().remove(textArea);
+			textArea.setAlignmentY(Component.TOP_ALIGNMENT);
+			textArea.setAlignmentX(Component.LEFT_ALIGNMENT);
+			textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+			textArea.setCodeFoldingEnabled(true);
+
+			RTextScrollPane sp = new RTextScrollPane(newTextArea);
+
+			int textWidth = (int)(innerWidth *.66);
+			sp.setBounds(10, 50, textWidth, innerHeight);
+			sp.setVisible(true);
+			textArea.setVisible(true);
+			getContentPane().add(sp);
+		}
+
+	}
+	
+	/**
+	 * Method to initialize the 
+	 */
+	private void initializeComboBoxes(){
+		//Set up the file select combo box
+		comboBoxFileSelector.setBounds(20, 5, 300, 35);
+		for(String s : getAIList()) {
+			comboBoxFileSelector.addItem(s);
+		}
+		getContentPane().add(comboBoxFileSelector);
+	}
+	
+	/**
+	 * Method to initializeButton
+	 */
+	private void initializeButton(){
+		
+		Color runButtonColor = new Color(233, 233, 233);
+		//loadFile Button
+		loadFileButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				loadFile("string");
+			}
+		});
+		loadFileButton.setFont(new Font("Comic Sans MS", Font.BOLD, 20));
+		loadFileButton.setBounds(350, 5, 150, 35);
+		getContentPane().add(loadFileButton);
+		loadFileButton.setBackground(runButtonColor);
+
+		//saveFile Button
+		saveFileButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				createSaveFilePopup();
+			}
+		});
+		saveFileButton.setFont(new Font("Comic Sans MS", Font.BOLD, 20));
+		saveFileButton.setBounds(1400, 800, 150, 35);
+		getContentPane().add(saveFileButton);
+		saveFileButton.setBackground(runButtonColor);
+	}
+	
 }

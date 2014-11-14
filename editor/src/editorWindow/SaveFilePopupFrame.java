@@ -29,7 +29,7 @@ public class SaveFilePopupFrame extends JFrame{
 	private JLabel saveFileNameLabel = new JLabel("File Name");
 	
 	//TextFields
-	private JTextField saveFileTextField = new JTextField("Enter file name", 20);
+	private JTextField saveFileTextField = new JTextField(20);
 	
 	private EditorWindow editorReference;
 	private JButton saveFileButton = new JButton("SAVE");
