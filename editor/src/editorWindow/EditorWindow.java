@@ -166,7 +166,6 @@ public class EditorWindow extends JFrame {
 		}
 
 		//TODO: Parse out the update method
-		ArrayList<String> AINames = new ArrayList<String>();
 		String theirCode = "";
 		String fileLine;
 		BufferedReader in = null;
@@ -203,21 +202,27 @@ public class EditorWindow extends JFrame {
 
 	//Create a NEW file with their specified file name and unit type.
 	public void saveFile(String fileName, String textAreaText, String unitType) {
+		
+		File dir = new File("./src/playerCode"); 
+		
+		if ( (dir.exists() && dir.isDirectory()) ) {
+			dir.mkdir();
+		}
 
 		if (fileName.endsWith(".java")) {
-			currFile = new File("./src/playerCode" + fileName);
+			currFile = new File("./src/playerCode/" + fileName);
 		} else {
-			currFile = new File("./src/playerCode" + fileName + ".java");
+			currFile = new File("./src/playerCode/" + fileName + ".java");
 		}
 
 		File unitHeader = null;
 
 		if (unitType == "Scout") {
-			unitHeader = new File("./src/playerCode/Scout.head");
+			unitHeader = new File("./includes/Scout.head");
 		} else if (unitType == "Knight") {
-			unitHeader = new File("./src/playerCode/Knight.head");
+			unitHeader = new File("./includes/Knight.head");
 		} else if (unitType == "Spawner") {
-			unitHeader = new File("./src/playerCode/Spawner.head");
+			unitHeader = new File("./includes/Spawner.head");
 		} else {
 			System.err.println("Error reading header files/unit types.");
 			System.exit(-1);
