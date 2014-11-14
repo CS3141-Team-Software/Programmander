@@ -265,9 +265,11 @@ public class EditorWindow extends JFrame {
 			e.printStackTrace();
 			System.exit(1);
 		}
-
-		for (File f : directory.listFiles()) {
-			if (f.getName().endsWith(".java")) {
+		
+		File[] fileList = directory.listFiles();
+		
+		for (File f : fileList) {
+			if (f != null && f.getName().endsWith(".java")) {
 				AINames.add(f.getName());
 			}
 		}

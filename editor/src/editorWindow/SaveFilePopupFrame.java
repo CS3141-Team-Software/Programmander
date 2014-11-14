@@ -85,7 +85,7 @@ public class SaveFilePopupFrame extends JFrame{
 					
 				} else if (!fileExistsAlready()){
 					JOptionPane.showMessageDialog(null,"File Saved");
-					//editorReference.saveFile(fileName, textAreaText, (String) unitTypesComboBox.getSelectedItem());
+					editorReference.saveFile(fileName, textAreaText.getText(), (String) unitTypesComboBox.getSelectedItem());
 				}	else {
 					JOptionPane.showMessageDialog(null,"Congratzs you did something logically impossible.");
 				}
