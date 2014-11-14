@@ -172,7 +172,7 @@ public abstract class Actor {
 
 	public int checkAllies(GameState G){
 
-
+		return 0;
 	}
 
 
