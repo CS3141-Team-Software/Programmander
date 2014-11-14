@@ -24,7 +24,6 @@ public class MainLauncher {
 		
 		EditorWindow editor = new EditorWindow();
 		editor.pack();
-		editor.setVisible(false);
 		
 		frames.add(editor);
 		
@@ -33,8 +32,6 @@ public class MainLauncher {
 		
 		//This might be important? 
 		//launcher.setMainFrame(main);
-		
-
 	}
 	
 	/** 

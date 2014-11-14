@@ -27,18 +27,18 @@
 	</target>
 
 	<target name="buildAPI" depends="compile">
-		<mkdir dir="${jar}" />
+		<mkdir dir="${jar}"/>
 		<jar destfile="${jar}/${ant.project.name}-api.jar">
-			<fileset dir="${bin}" includes="api/*.class" /> 
-			<fileset dir="${src}" includes="api/*.java" /> 
+			<fileset dir="${bin}" includes="api/*.class"/>
+			<fileset dir="${src}" includes="api/*.java"/>
 		</jar>
 	</target>
 	<target name="buildGame" depends="compile">
-		<mkdir dir="${jar}" />
+		<mkdir dir="${jar}"/>
 		<jar destfile="${jar}/${ant.project.name}.jar">
-			<fileset dir="${bin}" includes="**/*.class" /> 
-			<fileset dir="${src}" includes="**/*.java" /> 
-			<fileset dir="." includes= "**/${assets}/**" /> 
+			<fileset dir="${bin}" includes="**/*.class"/>
+			<fileset dir="${src}" includes="**/*.java"/>
+			<fileset dir="." includes= "**/${assets}/**"/>
 			<manifest>
 				<attribute name="Main-Class" value="launcher.Launcher"/>
 			</manifest>

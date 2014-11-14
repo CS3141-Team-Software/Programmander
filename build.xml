@@ -6,7 +6,10 @@
 			<fileset file="PlayerAI/game.jar"/>
 		</delete>
 		<ant antfile="build.xml" dir="PlayerAI" target="clean" />
+		<ant antfile="build.xml" dir="editor" target="clean" />
+		<delete dir="programmander"/>
 	</target>
+
 	<target name="build">
 		<ant antfile="build.xml" dir="game" target="build" />
 		<copy todir="PlayerAI" overwrite="true">
@@ -14,10 +17,19 @@
 			<fileset file="game/jar/game.jar"/>
 		</copy>
 		<ant antfile="build.xml" dir="PlayerAI" target="build" />
+
+		<ant antfile="build.xml" dir="editor" target="build" />
+		<mkdir dir="programmander" />
+		<copy todir="programmander" overwrite="true">
+			<fileset file="game/jar/game-api.jar"/>
+			<fileset file="game/jar/game.jar"/>
+			<fileset file="PlayerAI/build.xml"/>
+			<fileset file="editor/out/**"/>
+		</copy>
 	</target>
+
 	<target name="run" depends="build">
 		<ant antfile="build.xml" dir="PlayerAI" target="run" />
 	</target>
-	<target name="runClean" depends="clean,run">
-	</target>
+	<target name="runClean" depends="clean,run"/>
 </project>
