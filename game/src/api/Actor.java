@@ -46,6 +46,7 @@ public abstract class Actor {
 
 	int x;
 	int y;
+	Point prevLoc;
 
 	/*
 	 * These Variables are needed as macro so that the
@@ -102,15 +103,12 @@ public abstract class Actor {
 	}
 
 	public void returnToBase(){
+
 	}
 
 	public void goToFlag(){
 	}
 
-
-	private int Pathfinder(){
-		return 0;
-	}
 	//Shouts
 
 	public void callAllies(){

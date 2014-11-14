@@ -1,9 +1,11 @@
 package gameEngine;
 
+import java.awt.Point;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 import api.Actor;
@@ -168,7 +170,7 @@ public class Graph{
 	}
 
 	/*
-	 * Get Node
+	 * Get NodePoint curr = toCheck.getFirst
 	 * returns the node at the specified coordinates
 	 */
 	public GraphNode getNode(int x, int y){
@@ -236,6 +238,87 @@ public class Graph{
 
 	public int getNumUnits() {
 		return numUnits;
+	}
+	public int pathFinder(Point start, Point dest){
+		LinkedList<Point> toCheck = new LinkedList<Point>();
+
+		//add start
+		int[][] costMap = new int[rows][cols];
+		//adding start
+		toCheck.add(start);
+		costMap[(int) start.getY()][(int) start.getX()] = 1;
+		while(!toCheck.isEmpty()){
+			Point curr = toCheck.removeFirst();
+			GraphNode currPos = null;
+			GraphNode myPos = map[(int) curr.getY()][(int) curr.getX()];
+			for (int i = 0; i <= 8; i++) {
+				switch(i){
+				case 0: currPos = myPos.getNNode(); break;
+				case 1: currPos = myPos.getNENode(); break;
+				case 2: currPos = myPos.getENode(); break;
+				case 3: currPos = myPos.getSENode(); break;
+				case 4: currPos = myPos.getSNode(); break;
+				case 5: currPos = myPos.getSWNode(); break;
+				case 6: currPos = myPos.getWNode(); break;
+				case 7: currPos = myPos.getNWNode(); break;
+				default: currPos = null;
+				}
+
+				if(currPos != (null)){
+					if(costMap[currPos.getY()][currPos.getX()] == 0 && (currPos.getActor() == null) && (currPos.getObstruction() == null)){
+						toCheck.addLast(new Point(currPos.getX(), currPos.getY()));
+						costMap[currPos.getY()][currPos.getX()] = costMap[(int) curr.getY()][(int) curr.getX()] + 1;
+					}
+				}
+
+			}
+
+		}
+
+		Point ret = traceBack(dest, costMap);
+
+		System.out.println(ret.toString());
+
+		for (int i = 0; i < rows; i++){
+			String temp = ">>";
+			for (int j = 0; j < cols; j++){
+				temp += ("  ["+i+"]["+j+"]: " + costMap[i][j]);
+			}
+			temp += " <<";
+			System.out.println(temp);
+		}
+
+		return 0;
+	}
+
+	private Point traceBack(Point pnt, int[][] costMap){
+
+		if(costMap[(int) pnt.getY()][(int) pnt.getX()] == 2){
+			return pnt;
+		}
+
+		GraphNode currPos = null;
+		GraphNode myPos = map[(int) pnt.getY()][(int) pnt.getX()];
+
+		int cost = costMap[pnt.y][pnt.x];
+		for (int i = 0; i <= 8; i++) {
+			switch(i){
+			case 0: currPos = myPos.getNNode(); System.out.println("0 " + pnt.toString());break;
+			case 1: currPos = myPos.getNENode(); System.out.println("1");break;
+			case 2: currPos = myPos.getENode(); System.out.println("2");break;
+			case 3: currPos = myPos.getSENode(); System.out.println("3");break;
+			case 4: currPos = myPos.getSNode(); System.out.println("4");break;
+			case 5: currPos = myPos.getSWNode(); System.out.println("5");break;
+			case 6: currPos = myPos.getWNode(); System.out.println("6");break;
+			case 7: currPos = myPos.getNWNode(); System.out.println("7");break;
+			}
+			if(currPos != null){
+				if(costMap[currPos.getY()][currPos.getX()] == cost-1){
+					return traceBack(new Point(currPos.getX(), currPos.getY()), costMap);
+				}
+			}
+		}
+		return null; //error, no Path found
 	}
 }
 

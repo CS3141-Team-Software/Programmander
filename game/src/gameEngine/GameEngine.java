@@ -191,7 +191,7 @@ public class GameEngine {
 				int castleX = castlePos.getX();
 				int castleY = castlePos.getY();
 
-				for (int i = 0; i < 8; i++) {
+				for (int i = 0; i <= 8; i++) {
 					switch(i){
 					case 0: currPos = map.getNode(castleX, castleY).getNNode(); break;
 					case 1: currPos = map.getNode(castleX, castleY).getNENode(); break;
@@ -203,29 +203,33 @@ public class GameEngine {
 					case 7: currPos = map.getNode(castleX, castleY).getNWNode(); break;
 					default: currPos = null;
 					}
-					if (currPos != null && currPos.getActor() == null) {
+					if (currPos != null && currPos.getActor() == null) {//if currPos is valid
+						System.out.println("spawn position" + currPos.getX() + ", " + currPos.getY());
 						currPos.setActor(unit);
+
+						//Add new actor to actor list
+						//This bit works by running a loop till i is found, and exiting the loop when it is,
+						//and then adding the unit after i to the array
+						boolean foundPos = false;
+						int j=0;
+						while(!foundPos){
+							if(j+1 >= actors.size()){
+								//At end of list, add to end
+								foundPos = true;
+							}else if(actors.get(j).getAgility() > unit.getAgility()) {//If new actor is greater
+								//add here
+								foundPos = true;
+							}else{
+								j++;
+							}
+						}
+						actors.add(j,unit);
+						System.out.println("actor list size " + actors.size() +"actor: "+actors.get(j));
 						break;
 					}
 				}
 
-				//Add new actor to actor list
-				//This bit works by running a loop till i is found, and exiting the loop when it is,
-				//and then adding the unit after i to the array
-				boolean foundPos = false;
-				int i=0;
-				while(!foundPos){
-					if(i+1 >= actors.size()){
-						//At end of list, add to end
-						foundPos = true;
-					}else if(actors.get(i).getAgility() > unit.getAgility()) {//If new actor is greater
-						//add here
-						foundPos = true;
-					}else{
-						i++;
-					}
-				}
-				actors.add(i,unit);
+
 			}
 		}//End spawner
 	}//End updateGameState method

@@ -1,10 +1,6 @@
 package display;
 
 import gameEngine.Graph;
-
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-
 import api.GameState;
 
 public class Display {
@@ -19,9 +15,9 @@ public class Display {
 		panel = gameFrame.getGamePanel();
 		renderer = new Renderer(map);
 	}
-	
+
 	public void render(GameState state) {
 		//Sets the new image to render and repaints it
-		panel.setCurrFrame(renderer.generateImage(state));
+		panel.setCurrFrame(renderer.generateImage());
 	}
 }

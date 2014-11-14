@@ -22,9 +22,10 @@ public class Renderer {
 	private BufferedImage currFrame;
 	private int xDim, yDim;
 	private Graphics2D g;
+	private Graph map;
 
-
-	public Renderer(Graph map) {
+	public Renderer(Graph m) {
+		map = m;
 		cache = new TreeMap<String, Image>();
 		//These are the size of our bufferedImage.
 		xDim = map.getCols() * 50;
@@ -35,7 +36,7 @@ public class Renderer {
 
 
 	//Paint image into the buffered image
-	public BufferedImage generateImage(GameState state) {
+	public BufferedImage generateImage() {
 		Image bg = null;
 		Image obstruction = null;
 		Image unit = null;
@@ -43,7 +44,7 @@ public class Renderer {
 		int yCoord = 0;
 		Actor actor;
 
-		for (GraphNode node : state.getMap().getNodesSing()) {
+		for (GraphNode node : map.getNodesSing()) {
 
 			if (node.getIsChanged()) {
 				//Update the node
