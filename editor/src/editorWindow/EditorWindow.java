@@ -205,19 +205,19 @@ public class EditorWindow extends JFrame {
 	public void saveFile(String fileName, String textAreaText, String unitType) {
 
 		if (fileName.endsWith(".java")) {
-			currFile = new File(fileName);
+			currFile = new File("./src/playerCode" + fileName);
 		} else {
-			currFile = new File(fileName + ".java");
+			currFile = new File("./src/playerCode" + fileName + ".java");
 		}
 
 		File unitHeader = null;
 
 		if (unitType == "Scout") {
-			unitHeader = new File("Scout.head");
+			unitHeader = new File("./src/playerCode/Scout.head");
 		} else if (unitType == "Knight") {
-			unitHeader = new File("Knight.head");
+			unitHeader = new File("./src/playerCode/Knight.head");
 		} else if (unitType == "Spawner") {
-			unitHeader = new File("Spawner.head");
+			unitHeader = new File("./src/playerCode/Spawner.head");
 		} else {
 			System.err.println("Error reading header files/unit types.");
 			System.exit(-1);
@@ -265,9 +265,11 @@ public class EditorWindow extends JFrame {
 			e.printStackTrace();
 			System.exit(1);
 		}
-
-		for (File f : directory.listFiles()) {
-			if (f.getName().endsWith(".java")) {
+		
+		File[] fileList = directory.listFiles();
+		
+		for (File f : fileList) {
+			if (f != null && f.getName().endsWith(".java")) {
 				AINames.add(f.getName());
 			}
 		}
