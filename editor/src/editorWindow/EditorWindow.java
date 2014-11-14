@@ -120,12 +120,34 @@ public class EditorWindow extends JFrame {
 
 		if (fileName.endsWith(".java")) {
 			currFile = new File("./src/playerCode/" + fileName);
+			
+			boolean exists = false;
+			 for (int i = 0; i < comboBoxFileSelector.getItemCount(); i++) {
+			   if (comboBoxFileSelector.getItemAt(i) == fileName) {
+			     exists = true;
+			   }
+			 }
+			 if (!exists) {
+				 comboBoxFileSelector.addItem(fileName);
+			 }
+			 
 		} else {
 			currFile = new File("./src/playerCode/" + fileName + ".java");
+			
+			boolean exists = false;
+			 for (int i = 0; i < comboBoxFileSelector.getItemCount(); i++) {
+			   if (comboBoxFileSelector.getItemAt(i) == (fileName + ".java")) {
+			     exists = true;
+			   }
+			 }
+			 if (!exists) {
+				 comboBoxFileSelector.addItem(fileName + ".java");
+			 }
 		}
 
 		File unitHeader = null;
-
+		
+		//Set the correct header file
 		if (unitType == "Scout") {
 			unitHeader = new File("./includes/Scout.head");
 		} else if (unitType == "Knight") {
@@ -147,7 +169,14 @@ public class EditorWindow extends JFrame {
 			System.err.println("Problem reading header file.");
 			System.exit(-1);
 		}
-
+		
+		if (fileName.endsWith(".java")) {
+			//replace the fileName with the fileName - .java
+			headerText.replace("**x**", fileName.substring(0, fileName.length()-6)); 
+		} else {
+			headerText.replace("**x**", fileName);
+		}
+		
 		try {
 			//Write info from unitHeader into the current file.
 			BufferedWriter writer = new BufferedWriter(new FileWriter(currFile));
@@ -157,8 +186,9 @@ public class EditorWindow extends JFrame {
 			writer.write("\n");
 
 			//Write the FULL text of the update() method to the file
-			writer.write(textAreaText);			
-			writer.write("\n}");
+			writer.write(textAreaText);
+			
+			writer.write("\n\n}");
 			writer.close();
 		} catch (Exception e) {
 			e.printStackTrace();

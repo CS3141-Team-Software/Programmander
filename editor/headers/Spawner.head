@@ -1,1 +1,4 @@
-We are a spawner!
+package playerCode;
+import api.*;
+
+public class **x** extends Spawner {
