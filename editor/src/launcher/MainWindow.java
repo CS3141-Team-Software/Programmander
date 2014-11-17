@@ -47,7 +47,7 @@ public class MainWindow extends JFrame {
 	private JButton tutorialButton = new JButton("TUTORIAL");
 	
 	//JLabels
-	private Dimension titleDim = new Dimension(480, 50);
+	private Dimension titleDim = new Dimension(600, 50);
 	private JLabel title = new JLabel("PROGRAMMANDER");
 	private Color titleColor = new Color(255, 255, 255);
 	private Point titleLocation = new Point(100, 200);
