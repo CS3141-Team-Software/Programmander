@@ -5,8 +5,10 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
@@ -30,13 +32,18 @@ public class MainWindowPanel extends JPanel{
 	
 	public void paint(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
-		Image background = null;
-		try {
-			background = ImageIO.read(new File(System.getProperty("user.dir") + "/assets/art/launcherWindowBackground.png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		g2d.drawImage(background, 0, 0, null);
-		
+//		BufferedImage imageFile = null;
+//		try {
+//			InputStream stream = getClass().getResourceAsStream("./assets/art/launcherWindowBackground.png");
+//			imageFile = ImageIO.read(stream);
+//			if (imageFile == null) {
+//				throw new Exception();
+//			}
+//		} catch (Exception e){
+//			e.printStackTrace();
+//			System.err.println("Error loading map tile art ");
+//			System.exit(1);
+//		}
+//		g2d.drawImage(imageFile, 0, 0, null); 
 	}
 }

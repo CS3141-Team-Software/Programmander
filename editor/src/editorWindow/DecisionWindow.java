@@ -41,6 +41,7 @@ public class DecisionWindow extends JFrame{
 		yesButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				editorReference.saveFile(fileName, editorReference.getTextArea().getText(), unitType);
+				dispose();		//Close this window when you save overwrite
 			}
 		});
 		getContentPane().add(yesButton);

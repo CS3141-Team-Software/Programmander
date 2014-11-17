@@ -225,7 +225,7 @@ public class EditorWindow extends JFrame {
 	 */
 	private void createSaveFilePopup() {
 		SaveFilePopupFrame saveFrame = new SaveFilePopupFrame(textArea, this);
-		saveFrame.setLocation(new Point(1300, 100));
+		saveFrame.setLocation(new Point((int)screenSize.getWidth() / 2 - (saveFrame.getWidth()/2), (int)screenSize.getHeight() / 2 - (saveFrame.getHeight()/2)));
 		saveFrame.setVisible(true);
 	}
 
