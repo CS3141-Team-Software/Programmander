@@ -1,4 +1,8 @@
 <project basedir="." name="Programmander" default="build">
+	<property name="game.jar"	value="game/dist/game.jar"/>
+	<property name="api.jar"	value="game/dist/game-api.jar"/>
+	<property name="dist.dir"	value="programmander"/>
+
 	<target name="clean">
 		<ant antfile="build.xml" dir="game" target="clean" />
 		<delete>
@@ -7,29 +11,29 @@
 		</delete>
 		<ant antfile="build.xml" dir="PlayerAI" target="clean" />
 		<ant antfile="build.xml" dir="editor" target="clean" />
-		<delete dir="programmander"/>
+		<delete dir="${dist.dir}"/>
 	</target>
 
 	<target name="build">
-		<ant antfile="build.xml" dir="game" target="build" />
+		<ant antfile="build.xml" dir="game" target="build" inheritAll="false"/>
 		<copy todir="PlayerAI" overwrite="true">
-			<fileset file="game/jar/game-api.jar"/>
-			<fileset file="game/jar/game.jar"/>
+			<fileset file="${api.jar}"/>
+			<fileset file="${game.jar}"/>
 		</copy>
-		<ant antfile="build.xml" dir="PlayerAI" target="build" />
+		<ant antfile="build.xml" dir="PlayerAI" target="build" inheritAll="false"/>
 
-		<ant antfile="build.xml" dir="editor" target="build" />
-		<mkdir dir="programmander" />
-		<copy todir="programmander" overwrite="true">
-			<fileset file="game/jar/game-api.jar"/>
-			<fileset file="game/jar/game.jar"/>
+
+		<ant antfile="build.xml" dir="editor" target="build" inheritAll="false"/>
+		<mkdir dir="${dist.dir}" />
+		<copy todir="${dist.dir}" overwrite="true">
+			<fileset file="${api.jar}"/>
+			<fileset file="${game.jar}"/>
 			<fileset file="PlayerAI/build.xml"/>
-			<fileset file="editor/out/**"/>
+			<fileset file="editor/dist/**"/>
 		</copy>
 	</target>
 
 	<target name="run" depends="build">
-		<ant antfile="build.xml" dir="PlayerAI" target="run" />
+		<ant antfile="build.xml" dir="PlayerAI" target="run" inheritAll="false"/>
 	</target>
-	<target name="runClean" depends="clean,run"/>
 </project>

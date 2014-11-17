@@ -53,6 +53,7 @@
 	<target name="run" depends="build">
 		<java fork="true" classname ="${main-class}">
 			<classpath>
+				<path location="${ai.dir}/${ai.jar}"/>
 				<path location="${game.jar}"/>
 			</classpath>
 		</java>
