@@ -31,12 +31,12 @@ public class MainWindowPanel extends JPanel{
 	public void paint(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
 		Image background = null;
-		/*try {
+		try {
 			background = ImageIO.read(new File(System.getProperty("user.dir") + "/assets/art/launcherWindowBackground.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		g2d.drawImage(background, 0, 0, null);
-		*/
+		
 	}
 }
