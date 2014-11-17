@@ -1,46 +1,44 @@
 <project basedir="." name="game" default="build">
-	<property name="src"		value="src"/>
-	<property name="bin"		value="bin"/>
-	<property name="jar"		value="jar"/>
+	<property name="src.dir"	value="src"/>
+	<property name="build.dir"	value="build"/>
+	<property name="lib.dir"	value="lib"/>
+	<property name="dist.dir"	value="dist"/>
+	<property name="ais.dir"	value="ais"/>
+	<property name="assets.dir"	value="assets"/>
 	<property name="debuglevel"	value="source,lines,vars"/>
 	<property name="main-class"	value="launcher.Launcher"/>
-	<property name="ais"		value="ais"/>
-	<property name="assets"		value="assets"/>
-
-	<path id="aiPath">
-		<fileset dir="${ais}" includes="**/*.jar"/>
-	</path>
+	<property name="jar.jar"	value="${ant.project.name}.jar"/>
 
 
 
 	<target name="clean">
-		<delete dir="${bin}"/>
-		<delete file="${jar}/${ant.project.name}-api.jar"/>
-		<delete file="${jar}/${ant.project.name}.jar"/>
+		<delete dir="${build.dir}"/>
+		<delete dir="${dist.dir}"/>
 	</target>
 
 	<target name="compile">
-		<mkdir dir="${bin}" />
-		<javac debug="true" debuglevel="${debuglevel}" destdir="${bin}" includeantruntime="false">
-			<src path="${src}"/>
+		<mkdir dir="${build.dir}" />
+		<javac debug="true" debuglevel="${debuglevel}" destdir="${build.dir}" includeantruntime="false">
+			<src path="${src.dir}"/>
 		</javac>
 	</target>
 
 	<target name="buildAPI" depends="compile">
-		<mkdir dir="${jar}"/>
-		<jar destfile="${jar}/${ant.project.name}-api.jar">
-			<fileset dir="${bin}" includes="api/*.class"/>
-			<fileset dir="${src}" includes="api/*.java"/>
+		<mkdir dir="${dist.dir}"/>
+		<jar destfile="${dist.dir}/${ant.project.name}-api.jar">
+			<fileset dir="${build.dir}" includes="api/*.class"/>
+			<fileset dir="${src.dir}" includes="api/*.java"/>
 		</jar>
 	</target>
+
 	<target name="buildGame" depends="compile">
-		<mkdir dir="${jar}"/>
-		<jar destfile="${jar}/${ant.project.name}.jar">
-			<fileset dir="${bin}" includes="**/*.class"/>
-			<fileset dir="${src}" includes="**/*.java"/>
+		<mkdir dir="${dist.dir}"/>
+		<jar destfile="${dist.dir}/${ant.project.name}.jar">
+			<fileset dir="${build.dir}" includes="**/*.class"/>
+			<fileset dir="${src.dir}" includes="**/*.java"/>
 			<fileset dir="." includes= "**/${assets}/**"/>
 			<manifest>
-				<attribute name="Main-Class" value="launcher.Launcher"/>
+				<attribute name="Main-Class" value="${main-class}"/>
 			</manifest>
 		</jar>
 	</target>

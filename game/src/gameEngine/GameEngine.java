@@ -1,6 +1,7 @@
 package gameEngine;
 
 import java.io.File;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
@@ -44,19 +45,33 @@ public class GameEngine {
 		Spawner playerSpawner = null;
 		File f = new File("ais/ai.jar");
 		URLClassLoader urlCl;
+
 		try {
 			urlCl = new URLClassLoader(new URL[] { f.toURI().toURL() },	Spawner.class.getClassLoader());
 			System.out.println(firstAIName);
-			Class<?> testAI = urlCl.loadClass("playerCode."	+ firstAIName);
+			Class<?> testAI;
+			testAI = urlCl.loadClass("playerCode."	+ firstAIName);
 			Class<? extends Spawner> myAIClass = testAI.asSubclass(Spawner.class);
 			playerSpawner = myAIClass.newInstance();
 			playerSpawner.setTeam(0);
 			spawners.add(playerSpawner);
-		} catch (Exception e) {
-			System.err.println("ERR: Loading their code");
+		} catch (InstantiationException | IllegalAccessException e) {
+			System.err.println("ERR: Some other shit while Loading their code");
 			e.printStackTrace();
 			System.exit(1);
+		} catch (ClassNotFoundException e1) {
+			System.err.println("ERR: Class not found while loading their code");
+			e1.printStackTrace();
+			System.exit(1);
+		} catch (MalformedURLException e2) {
+			System.err.println("ERR: MalformedULR while loading their code");
+			e2.printStackTrace();
+			System.exit(1);
 		}
+
+
+		/*catch (Exception e) {
+		} */
 		// -----------------You can look now
 
 		if (is2Player) {

@@ -1,45 +1,43 @@
 <project basedir="." name="PlayerAI" default="build">
-
-	<property name="src"		value="src"/>
-	<property name="bin"		value="bin"/>
-	<property name="debuglevel" value="source,lines,vars"/>
-	<property name="api"		value="game-api.jar"/>
-	<property name="main-class" value="launcher.Launcher"/>
-	<property name="ais"		value="ais"/>
-
-	<path id="aiPath">
-		<fileset dir="${ais}" includes="**/*.jar"/>
-	</path>
-
-
+	<property name="src.dir"	value="src"/>
+	<property name="build.dir"	value="build"/>
+	<property name="dist.dir"	value="dist"/>
+	<property name="assets.dir"	value="assets"/>
+	<property name="ai.dir"		value="ais"/>
+	<property name="debuglevel"	value="source,lines,vars"/>
+	<property name="main-class"	value="launcher.Launcher"/>
+	<property name="ai.jar"		value="ais.jar"/>
+	<property name="api.jar"	value="game-api.jar"/>
+	<property name="game.jar"	value="game.jar"/>
 
 
 	<target name="clean">
-		<delete dir="bin"/>
+		<delete dir="${build.dir}"/>
+		<delete dir="${ai.dir}"/>
 	</target>
 
 
 	<target name="compile">
-		<mkdir dir="${bin}" />
-		<javac srcdir="${src}" debug="true" debuglevel="${debuglevel}" destdir="${bin}" includeantruntime="false" classpath="${api}"/>
+		<mkdir dir="${build.dir}" />
+		<javac srcdir="${src.dir}" debug="true" debuglevel="${debuglevel}" destdir="${build.dir}" includeantruntime="false" classpath="${api.jar}"/>
 	</target>
 
 	<target name="build" depends="compile">
-		<mkdir dir="${ais}" />
-		<jar destfile="${ais}/ai.jar" basedir="${bin}/">
+		<jar destfile="${ai.dir}/${ai.jar}" basedir="${build.dir}/">
 		</jar>
 
-		<fileset id="ais" dir="${src}" includes="**/*.java">
+		<fileset id="ais" dir="${src.dir}" includes="**/*.java">
 			<contains text="extends Spawner"/>
 		</fileset>
 
+		<mkdir dir="${ai.dir}" />
 		<pathconvert pathsep="${line.separator}" property="aiNames" refid="ais">
 			<!-- Add this if you want the path stripped -->
 			<mapper>
 				<flattenmapper />
 			</mapper>
 		</pathconvert>
-		<touch file="ais/aiNames"/>
+		<touch file="${ai.dir}/aiNames"/>
 		<loadresource property="aiNamesOut">
 			<propertyresource name="aiNames"/>
 			<filterchain>
@@ -49,13 +47,13 @@
 				</tokenfilter>
 			</filterchain>
 		</loadresource>
-		<echo file="ais/aiNames">${aiNamesOut}</echo>
+		<echo file="${ai.dir}/aiNames">${aiNamesOut}</echo>
 	</target>
+
 	<target name="run" depends="build">
 		<java fork="true" classname ="${main-class}">
 			<classpath>
-				<path refid="aiPath"/>
-				<path location="game.jar"/>
+				<path location="${game.jar}"/>
 			</classpath>
 		</java>
 	</target>
