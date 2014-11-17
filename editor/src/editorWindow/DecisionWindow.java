@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 public class DecisionWindow extends JFrame{
@@ -16,38 +17,48 @@ public class DecisionWindow extends JFrame{
 	//Size of pop up window
 	private Dimension screenSize = new Dimension(260,150);
 	
+	private SaveFilePopupFrame popupRef;
+	
 	//Jbuttons
 	private JButton yesButton = new JButton("YES");
 	private JButton noButton = new JButton("NO");
+	
+	//Labels
+	private JLabel questionLabel;
 	
 	//Class Variables
 	private EditorWindow editorReference;
 	private String fileName;
 	private String unitType;
 	
-	public DecisionWindow(String question, EditorWindow editorReference, String fileName, String unitType){
+	public DecisionWindow(String question, EditorWindow editorReference, String fileName, String unitType, SaveFilePopupFrame popupRef){
+		this.popupRef = popupRef;
 		this.question = question;
 		this.editorReference = editorReference;
 		this.fileName = fileName;
 		this.unitType = unitType;
 		initializeScreenSize();
 		initializeButtons();
-		
+		questionLabel = new JLabel(question);
+		questionLabel.setBounds(20, 20, 300, 100);
+		getContentPane().add(questionLabel);
+		questionLabel.setVisible(true);
 	}
 	
 	private void initializeButtons() {
-		Rectangle yesButtonBounds = new Rectangle(0,0,75,25);
+		Rectangle yesButtonBounds = new Rectangle(50,80,75,25);
 		yesButton.setBounds(yesButtonBounds);
 		yesButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				editorReference.saveFile(fileName, editorReference.getTextArea().getText(), unitType);
+				popupRef.dispose();
 				dispose();		//Close this window when you save overwrite
 			}
 		});
 		getContentPane().add(yesButton);
 		yesButton.setVisible(true);
 		
-		Rectangle noButtonBounds = new Rectangle(0,30,75,25);
+		Rectangle noButtonBounds = new Rectangle(150,80,75,25);
 		noButton.setBounds(noButtonBounds);
 		noButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {

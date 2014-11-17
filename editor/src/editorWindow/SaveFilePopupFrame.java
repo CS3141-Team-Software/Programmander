@@ -21,7 +21,7 @@ public class SaveFilePopupFrame extends JFrame{
 	//file name to be saved.
 	private String fileName;
 	private RSyntaxTextArea textAreaText;
-
+	
 	//Combo boxes
 	JComboBox<String> unitTypesComboBox = new JComboBox<String>();
 
@@ -78,6 +78,7 @@ public class SaveFilePopupFrame extends JFrame{
 
 	private void initializeButtons() {
 		Rectangle saveButtonBounds = new Rectangle(175,90,75,25);
+		final SaveFilePopupFrame thisWindow = this;
 		saveFileButton.setBounds(saveButtonBounds);
 		saveFileButton.addActionListener(new ActionListener() {
 
@@ -89,7 +90,7 @@ public class SaveFilePopupFrame extends JFrame{
 					JOptionPane.showMessageDialog(null,"Please give a file name for your AI");
 
 				} else if (fileExistsAlready()){ //TODO: Method to check if the file is already existing.
-					DecisionWindow fileExists = new DecisionWindow("Do you want to overwrite " + fileName, editorReference, fileName, (String)unitTypesComboBox.getSelectedItem());
+					DecisionWindow fileExists = new DecisionWindow("Do you want to overwrite " + fileName, editorReference, fileName, (String)unitTypesComboBox.getSelectedItem(), thisWindow);
 					fileExists.setLocation(new Point(1300,100));
 				} else if (!fileExistsAlready()){
 					JOptionPane.showMessageDialog(null,"File Saved");
