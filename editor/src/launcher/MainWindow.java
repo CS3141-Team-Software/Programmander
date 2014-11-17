@@ -108,8 +108,11 @@ public class MainWindow extends JFrame {
 		playButton.setLocation(buttonX, buttonY);
 		playButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionCommand) {
-				frames.get(0).setVisible(true);
-				setVisible(false);
+				//Dispose of all frames, including the mainWindow frame
+				//TODO: Replace with Mark's magic command line
+				//Game is now running as another process. 
+				//Exit this process.
+				
 			}
 		});
 		add(playButton);
@@ -125,7 +128,6 @@ public class MainWindow extends JFrame {
 		editButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionCommand) {
 				frames.get(0).setVisible(true);
-				setVisible(false);
 			}
 		});
 		add(editButton);
