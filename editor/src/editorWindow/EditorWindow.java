@@ -173,9 +173,9 @@ public class EditorWindow extends JFrame {
 
 		if (fileName.endsWith(".java")) {
 			//replace the fileName with the fileName - .java
-			headerText.replace("**x**", fileName.substring(0, fileName.length()-6)); 
+			headerText = headerText.replace("**x**", fileName.substring(0, fileName.length()-6)); 
 		} else {
-			headerText.replace("**x**", fileName);
+			headerText = headerText.replace("**x**", fileName);
 		}
 
 		try {
