@@ -3,6 +3,7 @@
 	<property name="build.dir"	value="build"/>
 	<property name="lib.dir"	value="lib"/>
 	<property name="dist.dir"	value="dist"/>
+	<property name="assets.dir"	value="assets"/>
 	<property name="debuglevel"	value="source,lines,vars"/>
 	<property name="main-class"	value="launcher.MainLauncher"/>
 	<property name="jar.jar"	value="${ant.project.name}.jar"/>
@@ -46,6 +47,7 @@
 		<jar destfile="${dist.dir}/${jar.jar}">
 			<fileset dir="${build.dir}" includes="**/*.class" />
 			<fileset dir="${src.dir}" includes="**/*.java" />
+			<fileset dir="." includes= "**/${assets.dir}/**"/>
 			<manifest>
 				<attribute name="Main-Class" value="${main-class}"/>
 				<attribute name="Class-Path" value="${manifest.classpath}"/>
