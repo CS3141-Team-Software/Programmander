@@ -69,7 +69,8 @@ public class DecisionWindow extends JFrame{
 		yesButton.setVisible(true);
 		
 	}
-	//==============================================Initialize methods
+	
+	//==============================================Initialize methods======================================
 	private void initializeScreenSize() {
 		//Sets the dimensions of the JFrame.
 		this.setSize(screenSize);

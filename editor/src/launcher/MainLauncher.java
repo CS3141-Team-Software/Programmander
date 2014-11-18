@@ -26,11 +26,13 @@ public class MainLauncher {
 	private static void initializeWindows() throws IOException{
 		
 		
+		
 		EditorWindow editor = new EditorWindow();
 		editor.pack();
 		
 		EditorFilePopup popup = new EditorFilePopup(editor);
 		popup.pack();
+		
 		
 		frames.add(popup);
 		frames.add(editor);
