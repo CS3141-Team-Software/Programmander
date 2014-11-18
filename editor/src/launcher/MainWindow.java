@@ -112,7 +112,6 @@ public class MainWindow extends JFrame {
 				//TODO: Replace with Mark's magic command line
 				//Game is now running as another process. 
 				//Exit this process.
-				
 			}
 		});
 		add(playButton);

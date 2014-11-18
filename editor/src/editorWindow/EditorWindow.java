@@ -45,7 +45,7 @@ public class EditorWindow extends JFrame {
 
 		//Initialize windows.
 		initializeTextArea(innerWidth, innerHeight, null);
-		initializeComboBoxes();
+		//initializeComboBoxes();
 		initializeButton();
 		setTitle("Text Editor Demo");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -193,7 +193,9 @@ public class EditorWindow extends JFrame {
 			writer.close();
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("Error writing to a class file");
+			System.out.println
+			
+("Error writing to a class file");
 			System.exit(-1);
 		}
 	}
@@ -282,36 +284,20 @@ public class EditorWindow extends JFrame {
 	 */
 	private void initializeTextArea(int innerWidth2, int innerHeight2, String fileStringBasedOnComboBox) {
 		//TODO: change this method to load up the text from a file that is already there if the file name from the combo box is not null
-		if(fileStringBasedOnComboBox == null){
-			textArea.setAlignmentY(Component.TOP_ALIGNMENT);
-			textArea.setAlignmentX(Component.LEFT_ALIGNMENT);
-			textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
-			textArea.setCodeFoldingEnabled(true);
+		RSyntaxTextArea newTextArea = new RSyntaxTextArea("string to add");
+		getContentPane().remove(textArea);
+		textArea.setAlignmentY(Component.TOP_ALIGNMENT);
+		textArea.setAlignmentX(Component.LEFT_ALIGNMENT);
+		textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+		textArea.setCodeFoldingEnabled(true);
 
-			RTextScrollPane sp = new RTextScrollPane(textArea);
+		RTextScrollPane sp = new RTextScrollPane(newTextArea);
 
-			int textWidth = (int)(innerWidth *.66);
-			sp.setBounds(10, 50, textWidth, innerHeight);
-			sp.setVisible(true);
-			textArea.setVisible(true);
-			getContentPane().add(sp);
-		} else {
-			RSyntaxTextArea newTextArea = new RSyntaxTextArea("string to add");
-			getContentPane().remove(textArea);
-			textArea.setAlignmentY(Component.TOP_ALIGNMENT);
-			textArea.setAlignmentX(Component.LEFT_ALIGNMENT);
-			textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
-			textArea.setCodeFoldingEnabled(true);
-
-			RTextScrollPane sp = new RTextScrollPane(newTextArea);
-
-			int textWidth = (int)(innerWidth *.66);
-			sp.setBounds(10, 50, textWidth, innerHeight);
-			sp.setVisible(true);
-			textArea.setVisible(true);
-			getContentPane().add(sp);
-		}
-
+		int textWidth = (int)(innerWidth *.80);
+		sp.setBounds(10, 0, textWidth, innerHeight);
+		sp.setVisible(true);
+		textArea.setVisible(true);
+		getContentPane().add(sp);
 	}
 
 	/**
@@ -331,17 +317,17 @@ public class EditorWindow extends JFrame {
 	 */
 	private void initializeButton(){
 
-		Color runButtonColor = new Color(233, 233, 233);
-		//loadFile Button
-		loadFileButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				loadFile("string");
-			}
-		});
-		loadFileButton.setFont(new Font("Comic Sans MS", Font.BOLD, 20));
-		loadFileButton.setBounds(350, 5, 150, 35);
-		getContentPane().add(loadFileButton);
-		loadFileButton.setBackground(runButtonColor);
+		Color buttonColor = new Color(233, 233, 233);
+//		//loadFile Button
+//		loadFileButton.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent arg0) {
+//				loadFile("string");
+//			}
+//		});
+//		loadFileButton.setFont(new Font("Comic Sans MS", Font.BOLD, 20));
+//		loadFileButton.setBounds(350, 5, 150, 35);
+//		getContentPane().add(loadFileButton);
+//		loadFileButton.setBackground(runButtonColor);
 
 		//saveFile Button
 		saveFileButton.addActionListener(new ActionListener() {
@@ -350,9 +336,9 @@ public class EditorWindow extends JFrame {
 			}
 		});
 		saveFileButton.setFont(new Font("Comic Sans MS", Font.BOLD, 20));
-		saveFileButton.setBounds(1400, 800, 150, 35);
+		saveFileButton.setBounds(1400, 5, 150, 35);
 		getContentPane().add(saveFileButton);
-		saveFileButton.setBackground(runButtonColor);
+		saveFileButton.setBackground(buttonColor);
 	}
 
 }
