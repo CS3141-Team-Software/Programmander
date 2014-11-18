@@ -21,7 +21,7 @@ import editorWindow.EditorWindow;
 public class EditorFilePopup extends JFrame {
 
 	//Size of pop up window
-	private Dimension screenSize = new Dimension(310,150);
+	private Dimension screenSize = new Dimension(310,100);
 
 	private ArrayList<String> aiNames = null;
 	
@@ -29,11 +29,11 @@ public class EditorFilePopup extends JFrame {
 	JComboBox<String> filesComboBox = new JComboBox<String>();
 
 	//JLabels
-	private JLabel unitTypeLabel = new JLabel("Unit Type Selector");
-	private JLabel saveFileNameLabel = new JLabel("File Name");
+	private JLabel fileNameLabel = new JLabel("File Name:");
 
 	private EditorWindow editorReference;
 	private MainWindow mainReference;
+	private EditorFilePopup thisWindow = this;
 	
 	//Buttons
 	private JButton openButton = new JButton("OPEN");
@@ -46,6 +46,7 @@ public class EditorFilePopup extends JFrame {
 		aiNames = editor.getAIList();
 		
 		initializeScreenSize();
+		initializeJLabels();
 		initializeButtons();
 		initializeComboBoxes();
 
@@ -60,7 +61,7 @@ public class EditorFilePopup extends JFrame {
 	}*/
 
 	private void initializeButtons() {
-		Rectangle openButtonBounds = new Rectangle(5,90,95,25);
+		Rectangle openButtonBounds = new Rectangle(5,40,95,25);
 		openButton.setBounds(openButtonBounds);
 		openButton.addActionListener(new ActionListener() {
 
@@ -68,13 +69,17 @@ public class EditorFilePopup extends JFrame {
 
 				String fileName = (String) filesComboBox.getSelectedItem();
 				
-
+				editorReference.openFile(fileName);
+				editorReference.setVisible(true);
+				
+				thisWindow.dispose();
 			}
 		});
+		
 		getContentPane().add(openButton);
 		openButton.setVisible(true);
 		
-		Rectangle newButtonBounds = new Rectangle(105, 90, 95, 25);
+		Rectangle newButtonBounds = new Rectangle(105, 40, 95, 25);
 		newButton.setBounds(newButtonBounds);
 		newButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -85,7 +90,7 @@ public class EditorFilePopup extends JFrame {
 		newButton.setVisible(true);
 		
 		//Set cancel button bounds
-		Rectangle cancelButtonBounds = new Rectangle(205,90,95,25);
+		Rectangle cancelButtonBounds = new Rectangle(205,40,95,25);
 		cancelButton.setBounds(cancelButtonBounds);
 		cancelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -97,17 +102,12 @@ public class EditorFilePopup extends JFrame {
 	}
 
 	private void initializeJLabels() {
-		//Set unityTypeLabel bounds
-		Rectangle unitTypeLabelBounds = new Rectangle(10,10,150,20);
-		unitTypeLabel.setBounds(unitTypeLabelBounds);
-		getContentPane().add(unitTypeLabel);
-		unitTypeLabel.setVisible(true);
-
-		//Set the saveFileLabelbounds
-		Rectangle saveFileNameRectangleBounds = new Rectangle(10,40,150,20);
-		saveFileNameLabel.setBounds(saveFileNameRectangleBounds);
-		getContentPane().add(saveFileNameLabel);
-		saveFileNameLabel.setVisible(true);
+		
+		//Set the fileLabelbounds
+		Rectangle fileNameRectangleBounds = new Rectangle(10,10,150,20);
+		fileNameLabel.setBounds(fileNameRectangleBounds);
+		getContentPane().add(fileNameLabel);
+		fileNameLabel.setVisible(true);
 	}
 
 	private void initializeComboBoxes() {

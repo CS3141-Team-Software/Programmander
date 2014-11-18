@@ -64,22 +64,13 @@ public class EditorWindow extends JFrame {
 	}
 
 	//Open their selected file. 
-	private String openFile (String fileName) {
-		String fileText = null;
-		try {
-			fileText = readFile(new File(fileName));
-		} catch (IOException e) {
-			e.printStackTrace();
-			System.err.println("Error reading user file.");
-			System.exit(-1);
-		}
-
-		//TODO: Parse out the update method
+	public void openFile (String fileName) {
+		
 		String theirCode = "";
 		String fileLine;
 		BufferedReader in = null;
 		try{
-			in = new BufferedReader(new FileReader(fileText));
+			in = new BufferedReader(new FileReader(new File("./src/playerCode/" + fileName)));
 		}catch(FileNotFoundException e) {
 			System.err.println("Could not load aiNames file");
 			e.printStackTrace();
@@ -95,18 +86,18 @@ public class EditorWindow extends JFrame {
 			}
 
 			while((fileLine = in.readLine()) != null){
-				theirCode = theirCode + fileLine;
+				theirCode = theirCode + "\n" + fileLine;
 			}
-
-
+			
 			in.close();
+			
 		}catch(IOException e) {
 			System.err.println("Could not read aiNames");
 			e.printStackTrace();
 			System.exit(1);
 		}
-
-		return theirCode;
+		
+		getTextArea().setText(theirCode);
 	}
 
 	//Create a NEW file with their specified file name and unit type.
@@ -211,8 +202,9 @@ public class EditorWindow extends JFrame {
 		String lineSeparator = System.getProperty("line.separator");
 
 		try {
-			while(scanner.hasNextLine()) {        
-				fileContents.append(scanner.nextLine() + lineSeparator);
+			while(scanner.hasNextLine()) {
+				System.out.println("reading");
+				fileContents.append(scanner.nextLine() + "\n");
 			}
 			return fileContents.toString();
 		} finally {
