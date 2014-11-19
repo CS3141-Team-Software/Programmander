@@ -21,12 +21,14 @@ import editorWindow.EditorWindow;
 public class EditorFilePopup extends JFrame {
 
 	//Size of pop up window
-	private Dimension screenSize = new Dimension(310,100);
+	private Dimension windowSize = new Dimension(310,133);
+	private Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 
 	private ArrayList<String> aiNames = null;
-	
+
 	//Combo boxes
 	JComboBox<String> filesComboBox = new JComboBox<String>();
+	JComboBox<String> unitComboBox = new JComboBox<String>();
 
 	//JLabels
 	private JLabel fileNameLabel = new JLabel("File Name:");
@@ -34,21 +36,30 @@ public class EditorFilePopup extends JFrame {
 	private EditorWindow editorReference;
 	private MainWindow mainReference;
 	private EditorFilePopup thisWindow = this;
-	
+
 	//Buttons
 	private JButton openButton = new JButton("OPEN");
 	private JButton cancelButton = new JButton("CANCEL");
 	private JButton newButton = new JButton("NEW");
+	
+	private int innerWidth;
+	private int innerHeight;
 
 	public EditorFilePopup(EditorWindow editor) {
+		//Initialize the text area that gives you syntax highlighting.
+		innerWidth = (int)screenSize.getWidth() - getInsets().left - getInsets().right;
+		innerHeight = (int)screenSize.getHeight() - getInsets().bottom - 135;	 //-135 for reasons
+				
 		this.setLayout(null);
 		editorReference = editor;
 		aiNames = editor.getAIList();
-		
+
 		initializeScreenSize();
 		initializeJLabels();
 		initializeButtons();
 		initializeComboBoxes();
+
+		this.setLocation(new Point((int)((innerWidth/2) - windowSize.getWidth()/2),(int)((innerHeight/2) - windowSize.getHeight()/2) + 70));
 
 	}
 
@@ -61,37 +72,42 @@ public class EditorFilePopup extends JFrame {
 	}*/
 
 	private void initializeButtons() {
-		Rectangle openButtonBounds = new Rectangle(5,40,95,25);
+		Rectangle openButtonBounds = new Rectangle(5,70,95,25);
 		openButton.setBounds(openButtonBounds);
 		openButton.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {
 
 				String fileName = (String) filesComboBox.getSelectedItem();
-				
-				editorReference.openFile(fileName);
+				String unitType = (String) unitComboBox.getSelectedItem();
+
+				editorReference.openFile(fileName, unitType);
 				editorReference.setVisible(true);
 				mainReference.setVisible(false);
-				
+
 				thisWindow.dispose();
 			}
 		});
-		
+
 		getContentPane().add(openButton);
 		openButton.setVisible(true);
-		
-		Rectangle newButtonBounds = new Rectangle(105, 40, 95, 25);
+
+		Rectangle newButtonBounds = new Rectangle(105, 70, 95, 25);
 		newButton.setBounds(newButtonBounds);
 		newButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//Launch editor window with a blank update method.
+				editorReference.setVisible(true);
+				mainReference.setVisible(false);
+
+				thisWindow.dispose();
 			}
 		});
 		getContentPane().add(newButton);
 		newButton.setVisible(true);
-		
+
 		//Set cancel button bounds
-		Rectangle cancelButtonBounds = new Rectangle(205,40,95,25);
+		Rectangle cancelButtonBounds = new Rectangle(205,70,95,25);
 		cancelButton.setBounds(cancelButtonBounds);
 		cancelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -103,7 +119,7 @@ public class EditorFilePopup extends JFrame {
 	}
 
 	private void initializeJLabels() {
-		
+
 		//Set the fileLabelbounds
 		Rectangle fileNameRectangleBounds = new Rectangle(10,10,150,20);
 		fileNameLabel.setBounds(fileNameRectangleBounds);
@@ -119,15 +135,24 @@ public class EditorFilePopup extends JFrame {
 		filesComboBox.setBounds(comboBoxBounds);
 		getContentPane().add(filesComboBox);
 		filesComboBox.setVisible(true);
+
+		unitComboBox.addItem("Scout");
+		unitComboBox.addItem("Knight");
+		unitComboBox.addItem("Spawner");
+
+		Rectangle unitBoxBounds = new Rectangle(95,40,200,20);
+		unitComboBox.setBounds(unitBoxBounds);
+		getContentPane().add(unitComboBox);
+		unitComboBox.setVisible(true);
 	}
 
 	private void initializeScreenSize() {
 		//Sets the dimensions of the JFrame.
-		this.setSize(screenSize);// TODO Auto-generated method stub
-		
-		this.setMinimumSize(screenSize);
-		this.setMaximumSize(screenSize);
-		this.setPreferredSize(screenSize);
+		this.setSize(windowSize);// TODO Auto-generated method stub
+
+		this.setMinimumSize(windowSize);
+		this.setMaximumSize(windowSize);
+		this.setPreferredSize(windowSize);
 		getContentPane().setLayout(null);
 	}
 

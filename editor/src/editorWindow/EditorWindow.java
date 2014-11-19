@@ -56,19 +56,9 @@ public class EditorWindow extends JFrame {
 	}
 
 	//======================================Save and load file operation methods========================================
-	/**
-	 * Method to load up a file that was selected by the combo box.
-	 */
-	private void loadFile(String fileStringBasedOnComboBox){
-		//TODO: load the file into the text area.
-		//These variables are our available screensize, including borders
-		innerWidth = (int)screenSize.getWidth() - getInsets().left - getInsets().right;
-		innerHeight = (int)screenSize.getHeight() - getInsets().top - getInsets().bottom - 130;	 //-130 for reasons
-		initializeTextArea(innerWidth, innerHeight, fileStringBasedOnComboBox);
-	}
 
 	//Open their selected file. 
-	public void openFile (String fileName) {
+	public void openFile (String fileName, String unitType) {
 
 		String theirCode = "";
 		String fileLine;
@@ -82,8 +72,8 @@ public class EditorWindow extends JFrame {
 		}
 		try{
 			Pattern p = Pattern.compile(".*update\\s*\\(\\s*GameState.*", Pattern.CASE_INSENSITIVE);
-			
-			     
+
+
 			while((fileLine = in.readLine()) != null){
 
 				//Is it the update() line?
@@ -97,10 +87,23 @@ public class EditorWindow extends JFrame {
 			if (fileLine == null) {
 				//They don't have a properly formatted update method.
 				//Throw an error window. 
+				JOptionPane.showMessageDialog(this, "Cannot open file. \nMake sure the update() method signature is properly formatted.");
+				System.exit(-1);
 			}
 
-			while((fileLine = in.readLine()) != null){
-				theirCode = theirCode + "\n" + fileLine;
+			fileLine = in.readLine();
+			String nextLine = in.readLine();
+			
+			while(fileLine != null) {
+				
+				if (nextLine == null) { //if we're at the last line of our file
+					break;
+				} else {
+					theirCode = theirCode + "\n" + fileLine;
+					fileLine = nextLine;
+					nextLine = in.readLine();
+					
+				}
 			}
 
 			in.close();

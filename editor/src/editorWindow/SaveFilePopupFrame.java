@@ -13,7 +13,8 @@ import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 public class SaveFilePopupFrame extends JFrame{
 
 	//Size of pop up window
-	private Dimension screenSize = new Dimension(260,150);
+	private Dimension windowSize = new Dimension(260,150);
+	private Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 
 	//String array of unit types
 	private String[] unitTypes = {"Scout", "Knight", "Spawner"};
@@ -35,12 +36,20 @@ public class SaveFilePopupFrame extends JFrame{
 	private EditorWindow editorReference;
 	private JButton saveFileButton = new JButton("SAVE");
 	private JButton cancelButton = new JButton("CANCEL");
+	
+	private int innerWidth;
+	private int innerHeight;
+	
 	/**
 	 * Constructor
 	 */
 	public SaveFilePopupFrame(RSyntaxTextArea textAreaText, EditorWindow editor){
 		editorReference = editor;
 		this.textAreaText = textAreaText;
+		//Initialize the text area that gives you syntax highlighting.
+		innerWidth = (int)screenSize.getWidth() - getInsets().left - getInsets().right;
+		innerHeight = (int)screenSize.getHeight() - getInsets().bottom - 135;	 //-135 for reasons
+		
 		initializeScreenSize();
 		initializeComboBoxes();
 		initializeJLabels();
@@ -91,7 +100,7 @@ public class SaveFilePopupFrame extends JFrame{
 
 				} else if (fileExistsAlready()){ //TODO: Method to check if the file is already existing.
 					DecisionWindow fileExists = new DecisionWindow("Do you want to overwrite " + fileName, editorReference, fileName, (String)unitTypesComboBox.getSelectedItem(), thisWindow);
-					fileExists.setLocation(new Point(1300,100));
+					fileExists.setLocation(new Point((int)((innerWidth/2) - windowSize.getWidth()/2),(int)((innerHeight/2) - windowSize.getHeight()/2) + 70));
 				} else if (!fileExistsAlready()){
 					JOptionPane.showMessageDialog(null,"File Saved");
 					editorReference.saveFile(fileName, textAreaText.getText(), (String) unitTypesComboBox.getSelectedItem());
@@ -143,10 +152,10 @@ public class SaveFilePopupFrame extends JFrame{
 
 	private void initializeScreenSize() {
 		//Sets the dimensions of the JFrame.
-		this.setSize(screenSize);
-		this.setMinimumSize(screenSize);
-		this.setMaximumSize(screenSize);
-		this.setPreferredSize(screenSize);
+		this.setSize(windowSize);
+		this.setMinimumSize(windowSize);
+		this.setMaximumSize(windowSize);
+		this.setPreferredSize(windowSize);
 		getContentPane().setLayout(null);
 	}
 
