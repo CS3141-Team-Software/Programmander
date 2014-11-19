@@ -282,7 +282,6 @@ public class EditorWindow extends JFrame {
 	 */
 	private void initializeTextArea(int innerWidth2, int innerHeight2, String fileStringBasedOnComboBox) {
 		//TODO: change this method to load up the text from a file that is already there if the file name from the combo box is not null
-		textArea = new RSyntaxTextArea();
 		textArea.setAlignmentY(Component.TOP_ALIGNMENT);
 		textArea.setAlignmentX(Component.LEFT_ALIGNMENT);
 		textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
@@ -291,7 +290,7 @@ public class EditorWindow extends JFrame {
 		RTextScrollPane sp = new RTextScrollPane(textArea);
 
 		int textWidth = (int)(innerWidth *.80);
-		sp.setBounds(10, 0, textWidth, innerHeight);
+		sp.setBounds(10, 10, textWidth, innerHeight);
 		sp.setVisible(true);
 		textArea.setVisible(true);
 		getContentPane().add(sp);
@@ -333,7 +332,7 @@ public class EditorWindow extends JFrame {
 			}
 		});
 		saveFileButton.setFont(new Font("Comic Sans MS", Font.BOLD, 20));
-		saveFileButton.setBounds(1400, 5, 150, 35);
+		saveFileButton.setBounds(1600, 10, 150, 35);
 		getContentPane().add(saveFileButton);
 		saveFileButton.setBackground(buttonColor);
 	}
