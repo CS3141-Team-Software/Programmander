@@ -27,7 +27,7 @@ public class MainLauncher {
 		
 		
 		
-		EditorWindow editor = new EditorWindow();
+		EditorWindow editor = new EditorWindow("");
 		editor.pack();
 		
 		EditorFilePopup popup = new EditorFilePopup(editor);

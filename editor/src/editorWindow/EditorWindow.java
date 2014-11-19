@@ -17,7 +17,6 @@ import org.fife.ui.rtextarea.RTextScrollPane;
 public class EditorWindow extends JFrame {
 
 	private File currFile;
-	private String currUnitType;
 	private String currFileName;
 
 	private RSyntaxTextArea textArea = new RSyntaxTextArea(10, 10);
@@ -33,7 +32,23 @@ public class EditorWindow extends JFrame {
 	private int innerWidth;
 	private int innerHeight;
 
-	public EditorWindow() {
+	
+	//textareas for points
+	private int totalPoints = 40;
+	private JTextField agilityPoints = new JTextField("0", 7);
+	private JTextField attackPoints = new JTextField("0", 7);
+	private JTextField defensePoints = new JTextField("0", 7);
+	private JTextField healthPoints = new JTextField("0", 7);
+	
+	//Labels 
+	private JLabel agilityLabel = new JLabel("Agility:");
+	private JLabel attackLabel = new JLabel("Attack:");
+	private JLabel defenseLabel = new JLabel("Defense:");
+	private JLabel healthLabel = new JLabel("Health:");
+	private JLabel totalPointsLabel = new JLabel("Total Points:");
+	private JLabel pointsLeftLabel = new JLabel(totalPoints + "");
+	
+	public EditorWindow(String unitType) {
 
 		//Sets the dimensions of the JFrame.
 		this.setSize(screenSize);
@@ -51,6 +66,9 @@ public class EditorWindow extends JFrame {
 		initializeTextArea(innerWidth, innerHeight, null);
 		//initializeComboBoxes();
 		initializeButton();
+		//Initialize the labels for point distribution
+		initializeLabels();
+		initializePointsTextArea();
 		setTitle("Text Editor Demo");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
@@ -307,6 +325,100 @@ public class EditorWindow extends JFrame {
 		getContentPane().add(sp);
 	}
 
+	/**
+	 * Method to initialize all the labels inside the editor window GUIUIUIUIUIUIUIUIUI
+	 */
+	private void initializeLabels(){
+		int pointsLabelX = (int) (screenSize.getWidth() * .85);
+		int pointsLabelY = (int) (screenSize.getHeight() * .33);
+		
+		agilityLabel.setBounds(pointsLabelX, pointsLabelY, 300, 100);
+		getContentPane().add(agilityLabel);
+		agilityLabel.setVisible(true);
+		
+		pointsLabelY += 25;
+		attackLabel.setBounds(pointsLabelX, pointsLabelY, 300, 100);
+		getContentPane().add(attackLabel);
+		attackLabel.setVisible(true);
+		
+		pointsLabelY += 25;
+		defenseLabel.setBounds(pointsLabelX, pointsLabelY, 300, 100);
+		getContentPane().add(defenseLabel);
+		defenseLabel.setVisible(true);
+		
+		pointsLabelY += 25;
+		healthLabel.setBounds(pointsLabelX, pointsLabelY, 300, 100);
+		getContentPane().add(healthLabel);
+		healthLabel.setVisible(true);
+		
+		pointsLabelY += 25;
+		totalPointsLabel.setBounds(pointsLabelX , pointsLabelY, 300, 100);
+		getContentPane().add(totalPointsLabel);
+		totalPointsLabel.setVisible(true);
+		
+		pointsLeftLabel.setBounds(pointsLabelX + 100, pointsLabelY, 300, 100);
+		getContentPane().add(pointsLeftLabel);
+		pointsLeftLabel.setVisible(true);		
+	}
+	
+	/**
+	 * Method to give text areas to enter in points for each area of the actor.
+	 */
+	private void initializePointsTextArea(){
+		//Bounds variables
+		int pointsTextFieldX = (int)(screenSize.getWidth() * .92);		//X coordinate
+		int pointsTextFieldY = (int)(screenSize.getHeight() * .37);		//Y coordinate
+		int textFieldWidth = 30;										//Textfield width
+		int textFeildHeight = 15;										//Textfield height
+		
+		agilityPoints.setBounds(pointsTextFieldX, pointsTextFieldY, textFieldWidth, textFeildHeight);
+		agilityPoints.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int pointsLeft = Integer.parseInt(pointsLeftLabel.getText());
+				int pointsInAgility = Integer.parseInt(agilityPoints.getText());
+				pointsLeftLabel.setText((pointsLeft - pointsInAgility) + "");
+			}
+		});
+		getContentPane().add(agilityPoints);
+		agilityPoints.setVisible(true);
+		
+		pointsTextFieldY += 25;
+		attackPoints.setBounds(pointsTextFieldX, pointsTextFieldY, textFieldWidth, textFeildHeight);
+		attackPoints.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int pointsLeft = Integer.parseInt(pointsLeftLabel.getText());
+				int pointsInAttack = Integer.parseInt(attackPoints.getText());
+				pointsLeftLabel.setText((pointsLeft - pointsInAttack) + "");
+			}
+		});
+		getContentPane().add(attackPoints);
+		attackPoints.setVisible(true);
+		
+		pointsTextFieldY += 25;
+		defensePoints.setBounds(pointsTextFieldX, pointsTextFieldY, textFieldWidth, textFeildHeight);
+		defensePoints.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int pointsLeft = Integer.parseInt(pointsLeftLabel.getText());
+				int pointsInDefense = Integer.parseInt(defensePoints.getText());
+				pointsLeftLabel.setText((pointsLeft - pointsInDefense) + "");
+			}
+		});
+		getContentPane().add(defensePoints);
+		defensePoints.setVisible(true);
+		
+		pointsTextFieldY += 25;
+		healthPoints.setBounds(pointsTextFieldX, pointsTextFieldY, textFieldWidth, textFeildHeight);
+		healthPoints.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int pointsLeft = Integer.parseInt(pointsLeftLabel.getText());
+				int pointsInHealth = Integer.parseInt(healthPoints.getText());
+				pointsLeftLabel.setText((pointsLeft - pointsInHealth) + "");
+			}
+		});
+		getContentPane().add(healthPoints);
+		healthPoints.setVisible(true);
+	}
+	
 	/**
 	 * Method to initialize the 
 	 */
