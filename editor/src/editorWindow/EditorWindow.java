@@ -4,8 +4,12 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.util.*;
+
 import javax.swing.*;
+
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rtextarea.RTextScrollPane;
@@ -65,7 +69,7 @@ public class EditorWindow extends JFrame {
 
 	//Open their selected file. 
 	public void openFile (String fileName) {
-		
+
 		String theirCode = "";
 		String fileLine;
 		BufferedReader in = null;
@@ -77,32 +81,36 @@ public class EditorWindow extends JFrame {
 			System.exit(1);
 		}
 		try{
+			Pattern p = Pattern.compile(".*update\\s*\\(\\s*GameState.*", Pattern.CASE_INSENSITIVE);
+			
+			     
 			while((fileLine = in.readLine()) != null){
+
 				//Is it the update() line?
-				if (fileLine.matches("update\\s*\\(\\s*GameState")) {
+				if (p.matcher(fileLine).matches()) {
 					theirCode = fileLine;
 					System.out.println("Match");
 					break; //we found the update method!
-				}
+				} 
 			}
-			
+
 			if (fileLine == null) {
 				//They don't have a properly formatted update method.
 				//Throw an error window. 
 			}
-			
+
 			while((fileLine = in.readLine()) != null){
 				theirCode = theirCode + "\n" + fileLine;
 			}
-			
+
 			in.close();
-			
+
 		}catch(IOException e) {
 			System.err.println("Could not read aiNames");
 			e.printStackTrace();
 			System.exit(1);
 		}
-		
+
 		getTextArea().setText(theirCode);
 	}
 
@@ -191,8 +199,8 @@ public class EditorWindow extends JFrame {
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println
-			
-("Error writing to a class file");
+
+			("Error writing to a class file");
 			System.exit(-1);
 		}
 	}
@@ -314,16 +322,16 @@ public class EditorWindow extends JFrame {
 	private void initializeButton(){
 
 		Color buttonColor = new Color(233, 233, 233);
-//		//loadFile Button
-//		loadFileButton.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent arg0) {
-//				loadFile("string");
-//			}
-//		});
-//		loadFileButton.setFont(new Font("Comic Sans MS", Font.BOLD, 20));
-//		loadFileButton.setBounds(350, 5, 150, 35);
-//		getContentPane().add(loadFileButton);
-//		loadFileButton.setBackground(runButtonColor);
+		//		//loadFile Button
+		//		loadFileButton.addActionListener(new ActionListener() {
+		//			public void actionPerformed(ActionEvent arg0) {
+		//				loadFile("string");
+		//			}
+		//		});
+		//		loadFileButton.setFont(new Font("Comic Sans MS", Font.BOLD, 20));
+		//		loadFileButton.setBounds(350, 5, 150, 35);
+		//		getContentPane().add(loadFileButton);
+		//		loadFileButton.setBackground(runButtonColor);
 
 		//saveFile Button
 		saveFileButton.addActionListener(new ActionListener() {
