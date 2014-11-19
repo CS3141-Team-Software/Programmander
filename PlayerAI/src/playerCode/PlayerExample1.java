@@ -45,7 +45,9 @@ public class PlayerExample1 extends Spawner {
 	public class MyKnight extends Knight {
 
 		public int update(GameState G) {
-				
+				if(isStuck()){
+					return action("move","west");
+				}
 			if(isEnemyN(G)){
 				return action("attack","north");
 			}

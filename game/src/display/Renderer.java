@@ -12,7 +12,6 @@ import java.util.TreeMap;
 import javax.imageio.ImageIO;
 
 import api.Actor;
-import api.GameState;
 
 public class Renderer {
 
@@ -59,7 +58,7 @@ public class Renderer {
 
 				actor = node.getActor();
 				if (actor != null) {
-					unit = getFromCache(actor.getType());
+					unit = getFromCache(actor.getType(),actor.getTeam());
 					g.drawImage(unit, xCoord, yCoord, null);
 				}
 
@@ -108,5 +107,30 @@ public class Renderer {
 			return cache.get(str);
 		}
 	}
+	public Image getFromCache(String str, int team){//for actpro
+		if(cache.get(str + team) == null) {
 
+			BufferedImage imageFile = null;
+			str = str.toLowerCase();
+
+			System.out.println("Drawing " + team);
+			try {
+				InputStream stream = getClass().getResourceAsStream("/assets/art/" + (team == 1 ? "red_" : "blue_" ) + str + ".png");
+				imageFile = ImageIO.read(stream);
+				if (imageFile == null) {
+					throw new Exception();
+				}
+			} catch (Exception e){
+				e.printStackTrace();
+				System.err.println("Error loading map tile art " + str);
+				System.exit(1);
+			}
+
+			cache.put(str + team, imageFile);
+			return imageFile;
+
+		} else {
+			return cache.get(str + team);
+		}
+	}
 }

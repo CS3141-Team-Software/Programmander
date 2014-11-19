@@ -148,7 +148,7 @@ public abstract class Actor {
 		}
 	}
 
-	public int gotToPoint(GameState G, Point p){
+	public int goToPoint(GameState G, Point p){
 		Graph map = G.map;
 		return map.pathFinder(new Point(x,y), p);
 

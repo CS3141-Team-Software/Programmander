@@ -205,6 +205,7 @@ public class GameEngine {
 						unit.setTeam(1);
 					} else continue;
 				}
+				System.out.println("New unit, team " + unit.getTeam());
 
 				//If we want to spawn a unit, make sure we have space
 				GraphNode castlePos = null;
