@@ -1,7 +1,7 @@
 19 19 20
 0 0 0 dirt
 0 1 0 dirt
-0 2 0 dirt
+0 2 redcastle dirt
 0 3 0 dirt
 0 4 0 dirt
 0 5 0 dirt

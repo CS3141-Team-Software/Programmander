@@ -5,6 +5,7 @@ import gameEngine.GraphNode;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 
 /**
@@ -162,7 +163,101 @@ public abstract class Actor {
 	public boolean heardRally(){
 		return (rallyPoint != null);
 	}
+	public boolean isStuck(){
+		if(prevLoc == null){
+			prevLoc = new Point(x,y);
+			return false;
+		}
+		Point temp = prevLoc;
+		prevLoc = new Point(x,y);
+		return (((int)temp.getX() == x) && ((int)temp.getY() == y));
+	}
 	//END OF TATTLING FUNCTIONS
+
+
+	/**
+	 * Observation Functions
+	 * lets the user "look" at the map
+	 * and remember things
+	 */
+	public boolean isNOpen(GameState G){
+		return (G.getMap().getNode(x, y).getNNode() != null);
+	}
+	public boolean isNEOpen(GameState G){
+		return (G.getMap().getNode(x, y).getNENode() != null);
+	}
+	public boolean isEOpen(GameState G){
+		return (G.getMap().getNode(x, y).getENode() != null);
+	}
+	public boolean isSEOpen(GameState G){
+		return (G.getMap().getNode(x, y).getSENode() != null);
+	}
+	public boolean isSOpen(GameState G){
+		return (G.getMap().getNode(x, y).getSNode() != null);
+	}
+	public boolean isSWOpen(GameState G){
+		return (G.getMap().getNode(x, y).getSWNode() != null);
+	}
+	public boolean isWOpen(GameState G){
+		return (G.getMap().getNode(x, y).getWNode() != null);
+	}
+	public boolean isNWOpen(GameState G){
+		return (G.getMap().getNode(x, y).getNWNode() != null);
+	}
+
+	public ArrayList<Actor> getEnemies(GameState G){
+		ArrayList<Actor> limlist = new ArrayList<Actor>();
+		ArrayList<GraphNode> View = this.returnLimmitedView(G);
+		Iterator<GraphNode> i = View.iterator();
+		while(i.hasNext()){
+			GraphNode next = i.next();
+			if(next.getActor() != null && next.getActor().getTeam() != team){
+				limlist.add(next.getActor());
+			}
+		}
+		return limlist;
+	}
+
+	public Point getWeakestEnemy(GameState G){
+		ArrayList<Actor> limlist = getEnemies(G);
+		if(!limlist.isEmpty()){
+
+			Iterator<Actor> i = limlist.iterator();
+			Actor weakest = i.next();
+			while(i.hasNext()){
+				Actor next = i.next();
+				if(weakest.getHealth() >= next.getHealth()){
+					weakest = next;
+				}
+
+
+			}
+			return new Point(weakest.getX(), weakest.getY());
+		}
+		return null;
+
+	}
+
+	public Point getStrongestEnemy(GameState G){
+		ArrayList<Actor> limlist = getEnemies(G);
+		if(!limlist.isEmpty()){
+
+			Iterator<Actor> i = limlist.iterator();
+			Actor weakest = i.next();
+			while(i.hasNext()){
+				Actor next = i.next();
+				if(weakest.getHealth() <= next.getHealth()){
+					weakest = next;
+				}
+
+
+			}
+			return new Point(weakest.getX(), weakest.getY());
+		}
+		return null;
+
+	}
+	//END OF OBSERVATION FUNCTIONS
 
 
 	//Shouts
@@ -184,6 +279,45 @@ public abstract class Actor {
 
 	public int action(int action, int direction){
 		return action + direction;
+	}
+	//Caleb - I don't think we can expect the "macro" things to be passed down
+	//to the children (Scouts, Knights, ect). Here's a string implementation.
+
+	public int action(String act, String dir){
+		int ret = 0;
+		//for the action string
+		if(act.toLowerCase() == "move")
+			ret = 10;
+		else if(act.toLowerCase() == "defend")
+			ret = 20;
+		else if(act.toLowerCase() == "attack")
+			ret = 30;
+		else
+			return 0;
+
+
+		//for the direction string
+		if(dir.toLowerCase() == "north")
+			ret += 0;
+		else if(dir.toLowerCase() == "northeast")
+			ret += 1;
+		else if(dir.toLowerCase() == "east")
+			ret += 2;
+		else if(dir.toLowerCase() == "southeast")
+			ret += 3;
+		else if(dir.toLowerCase() == "south")
+			ret += 4;
+		else if(dir.toLowerCase() == "southwest")
+			ret += 5;
+		else if(dir.toLowerCase() == "west")
+			ret += 6;
+		else if(dir.toLowerCase() == "northwest")
+			ret += 7;
+		else
+			return 0;
+
+		return ret;
+
 	}
 
 

@@ -3,6 +3,7 @@ import api.*;
 
 public class PlayerExample1 extends Spawner {
 	boolean spawn;
+	int i = 0;
 	public PlayerExample1(){
 		spawn = true;
 
@@ -10,9 +11,9 @@ public class PlayerExample1 extends Spawner {
 
 	public Actor update(GameState G) {
 
-		if(spawn){ 
+		if(i < 1){ 
 			spawn = false;
-
+			i = i+1;
 			return new MyScout();
 		}
 		else{
@@ -27,15 +28,25 @@ public class PlayerExample1 extends Spawner {
 	 */
 
 	public class MyScout extends Scout{
+		boolean gotStuck = false;
 		public int update(GameState G) {
+			if(gotStuck || isStuck()){
+				System.out.println("returning to base");
+				gotStuck = true;
+				int ret = returnToBase(G);
+				System.out.println("going "+ret);
+				return ret;	
+			}
 			return 12;
 		}
 	}
 
 
 	public class MyKnight extends Knight {
+
 		public int update(GameState G) {
-			return 10;
+			System.out.println(this.getX() +" " +this.getY() +" attacking east");
+			return action("attack","east");
 		}
 
 	}

@@ -265,14 +265,26 @@ public class Graph{
 				}
 
 				if(currPos != (null)){
-					if(costMap[currPos.getY()][currPos.getX()] == 0 && (currPos.getActor() == null) && (currPos.getObstruction() == null)){
+					if(costMap[currPos.getY()][currPos.getX()] == 0 && (currPos.getActor() == null) && (currPos.getObstruction() == null || currPos.getCastle() != null)){
 						toCheck.addLast(new Point(currPos.getX(), currPos.getY()));
 						costMap[currPos.getY()][currPos.getX()] = costMap[(int) curr.getY()][(int) curr.getX()] + 1;
+					}
+					if(costMap[currPos.getY()][currPos.getX()] == 0 && (currPos.getActor() != null) && (currPos.getObstruction() == null || currPos.getCastle() != null)){
+						costMap[currPos.getY()][currPos.getX()] = -1 * (costMap[(int) curr.getY()][(int) curr.getX()] + 1);
 					}
 				}
 
 			}
 
+		}
+
+
+		for(int i = 0; i < rows; i++){
+			String temp = "";
+			for(int j = 0; j < cols; j++){
+				temp += " " + String.format("%02d", costMap[i][j]);
+			}
+			System.out.println(temp);
 		}
 
 		Point ret = traceBack(dest, costMap);
@@ -287,12 +299,12 @@ public class Graph{
 			for (int i = 0; i <= 8; i++) {
 				switch(i){
 				case 0: currPos = myPos.getNNode(); act = 10; break;
-				case 1: currPos = myPos.getNENode(); act = 11; break;
+				case 1: currPos = myPos.getSNode(); act = 14; break;
 				case 2: currPos = myPos.getENode(); act = 12; break;
-				case 3: currPos = myPos.getSENode(); act = 13; break;
-				case 4: currPos = myPos.getSNode(); act = 14; break;
+				case 3: currPos = myPos.getWNode(); act = 16; break;
+				case 4: currPos = myPos.getNENode(); act = 11; break;
 				case 5: currPos = myPos.getSWNode(); act = 15; break;
-				case 6: currPos = myPos.getWNode(); act = 16; break;
+				case 6: currPos = myPos.getSENode(); act = 13; break;
 				case 7: currPos = myPos.getNWNode(); act = 17; break;
 				default: currPos = null;
 				}
@@ -305,7 +317,6 @@ public class Graph{
 
 			}
 		}
-
 		return 0;// should never reach this
 	}
 
@@ -318,20 +329,67 @@ public class Graph{
 		GraphNode currPos = null;
 		GraphNode myPos = map[(int) pnt.getY()][(int) pnt.getX()];
 
-		int cost = costMap[pnt.y][pnt.x];
+
+		int cost = Math.abs(costMap[pnt.y][pnt.x]);
+		if (cost == 0){
+			int lowest = 9999999;
+			GraphNode lowestNode = null;
+			for (int i = 0; i <= 8; i++) {
+				switch(i){
+				case 0: currPos = myPos.getNNode(); break;
+				case 1: currPos = myPos.getSNode(); break;
+				case 2: currPos = myPos.getENode(); break;
+				case 3: currPos = myPos.getWNode(); break;
+				case 4: currPos = myPos.getNENode(); break;
+				case 5: currPos = myPos.getSWNode(); break;
+				case 6: currPos = myPos.getSENode(); break;
+				case 7: currPos = myPos.getNWNode();break;
+				}
+				if(currPos != null){
+					if(Math.abs(costMap[currPos.getY()][currPos.getX()]) < lowest){
+						lowest = Math.abs(costMap[currPos.getY()][currPos.getX()]);
+						lowestNode = currPos;
+						System.out.println(lowest);
+					}
+				}
+			}
+			if(lowestNode != null){
+				System.out.println(lowestNode.getX() + " " + lowestNode.getY());
+				return traceBack(new Point(lowestNode.getX(), lowestNode.getY()), costMap);
+			}
+		}
+
 		for (int i = 0; i <= 8; i++) {
 			switch(i){
-			case 0: currPos = myPos.getNNode(); System.out.println("0 " + pnt.toString());break;
-			case 1: currPos = myPos.getNENode(); System.out.println("1");break;
-			case 2: currPos = myPos.getENode(); System.out.println("2");break;
-			case 3: currPos = myPos.getSENode(); System.out.println("3");break;
-			case 4: currPos = myPos.getSNode(); System.out.println("4");break;
-			case 5: currPos = myPos.getSWNode(); System.out.println("5");break;
-			case 6: currPos = myPos.getWNode(); System.out.println("6");break;
-			case 7: currPos = myPos.getNWNode(); System.out.println("7");break;
+			case 0: currPos = myPos.getNNode(); break;
+			case 1: currPos = myPos.getSNode(); break;
+			case 2: currPos = myPos.getENode(); break;
+			case 3: currPos = myPos.getWNode(); break;
+			case 4: currPos = myPos.getNENode(); break;
+			case 5: currPos = myPos.getSWNode(); break;
+			case 6: currPos = myPos.getSENode(); break;
+			case 7: currPos = myPos.getNWNode();break;
 			}
 			if(currPos != null){
 				if(costMap[currPos.getY()][currPos.getX()] == cost-1){
+					return traceBack(new Point(currPos.getX(), currPos.getY()), costMap);
+				}
+			}
+		}
+
+		for (int i = 0; i <= 8; i++) {
+			switch(i){
+			case 0: currPos = myPos.getNNode(); break;
+			case 1: currPos = myPos.getSNode(); break;
+			case 2: currPos = myPos.getENode(); break;
+			case 3: currPos = myPos.getWNode(); break;
+			case 4: currPos = myPos.getNENode(); break;
+			case 5: currPos = myPos.getSWNode(); break;
+			case 6: currPos = myPos.getSENode(); break;
+			case 7: currPos = myPos.getNWNode();break;
+			}
+			if(currPos != null){
+				if(Math.abs(costMap[currPos.getY()][currPos.getX()]) == cost-1){
 					return traceBack(new Point(currPos.getX(), currPos.getY()), costMap);
 				}
 			}

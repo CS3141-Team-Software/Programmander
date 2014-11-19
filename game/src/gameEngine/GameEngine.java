@@ -91,7 +91,8 @@ public class GameEngine {
 	public void updateGameState(GameState state) {
 
 		// iterate through actors and update the map with the move each actor
-		// wants to take.
+		// wants to take.]
+		ArrayList<Actor> toRem = new ArrayList<Actor>();
 		for (Actor a : actors) {
 			int aMove = a.update(state);
 			int action = aMove / 10;
@@ -139,29 +140,38 @@ public class GameEngine {
 
 				Actor enemy = actual.getActor();
 				if (enemy != null) {
-					if (enemy.getTeam() == a.getTeam()) {
+					if (enemy.getTeam() != a.getTeam()) {
+						System.out.println(enemy+" and "+a+" are fighting!");
 						int att = a.attackThrow();
 						int def = enemy.defenseThrow();
 						// Simple Fighting System
 						if (att > def) {
 							enemy.setHealth(enemy.getHealth() - (att - def));
 							if (enemy.getHealth() < 0) {
-								actual.setActor(null);
-								actors.remove(enemy);
+
+								toRem.add(enemy);
 							}
 						}
 						// Retaliation!
 						else {
 							a.setHealth(a.getHealth() - (def - att) / 2);
 							if (a.getHealth() < 0) {
-								map.getNode(a.getX(), a.getY()).setActor(null);
-								actors.remove(a);
+								toRem.add(a);
 							}
 						}
 					}
 				}
 			}
 		}//End foreach actors
+
+		for(Actor x : toRem){
+
+			System.out.println(x + " should be deleated");
+			map.getNode(x.getX(), x.getY()).setActor(null);
+			actors.remove(x);
+
+		}
+
 
 		//Go through spawners and update them
 		for (Spawner s : spawners) {
@@ -204,7 +214,6 @@ public class GameEngine {
 					default: currPos = null;
 					}
 					if (currPos != null && currPos.getActor() == null) {//if currPos is valid
-						System.out.println("spawn position" + currPos.getX() + ", " + currPos.getY());
 						currPos.setActor(unit);
 						unit.setBasePos(new Point(castleX,castleY));
 
@@ -225,7 +234,6 @@ public class GameEngine {
 							}
 						}
 						actors.add(j,unit);
-						System.out.println("actor list size " + actors.size() +"actor: "+actors.get(j));
 						break;
 					}
 				}

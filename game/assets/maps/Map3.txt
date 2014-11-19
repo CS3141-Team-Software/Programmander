@@ -1,5 +1,5 @@
 10 10 20
-0 0 0 grass
+0 0 redcastle grass
 0 1 0 grass
 0 2 0 grass
 0 3 0 grass
