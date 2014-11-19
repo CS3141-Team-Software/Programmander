@@ -45,8 +45,11 @@ public class PlayerExample1 extends Spawner {
 	public class MyKnight extends Knight {
 
 		public int update(GameState G) {
-			System.out.println(this.getX() +" " +this.getY() +" attacking east");
-			return action("attack","east");
+				
+			if(isEnemyN(G)){
+				return action("attack","north");
+			}
+			return action("move","north");
 		}
 
 	}

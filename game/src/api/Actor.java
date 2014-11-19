@@ -147,6 +147,12 @@ public abstract class Actor {
 			return 0;
 		}
 	}
+
+	public int gotToPoint(GameState G, Point p){
+		Graph map = G.map;
+		return map.pathFinder(new Point(x,y), p);
+
+	}
 	//END OF PATHFINDING FUNCTIONS
 
 	/**
@@ -204,6 +210,73 @@ public abstract class Actor {
 	public boolean isNWOpen(GameState G){
 		return (G.getMap().getNode(x, y).getNWNode() != null);
 	}
+
+
+	public boolean isEnemyN(GameState G){
+		GraphNode node = G.getMap().getNode(x, y).getNNode();
+		if(node != null){
+			Actor found = node.getActor();
+			return (found != null && found.getTeam() != team);
+		}
+		return false;
+	}
+	public boolean isEnemyNE(GameState G){
+		GraphNode node = G.getMap().getNode(x, y).getNENode();
+		if(node != null){
+			Actor found = node.getActor();
+			return (found != null && found.getTeam() != team);
+		}
+		return false;
+	}
+	public boolean isEnemyE(GameState G){
+		GraphNode node = G.getMap().getNode(x, y).getENode();
+		if(node != null){
+			Actor found = node.getActor();
+			return (found != null && found.getTeam() != team);
+		}
+		return false;
+	}
+	public boolean isEnemySE(GameState G){
+		GraphNode node = G.getMap().getNode(x, y).getSENode();
+		if(node != null){
+			Actor found = node.getActor();
+			return (found != null && found.getTeam() != team);
+		}
+		return false;
+	}
+	public boolean isEnemyS(GameState G){
+		GraphNode node = G.getMap().getNode(x, y).getSNode();
+		if(node != null){
+			Actor found = node.getActor();
+			return (found != null && found.getTeam() != team);
+		}
+		return false;
+	}
+	public boolean isEnemySW(GameState G){
+		GraphNode node = G.getMap().getNode(x, y).getSWNode();
+		if(node != null){
+			Actor found = node.getActor();
+			return (found != null && found.getTeam() != team);
+		}
+		return false;
+	}
+	public boolean isEnemyW(GameState G){
+		GraphNode node = G.getMap().getNode(x, y).getWNode();
+		if(node != null){
+			Actor found = node.getActor();
+			return (found != null && found.getTeam() != team);
+		}
+		return false;
+	}
+	public boolean isEnemyNW(GameState G){
+		GraphNode node = G.getMap().getNode(x, y).getNWNode();
+		if(node != null){
+			Actor found = node.getActor();
+			return (found != null && found.getTeam() != team);
+		}
+		return false;
+	}
+
 
 	public ArrayList<Actor> getEnemies(GameState G){
 		ArrayList<Actor> limlist = new ArrayList<Actor>();

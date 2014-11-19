@@ -1,5 +1,5 @@
 package gameEngine;
-
+//xinput set-button-map 10 1 0 3 4 5 6 7
 import java.awt.Point;
 import java.io.File;
 import java.net.URL;
@@ -43,25 +43,43 @@ public class GameEngine {
 		//Initialize 1st player's AI by calling Mark's magic code.
 		//---------------Just don't look
 		Spawner playerSpawner = null;
-		File f = new File("ais/ai.jar");
-		URLClassLoader urlCl;
+		File f0 = new File("ais/ai.jar");
+		URLClassLoader urlCl0;
 		try {
-			urlCl = new URLClassLoader(new URL[] { f.toURI().toURL() },	Spawner.class.getClassLoader());
-			System.out.println(firstAIName);
-			Class<?> testAI = urlCl.loadClass("playerCode."	+ firstAIName);
-			Class<? extends Spawner> myAIClass = testAI.asSubclass(Spawner.class);
-			playerSpawner = myAIClass.newInstance();
+			urlCl0 = new URLClassLoader(new URL[] { f0.toURI().toURL() },	Spawner.class.getClassLoader());
+			System.out.println("p1: "	+ firstAIName);
+			Class<?> testAI0 = urlCl0.loadClass("playerCode."	+ firstAIName);
+			Class<? extends Spawner> myAIClass0 = testAI0.asSubclass(Spawner.class);
+			playerSpawner = myAIClass0.newInstance();
 			playerSpawner.setTeam(0);
 			spawners.add(playerSpawner);
 		} catch (Exception e) {
-			System.err.println("ERR: Loading their code");
+			System.err.println("ERR: Loading p0 code");
 			e.printStackTrace();
 			System.exit(1);
 		}
 		// -----------------You can look now
 
-		if (is2Player) {
-			//Initialize 2nd player's AI
+		if (true) {//TODO: NOT THIS
+			//Initialize 2nd player's AI		//Initialize 1st player's AI by calling Mark's magic code.
+			//---------------Just don't look
+			Spawner secondSpawner = null;
+			File f1 = new File("ais/ai.jar");
+			URLClassLoader urlCl1;
+			try {
+				urlCl1 = new URLClassLoader(new URL[] { f1.toURI().toURL() },	Spawner.class.getClassLoader());
+				System.out.println("p1: "	+ difficulty);
+				Class<?> testAI1 = urlCl1.loadClass("playerCode."	+ difficulty);
+				Class<? extends Spawner> myAIClass1 = testAI1.asSubclass(Spawner.class);
+				secondSpawner = myAIClass1.newInstance();
+				secondSpawner.setTeam(1);
+				spawners.add(secondSpawner);
+			} catch (Exception e) {
+				System.err.println("ERR: Loading p1 code code");
+				e.printStackTrace();
+				System.exit(1);
+			}
+			// -----------------You can look now
 		} else {
 			//Initialize our AI based on which difficulty was selected
 		}
@@ -70,7 +88,6 @@ public class GameEngine {
 		current = new GameState(map, actors);
 
 	}
-
 	//Run the game!
 	public void run() {
 

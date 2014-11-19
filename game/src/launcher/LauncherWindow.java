@@ -68,7 +68,7 @@ public class LauncherWindow extends JFrame {
 	private JLabel player2AILabel = new JLabel("Player 2 AI");
 	private JLabel difficultyLabel = new JLabel("Difficulty");
 	private JLabel mapsLabel = new JLabel("Maps");
-	private Boolean isThereAPlayer2 = false;
+	private Boolean isThereAPlayer2 = true;
 	private String player2NameOrDifficulty;
 
 	//label bounds varialbes
@@ -160,7 +160,7 @@ public class LauncherWindow extends JFrame {
 					comboBoxPlayer2AI.setVisible(false);
 					player2AILabel.setVisible(false);
 					isThereAPlayer2 = false;
-				} else if((s.equalsIgnoreCase(""))){
+				} else {
 					comboBoxPlayer2AI.setVisible(true);
 					player2AILabel.setVisible(true);
 					isThereAPlayer2 = true;
@@ -200,6 +200,7 @@ public class LauncherWindow extends JFrame {
 				}else {
 					player2NameOrDifficulty = (String)comboBoxDifficulty.getSelectedItem();
 				}
+				System.out.println("boolRyb: " + isThereAPlayer2);
 				GameEngine engine = new GameEngine((String)comboBoxMaps.getSelectedItem(), (String)comboBoxPlayer1AI.getSelectedItem(), player2NameOrDifficulty, isThereAPlayer2);
 				setVisible(false);
 				engine.run();

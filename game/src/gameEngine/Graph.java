@@ -174,7 +174,7 @@ public class Graph{
 	 * returns the node at the specified coordinates
 	 */
 	public GraphNode getNode(int x, int y){
-		if(x >= cols || y >= rows){
+		if(x > cols || y > rows || x < 0 || y < 0){
 			return null;
 		}
 		else{
@@ -279,14 +279,6 @@ public class Graph{
 		}
 
 
-		for(int i = 0; i < rows; i++){
-			String temp = "";
-			for(int j = 0; j < cols; j++){
-				temp += " " + String.format("%02d", costMap[i][j]);
-			}
-			System.out.println(temp);
-		}
-
 		Point ret = traceBack(dest, costMap);
 
 		if(ret == null){// we couldn't find a rout to dest
@@ -349,12 +341,10 @@ public class Graph{
 					if(Math.abs(costMap[currPos.getY()][currPos.getX()]) < lowest){
 						lowest = Math.abs(costMap[currPos.getY()][currPos.getX()]);
 						lowestNode = currPos;
-						System.out.println(lowest);
 					}
 				}
 			}
 			if(lowestNode != null){
-				System.out.println(lowestNode.getX() + " " + lowestNode.getY());
 				return traceBack(new Point(lowestNode.getX(), lowestNode.getY()), costMap);
 			}
 		}
