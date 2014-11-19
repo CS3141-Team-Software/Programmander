@@ -5,7 +5,7 @@ import java.awt.event.*;
 import java.io.*;
 import java.util.*;
 import javax.swing.*;
-
+import java.util.regex.Matcher;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rtextarea.RTextScrollPane;
@@ -79,12 +79,17 @@ public class EditorWindow extends JFrame {
 		try{
 			while((fileLine = in.readLine()) != null){
 				//Is it the update() line?
-				if (fileLine.contains("update(Gamestate")) {
+				if (fileLine.matches("update\\s*\\(\\s*GameState")) {
 					theirCode = fileLine;
 					break; //we found the update method!
 				}
 			}
-
+			
+			if (fileLine == null) {
+				//They don't have a properly formatted update method.
+				//Throw an error window. 
+			}
+			
 			while((fileLine = in.readLine()) != null){
 				theirCode = theirCode + "\n" + fileLine;
 			}
@@ -276,7 +281,6 @@ public class EditorWindow extends JFrame {
 	 */
 	private void initializeTextArea(int innerWidth2, int innerHeight2, String fileStringBasedOnComboBox) {
 		//TODO: change this method to load up the text from a file that is already there if the file name from the combo box is not null
-		RSyntaxTextArea textArea = new RSyntaxTextArea("string to add");
 		textArea.setAlignmentY(Component.TOP_ALIGNMENT);
 		textArea.setAlignmentX(Component.LEFT_ALIGNMENT);
 		textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);

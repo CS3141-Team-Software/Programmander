@@ -71,6 +71,7 @@ public class EditorFilePopup extends JFrame {
 				
 				editorReference.openFile(fileName);
 				editorReference.setVisible(true);
+				mainReference.setVisible(false);
 				
 				thisWindow.dispose();
 			}
