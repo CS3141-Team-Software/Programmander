@@ -81,6 +81,7 @@ public class EditorWindow extends JFrame {
 				//Is it the update() line?
 				if (fileLine.matches("update\\s*\\(\\s*GameState")) {
 					theirCode = fileLine;
+					System.out.println("Match");
 					break; //we found the update method!
 				}
 			}
