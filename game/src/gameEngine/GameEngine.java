@@ -26,6 +26,9 @@ public class GameEngine {
 	private ArrayList<Spawner> spawners;
 	private int blueNumUnits, redNumUnits, mapNumUnits;
 
+	private Spawner blueSpawner;
+	private Spawner redSpawner;
+
 	private Display display;
 	private long turnTime = 1000;
 	private long currTime;
@@ -52,6 +55,7 @@ public class GameEngine {
 			Class<? extends Spawner> myAIClass0 = testAI0.asSubclass(Spawner.class);
 			playerSpawner = myAIClass0.newInstance();
 			playerSpawner.setTeam(0);
+			blueSpawner = playerSpawner;
 			spawners.add(playerSpawner);
 		} catch (Exception e) {
 			System.err.println("ERR: Loading p0 code");
@@ -73,6 +77,7 @@ public class GameEngine {
 				Class<? extends Spawner> myAIClass1 = testAI1.asSubclass(Spawner.class);
 				secondSpawner = myAIClass1.newInstance();
 				secondSpawner.setTeam(1);
+				redSpawner = secondSpawner;
 				spawners.add(secondSpawner);
 			} catch (Exception e) {
 				System.err.println("ERR: Loading p1 code code");
@@ -174,8 +179,6 @@ public class GameEngine {
 									map.getNode(a.getX(), a.getY()).setActor(null);
 									actual.setActor(a);
 								}
-
-
 							}
 						}
 						// Retaliation!
@@ -186,86 +189,112 @@ public class GameEngine {
 							}
 						}
 					}
-				}
-			}
-		}//End foreach actors
+				} //end of attacking a unit
 
-		for(Actor x : toRem){
-			if(x.equals(map.getNode(x.getX(), x.getY()).getActor())){
-				map.getNode(x.getX(), x.getY()).setActor(null);
-			}
-			actors.remove(x);
+				//If they aren't attacking a unit, are they attacking a castle?
+				else if(actual.getCastle() != null){
+					if(a.getTeam() == 0){
+						if(actual.getCastle() == "Red"){//Blue attacking red
+							redSpawner.health -= a.attackThrow();
+							redSpawner.underAttack = true;
 
-		}
+							if(redSpawner.health <= 0){
+								//BLUE TEAM WIN!!
+								//attacking castle?	}
+							}
+						}else{
+							if(actual.getCastle() == "Blue"){//Red attacking blue
+								blueSpawner.health -= a.attackThrow();
+								blueSpawner.underAttack = true;
 
-
-		//Go through spawners and update them
-		for (Spawner s : spawners) {
-			Actor unit = s.update(state);
-
-			if (unit != null) {
-				//Set the team of the unit & make sure we can spawn that unit
-				if (s.getTeam() == 0) {
-					if (blueNumUnits <= mapNumUnits) {
-						unit.setTeam(0);
-					} else continue;
-				} else {
-					if (redNumUnits <= mapNumUnits) {
-						unit.setTeam(1);
-					} else continue;
-				}
-
-				//If we want to spawn a unit, make sure we have space
-				GraphNode castlePos = null;
-				GraphNode currPos = null;
-				if (s.getTeam() == 0) {
-					castlePos = map.getBlueCastle();
-				}else{
-					castlePos = map.getRedCastle();
-				}
-
-				int castleX = castlePos.getX();
-				int castleY = castlePos.getY();
-
-				for (int i = 0; i <= 8; i++) {
-					switch(i){
-					case 0: currPos = map.getNode(castleX, castleY).getNNode(); break;
-					case 1: currPos = map.getNode(castleX, castleY).getNENode(); break;
-					case 2: currPos = map.getNode(castleX, castleY).getENode(); break;
-					case 3: currPos = map.getNode(castleX, castleY).getSENode(); break;
-					case 4: currPos = map.getNode(castleX, castleY).getSNode(); break;
-					case 5: currPos = map.getNode(castleX, castleY).getSWNode(); break;
-					case 6: currPos = map.getNode(castleX, castleY).getWNode(); break;
-					case 7: currPos = map.getNode(castleX, castleY).getNWNode(); break;
-					default: currPos = null;
-					}
-					if (currPos != null && currPos.getActor() == null) {//if currPos is valid
-						currPos.setActor(unit);
-						unit.setBasePos(new Point(castleX,castleY));
-
-						//Add new actor to actor list
-						//This bit works by running a loop till i is found, and exiting the loop when it is,
-						//and then adding the unit after i to the array
-						boolean foundPos = false;
-						int j=0;
-						while(!foundPos){
-							if(j+1 >= actors.size()){
-								//At end of list, add to end
-								foundPos = true;
-							}else if(actors.get(j).getAgility() > unit.getAgility()) {//If new actor is greater
-								//add here
-								foundPos = true;
-							}else{
-								j++;
+								if(blueSpawner.health <= 0){
+									//RED TEAM WIN!!
+								}
 							}
 						}
-						actors.add(j,unit);
-						break;
 					}
-				}
 
+				}
+			}//End foreach actors
+
+			for(Actor x : toRem){
+				if(x.equals(map.getNode(x.getX(), x.getY()).getActor())){
+					map.getNode(x.getX(), x.getY()).setActor(null);
+				}
+				actors.remove(x);
 
 			}
-		}//End spawner
-	}//End updateGameState method
-}//End gameenging
+
+
+			//Go through spawners and update them
+			for (Spawner s : spawners) {
+				s.underAttack = false;
+
+				Actor unit = s.update(state);
+
+				if (unit != null) {
+					//Set the team of the unit & make sure we can spawn that unit
+					if (s.getTeam() == 0) {
+						if (blueNumUnits <= mapNumUnits) {
+							unit.setTeam(0);
+						} else continue;
+					} else {
+						if (redNumUnits <= mapNumUnits) {
+							unit.setTeam(1);
+						} else continue;
+					}
+
+					//If we want to spawn a unit, make sure we have space
+					GraphNode castlePos = null;
+					GraphNode currPos = null;
+					if (s.getTeam() == 0) {
+						castlePos = map.getBlueCastle();
+					}else{
+						castlePos = map.getRedCastle();
+					}
+
+					int castleX = castlePos.getX();
+					int castleY = castlePos.getY();
+
+					for (int i = 0; i <= 8; i++) {
+						switch(i){
+						case 0: currPos = map.getNode(castleX, castleY).getNNode(); break;
+						case 1: currPos = map.getNode(castleX, castleY).getNENode(); break;
+						case 2: currPos = map.getNode(castleX, castleY).getENode(); break;
+						case 3: currPos = map.getNode(castleX, castleY).getSENode(); break;
+						case 4: currPos = map.getNode(castleX, castleY).getSNode(); break;
+						case 5: currPos = map.getNode(castleX, castleY).getSWNode(); break;
+						case 6: currPos = map.getNode(castleX, castleY).getWNode(); break;
+						case 7: currPos = map.getNode(castleX, castleY).getNWNode(); break;
+						default: currPos = null;
+						}
+						if (currPos != null && currPos.getActor() == null) {//if currPos is valid
+							currPos.setActor(unit);
+							unit.setBasePos(new Point(castleX,castleY));
+
+							//Add new actor to actor list
+							//This bit works by running a loop till i is found, and exiting the loop when it is,
+							//and then adding the unit after i to the array
+							boolean foundPos = false;
+							int j=0;
+							while(!foundPos){
+								if(j+1 >= actors.size()){
+									//At end of list, add to end
+									foundPos = true;
+								}else if(actors.get(j).getAgility() > unit.getAgility()) {//If new actor is greater
+									//add here
+									foundPos = true;
+								}else{
+									j++;
+								}
+							}
+							actors.add(j,unit);
+							break;
+						}
+					}
+
+
+				}
+			}//End spawner
+		}//End updateGameState method
+	}//End gameenging

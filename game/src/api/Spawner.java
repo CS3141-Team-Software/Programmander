@@ -20,6 +20,8 @@ public class Spawner {
 	int team;
 	private GameState state;
 	int vision = 3;
+	public int health = 500;
+	public boolean underAttack = false;
 
 
 	public void setTeam(int t) {
