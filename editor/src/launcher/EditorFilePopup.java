@@ -83,6 +83,7 @@ public class EditorFilePopup extends JFrame {
 
 				editorReference.openFile(fileName, unitType);
 				editorReference.setVisible(true);
+				mainReference.reEnable();
 				mainReference.setVisible(false);
 
 				thisWindow.dispose();
@@ -98,7 +99,9 @@ public class EditorFilePopup extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				//Launch editor window with a blank update method.
 				editorReference.setVisible(true);
+				mainReference.reEnable();
 				mainReference.setVisible(false);
+				
 
 				thisWindow.dispose();
 			}
@@ -111,6 +114,7 @@ public class EditorFilePopup extends JFrame {
 		cancelButton.setBounds(cancelButtonBounds);
 		cancelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				mainReference.reEnable();
 				dispose();
 			}
 		});
@@ -135,7 +139,7 @@ public class EditorFilePopup extends JFrame {
 		filesComboBox.setBounds(comboBoxBounds);
 		getContentPane().add(filesComboBox);
 		filesComboBox.setVisible(true);
-
+		
 		unitComboBox.addItem("Scout");
 		unitComboBox.addItem("Knight");
 		unitComboBox.addItem("Spawner");

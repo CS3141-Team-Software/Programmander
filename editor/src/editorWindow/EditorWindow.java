@@ -6,15 +6,22 @@ import java.io.*;
 import java.util.*;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import launcher.MainWindow;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 public class EditorWindow extends JFrame {
+
+	private MainWindow mainReference;
+	private JFrame saveBeforeMenu;
 
 	private File currFile;
 	private String currFileName;
@@ -27,19 +34,21 @@ public class EditorWindow extends JFrame {
 
 	//Buttons
 	private JButton loadFileButton = new JButton("Load File");
+	private JButton mainMenuButton = new JButton("Main Menu");
 	private JButton saveFileButton = new JButton("Save File");
 
 	private int innerWidth;
 	private int innerHeight;
 
-	
+
 	//textareas for points
 	private int totalPoints = 40;
+	private int remainingPoints = 40;
 	private JTextField agilityPoints = new JTextField("0", 7);
 	private JTextField attackPoints = new JTextField("0", 7);
 	private JTextField defensePoints = new JTextField("0", 7);
 	private JTextField healthPoints = new JTextField("0", 7);
-	
+
 	//Labels 
 	private JLabel agilityLabel = new JLabel("Agility:");
 	private JLabel attackLabel = new JLabel("Attack:");
@@ -47,7 +56,7 @@ public class EditorWindow extends JFrame {
 	private JLabel healthLabel = new JLabel("Health:");
 	private JLabel totalPointsLabel = new JLabel("Total Points:");
 	private JLabel pointsLeftLabel = new JLabel(totalPoints + "");
-	
+
 	public EditorWindow(String unitType) {
 
 		//Sets the dimensions of the JFrame.
@@ -65,7 +74,7 @@ public class EditorWindow extends JFrame {
 		//Initialize windows.
 		initializeTextArea(innerWidth, innerHeight, null);
 		//initializeComboBoxes();
-		initializeButton();
+		initializeButtons();
 		//Initialize the labels for point distribution
 		initializeLabels();
 		initializePointsTextArea();
@@ -97,7 +106,6 @@ public class EditorWindow extends JFrame {
 				//Is it the update() line?
 				if (p.matcher(fileLine).matches()) {
 					theirCode = fileLine;
-					System.out.println("Match");
 					break; //we found the update method!
 				} 
 			}
@@ -106,21 +114,21 @@ public class EditorWindow extends JFrame {
 				//They don't have a properly formatted update method.
 				//Throw an error window. 
 				JOptionPane.showMessageDialog(this, "Cannot open file. \nMake sure the update() method signature is properly formatted.");
-				System.exit(-1);
+				return;
 			}
 
 			fileLine = in.readLine();
 			String nextLine = in.readLine();
-			
+
 			while(fileLine != null) {
-				
+
 				if (nextLine == null) { //if we're at the last line of our file
 					break;
 				} else {
 					theirCode = theirCode + "\n" + fileLine;
 					fileLine = nextLine;
 					nextLine = in.readLine();
-					
+
 				}
 			}
 
@@ -215,13 +223,11 @@ public class EditorWindow extends JFrame {
 			//Write the FULL text of the update() method to the file
 			writer.write(textAreaText);
 
-			writer.write("\n\n}");
+			writer.write("\n}");
 			writer.close();
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println
-
-			("Error writing to a class file");
+			System.err.println("Error writing to a class file");
 			System.exit(-1);
 		}
 	}
@@ -240,7 +246,6 @@ public class EditorWindow extends JFrame {
 
 		try {
 			while(scanner.hasNextLine()) {
-				System.out.println("reading");
 				fileContents.append(scanner.nextLine() + "\n");
 			}
 			return fileContents.toString();
@@ -255,10 +260,16 @@ public class EditorWindow extends JFrame {
 	private void createSaveFilePopup() {
 		SaveFilePopupFrame saveFrame = new SaveFilePopupFrame(textArea, this);
 		saveFrame.setLocation(new Point((int)screenSize.getWidth() / 2 - (saveFrame.getWidth()/2), (int)screenSize.getHeight() / 2 - (saveFrame.getHeight()/2)));
+		setUpCloseOperation(saveFrame);
 		saveFrame.setVisible(true);
 	}
 
-
+	private void createSaveFileThenMenuPopup() {
+		SaveFileThenMenuPopupFrame saveFrame = new SaveFileThenMenuPopupFrame(textArea, this);
+		saveFrame.setLocation(new Point((int)screenSize.getWidth() / 2 - (saveFrame.getWidth()/2), (int)screenSize.getHeight() / 2 - (saveFrame.getHeight()/2)));
+		setUpCloseOperation(saveFrame);
+		saveFrame.setVisible(true);
+	}
 	//==============================================Getters and setters=================================================
 	/**
 	 * This method gets the list of playercoded AI's from the directory.
@@ -289,6 +300,15 @@ public class EditorWindow extends JFrame {
 			if (fileList[i] != null && fileList[i].getName().endsWith(".java")) {
 				AINames.add(fileList[i].getName());
 			}
+		}
+
+		Object[] aiArray = AINames.toArray();
+		AINames.clear();
+		//Sort the list alphabetically.
+		Arrays.sort(aiArray);
+
+		for (Object s : aiArray) {
+			AINames.add((String) s);
 		}
 
 		return AINames;
@@ -331,36 +351,36 @@ public class EditorWindow extends JFrame {
 	private void initializeLabels(){
 		int pointsLabelX = (int) (screenSize.getWidth() * .85);
 		int pointsLabelY = (int) (screenSize.getHeight() * .33);
-		
+
 		agilityLabel.setBounds(pointsLabelX, pointsLabelY, 300, 100);
 		getContentPane().add(agilityLabel);
 		agilityLabel.setVisible(true);
-		
+
 		pointsLabelY += 25;
 		attackLabel.setBounds(pointsLabelX, pointsLabelY, 300, 100);
 		getContentPane().add(attackLabel);
 		attackLabel.setVisible(true);
-		
+
 		pointsLabelY += 25;
 		defenseLabel.setBounds(pointsLabelX, pointsLabelY, 300, 100);
 		getContentPane().add(defenseLabel);
 		defenseLabel.setVisible(true);
-		
+
 		pointsLabelY += 25;
 		healthLabel.setBounds(pointsLabelX, pointsLabelY, 300, 100);
 		getContentPane().add(healthLabel);
 		healthLabel.setVisible(true);
-		
+
 		pointsLabelY += 25;
 		totalPointsLabel.setBounds(pointsLabelX , pointsLabelY, 300, 100);
 		getContentPane().add(totalPointsLabel);
 		totalPointsLabel.setVisible(true);
-		
+
 		pointsLeftLabel.setBounds(pointsLabelX + 100, pointsLabelY, 300, 100);
 		getContentPane().add(pointsLeftLabel);
 		pointsLeftLabel.setVisible(true);		
 	}
-	
+
 	/**
 	 * Method to give text areas to enter in points for each area of the actor.
 	 */
@@ -370,55 +390,27 @@ public class EditorWindow extends JFrame {
 		int pointsTextFieldY = (int)(screenSize.getHeight() * .37);		//Y coordinate
 		int textFieldWidth = 30;										//Textfield width
 		int textFeildHeight = 15;										//Textfield height
-		
+
 		agilityPoints.setBounds(pointsTextFieldX, pointsTextFieldY, textFieldWidth, textFeildHeight);
-		agilityPoints.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				int pointsLeft = Integer.parseInt(pointsLeftLabel.getText());
-				int pointsInAgility = Integer.parseInt(agilityPoints.getText());
-				pointsLeftLabel.setText((pointsLeft - pointsInAgility) + "");
-			}
-		});
 		getContentPane().add(agilityPoints);
 		agilityPoints.setVisible(true);
-		
+
 		pointsTextFieldY += 25;
 		attackPoints.setBounds(pointsTextFieldX, pointsTextFieldY, textFieldWidth, textFeildHeight);
-		attackPoints.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				int pointsLeft = Integer.parseInt(pointsLeftLabel.getText());
-				int pointsInAttack = Integer.parseInt(attackPoints.getText());
-				pointsLeftLabel.setText((pointsLeft - pointsInAttack) + "");
-			}
-		});
 		getContentPane().add(attackPoints);
 		attackPoints.setVisible(true);
-		
+
 		pointsTextFieldY += 25;
 		defensePoints.setBounds(pointsTextFieldX, pointsTextFieldY, textFieldWidth, textFeildHeight);
-		defensePoints.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				int pointsLeft = Integer.parseInt(pointsLeftLabel.getText());
-				int pointsInDefense = Integer.parseInt(defensePoints.getText());
-				pointsLeftLabel.setText((pointsLeft - pointsInDefense) + "");
-			}
-		});
 		getContentPane().add(defensePoints);
 		defensePoints.setVisible(true);
-		
+
 		pointsTextFieldY += 25;
 		healthPoints.setBounds(pointsTextFieldX, pointsTextFieldY, textFieldWidth, textFeildHeight);
-		healthPoints.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				int pointsLeft = Integer.parseInt(pointsLeftLabel.getText());
-				int pointsInHealth = Integer.parseInt(healthPoints.getText());
-				pointsLeftLabel.setText((pointsLeft - pointsInHealth) + "");
-			}
-		});
 		getContentPane().add(healthPoints);
 		healthPoints.setVisible(true);
 	}
-	
+
 	/**
 	 * Method to initialize the 
 	 */
@@ -434,7 +426,7 @@ public class EditorWindow extends JFrame {
 	/**
 	 * Method to initializeButton
 	 */
-	private void initializeButton(){
+	private void initializeButtons(){
 
 		Color buttonColor = new Color(233, 233, 233);
 		//		//loadFile Button
@@ -452,12 +444,119 @@ public class EditorWindow extends JFrame {
 		saveFileButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				createSaveFilePopup();
+				disableWindow();
 			}
 		});
 		saveFileButton.setFont(new Font("Comic Sans MS", Font.BOLD, 20));
-		saveFileButton.setBounds(1600, 10, 150, 35);
+		int saveButtonX = (int)((innerWidth *.80) + 25); //20 pixels past the end of the textArea
+		saveFileButton.setBounds(saveButtonX, 15, 160, 35);
 		getContentPane().add(saveFileButton);
 		saveFileButton.setBackground(buttonColor);
+
+		mainMenuButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				disableWindow();
+				
+				Pattern p = Pattern.compile("\\s*", Pattern.CASE_INSENSITIVE);
+				
+				if (!p.matcher(textArea.getText()).matches()) { //if there's actually non-whitespace in the file
+					saveBeforeMenu = new JFrame();
+					saveBeforeMenu.setLayout(null);
+					saveBeforeMenu.setSize(260,150);
+					saveBeforeMenu.setLocation(new Point((int)((innerWidth/2) - 130),(int)((innerHeight/2) - 5)));
+					setUpCloseOperation(saveBeforeMenu);
+
+					JLabel text = new JLabel();
+					text.setText("<html><center>Would you like to save<br>your changes?</center></html>");
+					text.setBounds(52, 20, 220, 40);
+
+					saveBeforeMenu.add(text);
+
+					JButton save = new JButton("Yes");
+					save.setBounds(41,80,75,25);
+					save.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent arg0) {
+							createSaveFileThenMenuPopup();
+							saveBeforeMenu.dispose();
+						}
+					}); //end of addListener
+
+					saveBeforeMenu.add(save);
+
+					JButton no = new JButton("No");
+					no.setBounds(141,80,75,25);
+					no.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent arg0) {
+							reEnable();
+							clearFields(); //clear all values.
+							mainReference.setVisible(true);
+							setVisible(false);
+							saveBeforeMenu.dispose();
+						}
+					}); //end of cancelListener
+
+					saveBeforeMenu.add(no);
+
+					saveBeforeMenu.setAlwaysOnTop(true);
+					saveBeforeMenu.setVisible(true);
+					
+				} else {
+					reEnable();
+					mainReference.reEnable();
+					clearFields();
+					mainReference.setVisible(true);
+					setVisible(false);				
+				}
+			}
+		}); //end of mainListener
+
+		mainMenuButton.setFont(new Font("Comic Sans MS", Font.BOLD, 20));
+		int menuButtonX = (int) innerWidth - 180; //20 pixels between window's right edge and the edge of the button
+		mainMenuButton.setBounds(menuButtonX, 15, 160, 35);
+		getContentPane().add(mainMenuButton);
+		mainMenuButton.setBackground(buttonColor);
 	}
 
+	private void clearFields() {
+		agilityPoints.setText(0 + "");
+		attackPoints.setText(0 + "");
+		defensePoints.setText(0 + "");
+		healthPoints.setText(0 + "");
+		textArea.setText("");
+	}
+
+	public void setMainReference(MainWindow main) {
+		mainReference = main;
+	}
+
+	public void openMain() {
+		clearFields();
+		mainReference.setVisible(true);
+		setVisible(false);
+	}
+
+	private void disableWindow() {
+		for (Component c : getContentPane().getComponents()) {
+			c.setEnabled(false);
+		}
+		textArea.setEnabled(false);
+		getContentPane().setEnabled(false);
+	}
+
+	public void reEnable() {
+		for (Component c : getContentPane().getComponents()) {
+			c.setEnabled(true);
+		}
+		textArea.setEnabled(true);
+		getContentPane().setEnabled(true);
+	}
+
+	public void setUpCloseOperation(JFrame f) {
+		WindowListener w = new WindowAdapter() {
+			public void windowClosing(WindowEvent arg0) {
+				reEnable();
+			}
+		};
+		f.addWindowListener(w);
+	}
 }

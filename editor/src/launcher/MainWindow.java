@@ -9,6 +9,9 @@ import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -126,7 +129,10 @@ public class MainWindow extends JFrame {
 		editButton.setLocation(buttonX, buttonY);
 		editButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionCommand) {
+				disableWindow();
+				setUpCloseOperation(frames.get(0));
 				frames.get(0).setVisible(true);
+				
 			}
 		});
 		add(editButton);
@@ -141,7 +147,7 @@ public class MainWindow extends JFrame {
 		tutorialButton.setLocation(buttonX, buttonY);
 		tutorialButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionCommand) {
-				frames.get(2).setVisible(true);
+				//TODO: Load HTML link to tutorial in system's default browser
 				setVisible(false);
 			}
 		});
@@ -164,6 +170,27 @@ public class MainWindow extends JFrame {
 
 	public void setDynamicWindowWidth(double dynamicWindowWidth) {
 		this.dynamicWindowWidth = dynamicWindowWidth;
+	}
+	
+	public void disableWindow() {
+		for (Component c : getContentPane().getComponents()) {
+			c.setEnabled(false);
+		}
+	}
+	
+	public void reEnable() {
+		for (Component c : getContentPane().getComponents()) {
+			c.setEnabled(true);
+		}
+	}
+	
+	public void setUpCloseOperation(JFrame f) {
+		WindowListener w = new WindowAdapter() {
+			public void windowClosing(WindowEvent arg0) {
+				reEnable();
+			}
+		};
+		f.addWindowListener(w);
 	}
 
 }

@@ -10,7 +10,7 @@ import javax.swing.*;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 
-public class SaveFilePopupFrame extends JFrame{
+public class SaveFileThenMenuPopupFrame extends JFrame{
 
 	//Size of pop up window
 	private Dimension windowSize = new Dimension(260,150);
@@ -43,7 +43,7 @@ public class SaveFilePopupFrame extends JFrame{
 	/**
 	 * Constructor
 	 */
-	public SaveFilePopupFrame(RSyntaxTextArea textAreaText, EditorWindow editor){
+	public SaveFileThenMenuPopupFrame(RSyntaxTextArea textAreaText, EditorWindow editor){
 		editorReference = editor;
 		this.textAreaText = textAreaText;
 		//Initialize the text area that gives you syntax highlighting.
@@ -87,7 +87,7 @@ public class SaveFilePopupFrame extends JFrame{
 
 	private void initializeButtons() {
 		Rectangle saveButtonBounds = new Rectangle(175,90,75,25);
-		final SaveFilePopupFrame thisWindow = this;
+		final SaveFileThenMenuPopupFrame thisWindow = this;
 		saveFileButton.setBounds(saveButtonBounds);
 		saveFileButton.addActionListener(new ActionListener() {
 
@@ -96,15 +96,16 @@ public class SaveFilePopupFrame extends JFrame{
 				fileName = saveFileTextField.getText();
 				//CHECK THE FILE NAME HERE
 				if(fileName.length() == 0){
-					JOptionPane.showMessageDialog(null,"Please give a file name for your AI");
+					JOptionPane.showMessageDialog(null,"Please specify a file name.");
 
 				} else if (fileExistsAlready()){ //TODO: Method to check if the file is already existing.
-					DecisionWindow fileExists = new DecisionWindow("<html><center>Do you want to overwrite<br>" + fileName + "?</center></html>", "Confirm Save", editorReference, fileName, (String)unitTypesComboBox.getSelectedItem(), thisWindow);
+					DecisionThenMenuWindow fileExists = new DecisionThenMenuWindow("<html><center>Do you want to overwrite<br>" + fileName + "?</center></html>", "Confirm Save", editorReference, fileName, (String)unitTypesComboBox.getSelectedItem(), thisWindow);
 					fileExists.setLocation(new Point((int)((innerWidth/2) - windowSize.getWidth()/2),(int)((innerHeight/2) - windowSize.getHeight()/2) + 70));
+					dispose();
 				} else if (!fileExistsAlready()){
-					JOptionPane.showMessageDialog(null,"File Saved");
 					editorReference.saveFile(fileName, textAreaText.getText(), (String) unitTypesComboBox.getSelectedItem());
 					editorReference.reEnable();
+					editorReference.openMain();
 					dispose();
 				}	else {
 					JOptionPane.showMessageDialog(null,"Congratzs you did something logically impossible.");
@@ -163,3 +164,4 @@ public class SaveFilePopupFrame extends JFrame{
 	}
 
 }
+

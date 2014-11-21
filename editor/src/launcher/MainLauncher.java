@@ -39,6 +39,7 @@ public class MainLauncher {
 		
 		MainWindow main = new MainWindow(frames);
 		popup.setMainReference(main);
+		editor.setMainReference(main);
 		main.pack();
 		
 		//This might be important? 
