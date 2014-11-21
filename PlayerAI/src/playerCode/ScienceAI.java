@@ -13,7 +13,6 @@ public class ScienceAI extends Spawner {
 	@Override
 	public Actor update(GameState G) {
 		if(getEnemies(G).isEmpty()){
-			System.out.println("NOPE");
 			if(i == 1){
 				i = 0;
 				return new Norm();
@@ -22,7 +21,6 @@ public class ScienceAI extends Spawner {
 				return new Attacker();
 			}
 		}else{
-			System.out.println("YES");
 			return new Defender();
 		}
 
