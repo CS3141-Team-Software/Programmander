@@ -1,53 +1,55 @@
 <project basedir="." name="Programmander" default="build">
-	<property name="src"		value="src"/>
-	<property name="bin"		value="bin"/>
-	<property name="lib"		value="lib"/>
-	<property name="out"		value="out"/>
+	<property name="src.dir"	value="src"/>
+	<property name="build.dir"	value="build"/>
+	<property name="lib.dir"	value="lib"/>
+	<property name="dist.dir"	value="dist"/>
+	<property name="assets.dir"	value="assets"/>
 	<property name="debuglevel"	value="source,lines,vars"/>
-	<property name="main-class"	value="launcher.Launcher"/>
-	<property name="jar.file"	value="${ant.project.name}.jar"/>
+	<property name="main-class"	value="launcher.MainLauncher"/>
+	<property name="jar.jar"	value="${ant.project.name}.jar"/>
 
-	<path id="libs">
-		<fileset dir="${lib}" includes="**/*.jar"/>
+	<path id="libs.jar">
+		<fileset dir="${lib.dir}" includes="**/*.jar"/>
 	</path>
 	<path id="headers">
-		<fileset dir="headers" includes="*"/>
+		<fileset dir="headers" includes="*.head"/>
 	</path>
 
 
 	<target name="clean">
-		<delete dir="${bin}"/>
-		<delete dir="${out}"/>
-		<delete file="${jar.file}"/>
+		<delete dir="${build.dir}"/>
+		<delete dir="${dist.dir}"/>
+		<delete file="${jar.jar}"/>
 	</target>
 
 	<target name="compile">
-		<mkdir dir="${bin}" />
-		<javac debug="true" debuglevel="${debuglevel}" destdir="${bin}" includeantruntime="false">
-			<src path="${src}"/>
-			<classpath refid="libs"/>
+		<mkdir dir="${build.dir}" />
+		<javac debug="true" debuglevel="${debuglevel}" destdir="${build.dir}" includeantruntime="false">
+			<src path="${src.dir}"/>
+			<classpath refid="libs.jar"/>
 		</javac>
 	</target>
 
 	<target name="build" depends="compile">
-		<mkdir dir="${out}/${lib}" />
-		<mkdir dir="${out}/includes" />
-		<copy todir="${out}/${lib}" flatten="true">
-			<path refid="libs"/>
+		<mkdir dir="${dist.dir}/lib" />
+		<mkdir dir="${dist.dir}/headers" />
+		<copy todir="${dist.dir}/lib" flatten="true">
+			<path refid="libs.jar"/>
 		</copy>
-		<copy todir="${out}/includes" flatten="true">
+		<copy todir="${dist.dir}/headers" flatten="true">
 			<path refid="headers"/>
 		</copy>
 
-		<manifestclasspath property="manifest.classpath" jarfile="${jar.file}">
-			<classpath refid="libs"/>
+		<manifestclasspath property="manifest.classpath" jarfile="${jar.jar}">
+			<classpath refid="libs.jar"/>
 		</manifestclasspath>
 
-		<jar destfile="${out}/${jar.file}">
-			<fileset dir="${bin}" includes="**/*.class" />
-			<fileset dir="${src}" includes="**/*.java" />
+		<jar destfile="${dist.dir}/${jar.jar}">
+			<fileset dir="${build.dir}" includes="**/*.class" />
+			<fileset dir="${src.dir}" includes="**/*.java" />
+			<fileset dir="." includes= "**/${assets.dir}/**"/>
 			<manifest>
-				<attribute name="Main-Class" value="launcher.MainLauncher"/>
+				<attribute name="Main-Class" value="${main-class}"/>
 				<attribute name="Class-Path" value="${manifest.classpath}"/>
 			</manifest>
 		</jar>

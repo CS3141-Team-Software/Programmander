@@ -1,4 +1,5 @@
-bin
+dist
+build
 ais
 game-api.jar
 game.jar

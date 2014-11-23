@@ -2,6 +2,7 @@ package gameEngine;
 //xinput set-button-map 10 1 0 3 4 5 6 7
 import java.awt.Point;
 import java.io.File;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
@@ -31,16 +32,16 @@ public class GameEngine {
 	private long currTime;
 
 
-	public GameEngine(String mapName, String firstAIName, String difficulty, boolean is2Player) {
+	public GameEngine(String mapName, String firstAIName, String difficulty) {
 
 		map = new Graph(mapName);
-		display = new Display(mapName, firstAIName, difficulty, is2Player, map);
+		display = new Display(mapName, firstAIName, difficulty, map);
 		spawners = new ArrayList<Spawner>();
 		blueNumUnits = 0;
 		redNumUnits = 0;
 		mapNumUnits = map.getNumUnits();
 
-		//Initialize 1st player's AI by calling Mark's magic code.
+		//Initialize player AI by calling Mark's magic code.
 		//---------------Just don't look
 		Spawner playerSpawner = null;
 		File f0 = new File("ais/ai.jar");
@@ -53,36 +54,46 @@ public class GameEngine {
 			playerSpawner = myAIClass0.newInstance();
 			playerSpawner.setTeam(0);
 			spawners.add(playerSpawner);
+		} catch (ClassNotFoundException e1) {
+			System.err.println("ERR: Class not found while loading p0 code");
+			e1.printStackTrace();
+			System.exit(1);
+		} catch (MalformedURLException e2) {
+			System.err.println("ERR: MalformedULR while loading p0 code");
+			e2.printStackTrace();
+			System.exit(1);
 		} catch (Exception e) {
 			System.err.println("ERR: Loading p0 code");
 			e.printStackTrace();
 			System.exit(1);
 		}
-		// -----------------You can look now
 
-		if (true) {//TODO: NOT THIS
-			//Initialize 2nd player's AI		//Initialize 1st player's AI by calling Mark's magic code.
-			//---------------Just don't look
-			Spawner secondSpawner = null;
-			File f1 = new File("ais/ai.jar");
-			URLClassLoader urlCl1;
-			try {
-				urlCl1 = new URLClassLoader(new URL[] { f1.toURI().toURL() },	Spawner.class.getClassLoader());
-				System.out.println("p1: "	+ difficulty);
-				Class<?> testAI1 = urlCl1.loadClass("playerCode."	+ difficulty);
-				Class<? extends Spawner> myAIClass1 = testAI1.asSubclass(Spawner.class);
-				secondSpawner = myAIClass1.newInstance();
-				secondSpawner.setTeam(1);
-				spawners.add(secondSpawner);
-			} catch (Exception e) {
-				System.err.println("ERR: Loading p1 code code");
-				e.printStackTrace();
-				System.exit(1);
-			}
-			// -----------------You can look now
-		} else {
-			//Initialize our AI based on which difficulty was selected
+		//Initialize 2nd player's AI
+		Spawner secondSpawner = null;
+		File f1 = new File("ais/ai.jar");
+		URLClassLoader urlCl1;
+		try {
+			urlCl1 = new URLClassLoader(new URL[] { f1.toURI().toURL() },	Spawner.class.getClassLoader());
+			System.out.println("p1: "	+ difficulty);
+			Class<?> testAI1 = urlCl1.loadClass("playerCode."	+ difficulty);
+			Class<? extends Spawner> myAIClass1 = testAI1.asSubclass(Spawner.class);
+			secondSpawner = myAIClass1.newInstance();
+			secondSpawner.setTeam(1);
+			spawners.add(secondSpawner);
+		} catch (ClassNotFoundException e1) {
+			System.err.println("ERR: Class not found while loading p1 code");
+			e1.printStackTrace();
+			System.exit(1);
+		} catch (MalformedURLException e2) {
+			System.err.println("ERR: MalformedULR while loading p1 code");
+			e2.printStackTrace();
+			System.exit(1);
+		} catch (Exception e) {
+			System.err.println("ERR: Loading p1 code");
+			e.printStackTrace();
+			System.exit(1);
 		}
+		// -----------------You can look now
 
 		actors = map.getActors();
 		current = new GameState(map, actors);
