@@ -113,9 +113,10 @@ public class Renderer {
 			BufferedImage imageFile = null;
 			str = str.toLowerCase();
 
-			System.out.println("Drawing " + team);
+			String art = "/assets/art/" + (team == 1 ? "red_" : "blue_" ) + str + ".png";
+			System.out.println("Drawing " + art);
 			try {
-				InputStream stream = getClass().getResourceAsStream("/assets/art/" + (team == 1 ? "red_" : "blue_" ) + str + ".png");
+				InputStream stream = getClass().getResourceAsStream(art);
 				imageFile = ImageIO.read(stream);
 				if (imageFile == null) {
 					throw new Exception();
