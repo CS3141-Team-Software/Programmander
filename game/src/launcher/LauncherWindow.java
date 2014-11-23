@@ -16,11 +16,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.URL;
 import java.security.CodeSource;
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -230,13 +228,14 @@ public class LauncherWindow extends JFrame {
 		//Run AI Button
 		runAI.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(((String) comboBoxGameMode.getSelectedItem()).equalsIgnoreCase("VS. Mode")){
+				boolean tutorial = !((String) comboBoxGameMode.getSelectedItem()).equalsIgnoreCase("VS. Mode");
+				if(!tutorial){
 					player2NameOrDifficulty = (String)comboBoxPlayer2AI.getSelectedItem();
 				}else {
 					player2NameOrDifficulty = (String)comboBoxTutorial.getSelectedItem();
 				}
-				//System.out.println("map: " + (String)comboBoxMaps.getSelectedItem() + "\nfirstAI: " + (String)comboBoxPlayer1AI.getSelectedItem() + "\nSecond AI: " + player2NameOrDifficulty);
-				GameEngine engine = new GameEngine((String)comboBoxMaps.getSelectedItem(), (String)comboBoxPlayer1AI.getSelectedItem(), player2NameOrDifficulty);
+				System.out.println("map: " + (String)comboBoxMaps.getSelectedItem() + "\nfirstAI: " + (String)comboBoxPlayer1AI.getSelectedItem() + "\nSecond AI: " + player2NameOrDifficulty);
+				GameEngine engine = new GameEngine((String)comboBoxMaps.getSelectedItem(), (String)comboBoxPlayer1AI.getSelectedItem(), player2NameOrDifficulty,tutorial);
 				setVisible(false);
 				engine.run();
 			}
@@ -362,28 +361,18 @@ public class LauncherWindow extends JFrame {
 	private ArrayList<String> getTutorialAIList() {
 
 		ArrayList<String> aiNames = new ArrayList<String>();
-		BufferedReader aiFile;
 		try {
-			InputStream stream = getClass().getResourceAsStream("/tutorial/aiNames");
-			InputStreamReader streamReader = new InputStreamReader(stream);
-
-			aiFile = new BufferedReader(streamReader);
-			Scanner in = null;
-			try{
-				in = new Scanner(aiFile);
-				while (true) {
-					if(in.hasNextLine()){
-						aiNames.add(in.nextLine());
-					} else break;
+			InputStream stream = getClass().getProtectionDomain().getCodeSource().getLocation().openStream();
+			ZipInputStream jar = new ZipInputStream(stream);
+			ZipEntry entry;
+			while((entry = jar.getNextEntry()) != null){
+				if(entry.getName().startsWith("tutorial/")
+						&! entry.getName().contains("$")
+						&! entry.getName().equals("tutorial/")
+						&& entry.getName().endsWith(".class")){
+					aiNames.add(entry.getName().substring(9,entry.getName().length()-6));
 				}
-			} catch (Exception e) {
-				System.err.println("Error reading tutorial ai file.");
-				e.printStackTrace();
-				System.exit(-1);
-			} finally {
-				in.close();
 			}
-
 			return aiNames;
 
 		} catch (Exception e){

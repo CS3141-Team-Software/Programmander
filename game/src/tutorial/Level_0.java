@@ -1,8 +1,7 @@
-package playerCode;
+package tutorial;
 
 import api.Actor;
 import api.GameState;
-import api.Scout;
 import api.Spawner;
 
 public class Level_0 extends Spawner {
@@ -12,6 +11,6 @@ public class Level_0 extends Spawner {
 		return null;
 	}
 
-	
+
 }
 

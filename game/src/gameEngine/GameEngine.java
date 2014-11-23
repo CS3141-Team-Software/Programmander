@@ -13,10 +13,6 @@ import api.Spawner;
 import display.Display;
 
 
-/**
- * @author Frederick Nolte
- *
- */
 public class GameEngine {
 
 	private boolean gameOver = false;
@@ -32,10 +28,10 @@ public class GameEngine {
 	private long currTime;
 
 
-	public GameEngine(String mapName, String firstAIName, String difficulty) {
+	public GameEngine(String mapName, String firstAIName, String ai2, boolean tutorial) {
 
 		map = new Graph(mapName);
-		display = new Display(mapName, firstAIName, difficulty, map);
+		display = new Display(mapName, firstAIName, ai2, map);
 		spawners = new ArrayList<Spawner>();
 		blueNumUnits = 0;
 		redNumUnits = 0;
@@ -43,12 +39,13 @@ public class GameEngine {
 
 		//Initialize player AI by calling Mark's magic code.
 		//---------------Just don't look
+		System.out.println("Map: " + mapName + "\np0: " + firstAIName + "\np1: " + ai2 + "\nisTut: " + tutorial);
 		Spawner playerSpawner = null;
 		File f0 = new File("ais/ai.jar");
 		URLClassLoader urlCl0;
 		try {
 			urlCl0 = new URLClassLoader(new URL[] { f0.toURI().toURL() },	Spawner.class.getClassLoader());
-			System.out.println("p1: "	+ firstAIName);
+			System.out.println("p0: "	+ firstAIName);
 			Class<?> testAI0 = urlCl0.loadClass("playerCode."	+ firstAIName);
 			Class<? extends Spawner> myAIClass0 = testAI0.asSubclass(Spawner.class);
 			playerSpawner = myAIClass0.newInstance();
@@ -68,31 +65,42 @@ public class GameEngine {
 			System.exit(1);
 		}
 
-		//Initialize 2nd player's AI
 		Spawner secondSpawner = null;
-		File f1 = new File("ais/ai.jar");
-		URLClassLoader urlCl1;
-		try {
-			urlCl1 = new URLClassLoader(new URL[] { f1.toURI().toURL() },	Spawner.class.getClassLoader());
-			System.out.println("p1: "	+ difficulty);
-			Class<?> testAI1 = urlCl1.loadClass("playerCode."	+ difficulty);
-			Class<? extends Spawner> myAIClass1 = testAI1.asSubclass(Spawner.class);
-			secondSpawner = myAIClass1.newInstance();
-			secondSpawner.setTeam(1);
-			spawners.add(secondSpawner);
-		} catch (ClassNotFoundException e1) {
-			System.err.println("ERR: Class not found while loading p1 code");
-			e1.printStackTrace();
-			System.exit(1);
-		} catch (MalformedURLException e2) {
-			System.err.println("ERR: MalformedULR while loading p1 code");
-			e2.printStackTrace();
-			System.exit(1);
-		} catch (Exception e) {
-			System.err.println("ERR: Loading p1 code");
-			e.printStackTrace();
-			System.exit(1);
-		}
+		if(tutorial){//Load p1 as tutorial
+			try {
+				secondSpawner = (Spawner) Class.forName("tutorial." + ai2).newInstance();
+			} catch (InstantiationException | IllegalAccessException
+					| ClassNotFoundException e) {
+				System.out.println("Loading tutorial failed, get fucked");
+				e.printStackTrace();
+				System.exit(42);
+			}
+		}else{
+			//Initialize 2nd player's AI
+			File f1 = new File("ais/ai.jar");
+			URLClassLoader urlCl1;
+			try {
+				urlCl1 = new URLClassLoader(new URL[] { f1.toURI().toURL() },	Spawner.class.getClassLoader());
+				System.out.println("p1: "	+ ai2);
+				Class<?> testAI1 = urlCl1.loadClass("playerCode."	+ ai2);
+				Class<? extends Spawner> myAIClass1 = testAI1.asSubclass(Spawner.class);
+				secondSpawner = myAIClass1.newInstance();
+			} catch (ClassNotFoundException e1) {
+				System.err.println("ERR: Class not found while loading p1 code");
+				e1.printStackTrace();
+				System.exit(1);
+			} catch (MalformedURLException e2) {
+				System.err.println("ERR: MalformedULR while loading p1 code");
+				e2.printStackTrace();
+				System.exit(1);
+			} catch (Exception e) {
+				System.err.println("ERR: Loading p1 code");
+				e.printStackTrace();
+				System.exit(1);
+			}
+		}//End trying to laod p1 as playercode
+		secondSpawner.setTeam(1);
+		spawners.add(secondSpawner);
 		// -----------------You can look now
 
 		actors = map.getActors();

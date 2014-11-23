@@ -8,12 +8,14 @@ import api.Spawner;
 
 public class ScienceAI extends Spawner {
 
-	int i = 1;
-	
+	int i;
+	public ScienceAI(){
+		i=1;
+		System.out.println("ScienceAI is team " + this.getTeam());
+	}
 	@Override
 	public Actor update(GameState G) {
 		if(getEnemies(G).isEmpty()){
-			System.out.println("NOPE");
 			if(i == 1){
 				i = 0;
 				return new Norm();
@@ -22,7 +24,6 @@ public class ScienceAI extends Spawner {
 				return new Attacker();
 			}
 		}else{
-			System.out.println("YES");
 			return new Defender();
 		}
 
