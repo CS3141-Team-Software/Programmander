@@ -2,8 +2,11 @@ package launcher;
 
 import java.io.IOException;
 import java.util.ArrayList;
+
 import javax.swing.JFrame;
+
 import editorWindow.EditorWindow;
+import editorWindow.SaveFilePopupFrame;
 
 
 public class MainLauncher {
@@ -22,12 +25,21 @@ public class MainLauncher {
 	 */
 	private static void initializeWindows() throws IOException{
 		
-		EditorWindow editor = new EditorWindow();
+		
+		
+		EditorWindow editor = new EditorWindow("");
 		editor.pack();
 		
+		EditorFilePopup popup = new EditorFilePopup(editor);
+		popup.pack();
+		
+		
+		frames.add(popup);
 		frames.add(editor);
 		
 		MainWindow main = new MainWindow(frames);
+		popup.setMainReference(main);
+		editor.setMainReference(main);
 		main.pack();
 		
 		//This might be important? 

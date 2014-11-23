@@ -10,14 +10,14 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-public class DecisionWindow extends JFrame{
+public class DecisionThenMenuWindow extends JFrame{
 	//question which you decide on
 	private String question = "";
 	
 	//Size of pop up window
 	private Dimension screenSize = new Dimension(260,150);
 	
-	private SaveFilePopupFrame popupRef;
+	private SaveFileThenMenuPopupFrame popupRef;
 	
 	//Jbuttons
 	private JButton yesButton = new JButton("Yes");
@@ -31,14 +31,13 @@ public class DecisionWindow extends JFrame{
 	private String fileName;
 	private String unitType;
 	
-	public DecisionWindow(String question, String title, EditorWindow editorReference, String fileName, String unitType, SaveFilePopupFrame popupRef){
+	public DecisionThenMenuWindow(String question, String title, EditorWindow editorReference, String fileName, String unitType, SaveFileThenMenuPopupFrame popupRef){
 		this.popupRef = popupRef;
 		this.question = question;
 		this.editorReference = editorReference;
 		this.fileName = fileName;
 		this.unitType = unitType;
 		this.setTitle(title);
-		this.setAlwaysOnTop(true);
 		this.editorReference.setUpCloseOperation(this);
 		initializeScreenSize();
 		initializeButtons();
@@ -55,7 +54,7 @@ public class DecisionWindow extends JFrame{
 			public void actionPerformed(ActionEvent arg0) {
 				editorReference.saveFile(fileName, editorReference.getTextArea().getText(), unitType);
 				editorReference.reEnable();
-				popupRef.dispose();
+				editorReference.openMain();
 				dispose();		//Close this window when you save overwrite
 			}
 		});
@@ -83,6 +82,7 @@ public class DecisionWindow extends JFrame{
 		this.setMaximumSize(screenSize);
 		this.setPreferredSize(screenSize);
 		getContentPane().setLayout(null);
+		this.setAlwaysOnTop(true);
 		this.setVisible(true);
 	}
 }
