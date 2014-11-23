@@ -15,14 +15,16 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.security.CodeSource;
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -58,6 +60,9 @@ public class LauncherWindow extends JFrame {
 	private JComboBox<String> comboBoxPlayer1AI = new JComboBox<String>();
 	private JComboBox<String> comboBoxPlayer2AI = new JComboBox<String>();
 	private JComboBox<String> comboBoxDifficulty = new JComboBox<String>();
+	private JComboBox<String> comboBoxGameMode = new JComboBox<String>();
+	private JComboBox<String> comboBoxTutorial = new JComboBox<String>();
+
 	//Combo box bounds variables
 	private int comboBoxStaticXCoord = 0;
 	private int comboBoxHeight = 50;
@@ -65,9 +70,9 @@ public class LauncherWindow extends JFrame {
 	private int startBoxYs = 0;
 
 	//Labels
-	private JLabel player1AILabel = new JLabel("Player 1 AI");
-	private JLabel player2AILabel = new JLabel("Player 2 AI");
-	private JLabel difficultyLabel = new JLabel("Difficulty");
+	private JLabel player1AILabel = new JLabel("Blue Team AI");
+	private JLabel player2AILabel = new JLabel("Red Team AI");
+	private JLabel difficultyLabel = new JLabel("Game Mode");
 	private JLabel mapsLabel = new JLabel("Maps");
 	private Boolean isThereAPlayer2 = false;
 	private String player2NameOrDifficulty;
@@ -148,26 +153,46 @@ public class LauncherWindow extends JFrame {
 
 		// Initialize the difficulty combo box
 		startBoxYs += 75;
-		comboBoxDifficulty.setBounds(comboBoxStaticXCoord, (startBoxYs ), comboBoxWidth, comboBoxHeight);
-		comboBoxDifficulty.addItem("");
-		comboBoxDifficulty.addItem("Easy");
-		comboBoxDifficulty.addItem("Medium");
-		comboBoxDifficulty.addItem("Hard");
+		//		comboBoxDifficulty.setBounds(comboBoxStaticXCoord, (startBoxYs ), comboBoxWidth, comboBoxHeight);
+		//		comboBoxDifficulty.addItem("");
+		//		comboBoxDifficulty.addItem("Easy");
+		//		comboBoxDifficulty.addItem("Medium");
+		//		comboBoxDifficulty.addItem("Hard");
 
-		comboBoxDifficulty.addActionListener(new ActionListener() {
+		comboBoxGameMode.setBounds(comboBoxStaticXCoord, (startBoxYs ), comboBoxWidth, comboBoxHeight);
+		comboBoxGameMode.addItem("VS. Mode");
+		comboBoxGameMode.addItem("Tutorial");
+
+		comboBoxGameMode.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String s = (String)comboBoxDifficulty.getSelectedItem();
-				if(!(s.equalsIgnoreCase(""))){
+				String s = (String)comboBoxGameMode.getSelectedItem();
+				if((s.equalsIgnoreCase("Tutorial"))){
 					comboBoxPlayer2AI.setVisible(false);
-					player2AILabel.setVisible(false);
-					isThereAPlayer2 = false;
-				} else if((s.equalsIgnoreCase(""))){
+					comboBoxTutorial.setVisible(true);
+				} else {
 					comboBoxPlayer2AI.setVisible(true);
-					player2AILabel.setVisible(true);
-					isThereAPlayer2 = true;
+					comboBoxTutorial.setVisible(false);
 				}
 			}
 		});
+
+		getContentPane().add(comboBoxGameMode);
+
+		//		comboBoxDifficulty.addActionListener(new ActionListener() {
+		//			public void actionPerformed(ActionEvent arg0) {
+		//				String s = (String)comboBoxDifficulty.getSelectedItem();
+		//				if(!(s.equalsIgnoreCase(""))){
+		//					comboBoxPlayer2AI.setVisible(false);
+		//					player2AILabel.setVisible(false);
+		//					isThereAPlayer2 = false;
+		//				} else if((s.equalsIgnoreCase(""))){
+		//					comboBoxPlayer2AI.setVisible(true);
+		//					player2AILabel.setVisible(true);
+		//					isThereAPlayer2 = true;
+		//				}
+		//			}
+		//		});
+
 		getContentPane().add(comboBoxDifficulty);
 
 		//Player 1 AI combobox
@@ -181,10 +206,19 @@ public class LauncherWindow extends JFrame {
 		//Player 2 AI combobox
 		startBoxYs += 75;
 		comboBoxPlayer2AI.setBounds(comboBoxStaticXCoord, (startBoxYs), comboBoxWidth, comboBoxHeight);
+		comboBoxTutorial.setBounds(comboBoxStaticXCoord, (startBoxYs), comboBoxWidth, comboBoxHeight);
 		for(String s : getAIList()){
 			comboBoxPlayer2AI.addItem(s);
 		}
+
+		for (String s : getTutorialAIList()) {
+			comboBoxTutorial.addItem(s);
+		}
+
 		getContentPane().add(comboBoxPlayer2AI);
+		getContentPane().add(comboBoxTutorial);
+		comboBoxTutorial.setVisible(false);
+		comboBoxPlayer2AI.setVisible(true);
 	}
 
 	/**
@@ -196,12 +230,13 @@ public class LauncherWindow extends JFrame {
 		//Run AI Button
 		runAI.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(isThereAPlayer2){
+				if(((String) comboBoxGameMode.getSelectedItem()).equalsIgnoreCase("VS. Mode")){
 					player2NameOrDifficulty = (String)comboBoxPlayer2AI.getSelectedItem();
 				}else {
-					player2NameOrDifficulty = (String)comboBoxDifficulty.getSelectedItem();
+					player2NameOrDifficulty = (String)comboBoxTutorial.getSelectedItem();
 				}
-				GameEngine engine = new GameEngine((String)comboBoxMaps.getSelectedItem(), (String)comboBoxPlayer1AI.getSelectedItem(), player2NameOrDifficulty, isThereAPlayer2);
+				//System.out.println("map: " + (String)comboBoxMaps.getSelectedItem() + "\nfirstAI: " + (String)comboBoxPlayer1AI.getSelectedItem() + "\nSecond AI: " + player2NameOrDifficulty);
+				GameEngine engine = new GameEngine((String)comboBoxMaps.getSelectedItem(), (String)comboBoxPlayer1AI.getSelectedItem(), player2NameOrDifficulty);
 				setVisible(false);
 				engine.run();
 			}
@@ -321,6 +356,42 @@ public class LauncherWindow extends JFrame {
 		}
 
 		return AINames;
+	}
+
+	private ArrayList<String> getTutorialAIList() {
+
+		ArrayList<String> aiNames = new ArrayList<String>();
+		BufferedReader aiFile;
+		try {
+			InputStream stream = getClass().getResourceAsStream("/tutorial/aiNames");
+			InputStreamReader streamReader = new InputStreamReader(stream);
+
+			aiFile = new BufferedReader(streamReader);
+			Scanner in = null;
+			try{
+				in = new Scanner(aiFile);
+				while (true) {
+					if(in.hasNextLine()){
+						aiNames.add(in.nextLine());
+					} else break;
+				}
+			} catch (Exception e) {
+				System.err.println("Error reading tutorial ai file.");
+				e.printStackTrace();
+				System.exit(-1);
+			} finally {
+				in.close();
+			}
+
+			return aiNames;
+
+		} catch (Exception e){
+			System.err.println("Error: Could not fetch tutorial AI list.");
+			e.printStackTrace();
+			System.exit(1);
+		}
+
+		return null;
 	}
 
 	public double getDynamicWindowHeight() {

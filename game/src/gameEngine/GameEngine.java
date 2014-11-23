@@ -31,16 +31,16 @@ public class GameEngine {
 	private long currTime;
 
 
-	public GameEngine(String mapName, String firstAIName, String difficulty, boolean is2Player) {
+	public GameEngine(String mapName, String firstAIName, String difficulty) {
 
 		map = new Graph(mapName);
-		display = new Display(mapName, firstAIName, difficulty, is2Player, map);
+		display = new Display(mapName, firstAIName, difficulty, map);
 		spawners = new ArrayList<Spawner>();
 		blueNumUnits = 0;
 		redNumUnits = 0;
 		mapNumUnits = map.getNumUnits();
 
-		//Initialize 1st player's AI by calling Mark's magic code.
+		//Initialize player AI by calling Mark's magic code.
 		//---------------Just don't look
 		Spawner playerSpawner = null;
 		File f = new File("ais/ai.jar");
@@ -68,17 +68,8 @@ public class GameEngine {
 			e2.printStackTrace();
 			System.exit(1);
 		}
-
-
-		/*catch (Exception e) {
-		} */
 		// -----------------You can look now
 
-		if (is2Player) {
-			//Initialize 2nd player's AI
-		} else {
-			//Initialize our AI based on which difficulty was selected
-		}
 
 		actors = map.getActors();
 		current = new GameState(map, actors);

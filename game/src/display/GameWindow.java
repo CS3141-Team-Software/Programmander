@@ -27,8 +27,6 @@ public class GameWindow extends JFrame {
 	private String mapName;
 	private String AI1;
 	private String AI2;
-	private String difficulty;
-	private boolean is2Player;
 
 	//Game Panel Variables
 	private int gameMapNumberOfRows;
@@ -49,8 +47,8 @@ public class GameWindow extends JFrame {
 	 * @param j
 	 * @param i
 	 */
-	public GameWindow(String mapName, String firstAIName, String difficulty, boolean is2Player, int mapHeightInRows, int mapWidthInCols) {
-		initializeGameInformation(mapName, firstAIName, difficulty, is2Player, mapHeightInRows, mapWidthInCols);
+	public GameWindow(String mapName, String firstAIName, String difficulty, int mapHeightInRows, int mapWidthInCols) {
+		initializeGameInformation(mapName, firstAIName, difficulty, mapHeightInRows, mapWidthInCols);
 		initializeScreenSize();
 		initializeGUIElements();
 		this.setBackground(new Color(31, 41, 48));
@@ -68,15 +66,10 @@ public class GameWindow extends JFrame {
 	 * @param firstAIName
 	 * @param mapName2
 	 */
-	private void initializeGameInformation(String mapName, String firstAIName, String difficulty, boolean is2Player, int mapRows, int mapCols){
+	private void initializeGameInformation(String mapName, String firstAIName, String difficulty, int mapRows, int mapCols){
 		this.mapName = mapName;
 		this.AI1 = firstAIName;
-		this.is2Player = is2Player;
-		if(is2Player){
-			this.AI2 = difficulty;
-		} else{
-			this.difficulty = difficulty;
-		}
+		this.AI2 = difficulty;
 		this.gameMapNumberOfRows = mapRows;
 		this.gameMapNumberOfCols = mapCols;
 		this.mapHeight = gameMapNumberOfRows * 50;

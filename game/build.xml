@@ -37,6 +37,7 @@
 			<fileset dir="${build.dir}" includes="**/*.class"/>
 			<fileset dir="${src.dir}" includes="**/*.java"/>
 			<fileset dir="." includes= "**/${assets.dir}/**"/>
+			<fileset dir="." includes= "**/tutorial/**"/>
 			<manifest>
 				<attribute name="Main-Class" value="${main-class}"/>
 			</manifest>
