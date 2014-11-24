@@ -41,7 +41,7 @@ public class EditorFilePopup extends JFrame {
 	private JButton openButton = new JButton("OPEN");
 	private JButton cancelButton = new JButton("CANCEL");
 	private JButton newButton = new JButton("NEW");
-	
+
 	private int innerWidth;
 	private int innerHeight;
 
@@ -49,7 +49,7 @@ public class EditorFilePopup extends JFrame {
 		//Initialize the text area that gives you syntax highlighting.
 		innerWidth = (int)screenSize.getWidth() - getInsets().left - getInsets().right;
 		innerHeight = (int)screenSize.getHeight() - getInsets().bottom - 135;	 //-135 for reasons
-				
+
 		this.setLayout(null);
 		editorReference = editor;
 		aiNames = editor.getAIList();
@@ -77,16 +77,18 @@ public class EditorFilePopup extends JFrame {
 		openButton.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {
-
 				String fileName = (String) filesComboBox.getSelectedItem();
 				String unitType = (String) unitComboBox.getSelectedItem();
-
-				editorReference.openFile(fileName, unitType);
-				editorReference.setVisible(true);
-				mainReference.reEnable();
-				mainReference.setVisible(false);
-
-				thisWindow.dispose();
+				
+				if (fileName == null) {
+					JOptionPane.showMessageDialog(null,"Please select a file, or press NEW.");
+				} else {
+					editorReference.openFile(fileName, unitType);
+					editorReference.setVisible(true);
+					mainReference.reEnable();
+					mainReference.setVisible(false);
+					thisWindow.dispose();
+				}
 			}
 		});
 
@@ -101,7 +103,7 @@ public class EditorFilePopup extends JFrame {
 				editorReference.setVisible(true);
 				mainReference.reEnable();
 				mainReference.setVisible(false);
-				
+
 
 				thisWindow.dispose();
 			}
@@ -139,7 +141,7 @@ public class EditorFilePopup extends JFrame {
 		filesComboBox.setBounds(comboBoxBounds);
 		getContentPane().add(filesComboBox);
 		filesComboBox.setVisible(true);
-		
+
 		unitComboBox.addItem("Scout");
 		unitComboBox.addItem("Knight");
 		unitComboBox.addItem("Spawner");

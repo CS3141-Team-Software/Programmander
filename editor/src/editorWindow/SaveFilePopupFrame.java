@@ -63,7 +63,7 @@ public class SaveFilePopupFrame extends JFrame{
 	 */
 	private boolean fileExistsAlready(){
 		for(String s : editorReference.getAIList()){
-
+			
 			if (fileName.contains(".java")) {
 				if(s.equalsIgnoreCase(fileName)){
 					return true;

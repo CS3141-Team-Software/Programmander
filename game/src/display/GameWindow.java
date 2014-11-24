@@ -6,6 +6,9 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -52,6 +55,9 @@ public class GameWindow extends JFrame {
 		initializeScreenSize();
 		initializeGUIElements();
 		this.setBackground(new Color(31, 41, 48));
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		//This won't work...
+		setUpCloseOperation(this);
 	}
 
 	//get the gamepanel reference.
@@ -103,7 +109,6 @@ public class GameWindow extends JFrame {
 		this.setDynamicWindowWidth(screen.getWidth());
 		getContentPane().setSize(screen);
 		getContentPane().setPreferredSize(screen);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
 		setTitle("Programmander");
 		//---------------------------------------------------------------
@@ -124,7 +129,6 @@ public class GameWindow extends JFrame {
 		game.setSize(d);
 		game.setMinimumSize(d);
 		game.setMaximumSize(d);
-		System.out.println("gamepanel, post init: " + game);
 	}
 
 	//Getters and setters ------------------------------------------------------------
@@ -149,6 +153,15 @@ public class GameWindow extends JFrame {
 		initializeGamePanel();
 		game.revalidate();
 		return game;
+	}
+
+	public void setUpCloseOperation(JFrame f) {
+		WindowListener w = new WindowAdapter() {
+			public void windowClosing(WindowEvent arg0) {
+				System.exit(0);
+			}
+		};
+		f.addWindowListener(w);
 	}
 }
 

@@ -25,6 +25,7 @@ public class EditorWindow extends JFrame {
 
 	private File currFile;
 	private String currFileName;
+	private String currUnitType;
 
 	private RSyntaxTextArea textArea = new RSyntaxTextArea(10, 10);
 	private Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
@@ -40,6 +41,7 @@ public class EditorWindow extends JFrame {
 	private int innerWidth;
 	private int innerHeight;
 
+	private boolean wasOpened = false; //Flag to tell if the file was opened or not
 
 	//textareas for points
 	private int totalPoints = 40;
@@ -65,7 +67,7 @@ public class EditorWindow extends JFrame {
 		this.setMaximumSize(screenSize);
 		this.setPreferredSize(screenSize);
 
-		getContentPane().setLayout(null);		//Set absolute layout.
+		getContentPane().setLayout(null); //Set absolute layout.
 
 		//Initialize the text area that gives you syntax highlighting.
 		innerWidth = (int)screenSize.getWidth() - getInsets().left - getInsets().right;
@@ -82,10 +84,14 @@ public class EditorWindow extends JFrame {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 
-	//======================================Save and load file operation methods========================================
 
+	//======================================Save and load file operation methods========================================
 	//Open their selected file. 
 	public void openFile (String fileName, String unitType) {
+
+		wasOpened = true;
+		currFileName = fileName;
+		currUnitType = unitType;
 
 		String theirCode = "";
 		String fileLine;
@@ -152,30 +158,40 @@ public class EditorWindow extends JFrame {
 			dir.mkdirs();
 		}
 
-		if (fileName.endsWith(".java")) {
-			currFile = new File("./src/playerCode/" + fileName);
 
-			boolean exists = false;
-			for (int i = 0; i < comboBoxFileSelector.getItemCount(); i++) {
-				if (comboBoxFileSelector.getItemAt(i) == fileName) {
-					exists = true;
-				}
-			}
-			if (!exists) {
-				comboBoxFileSelector.addItem(fileName);
-			}
+		if (wasOpened) {
+			//If we already opened the file (it exists in the combo box.)
+			currFile = new File("./src/playerCode/" + currFileName);
+			fileName = currFileName;
 
 		} else {
-			currFile = new File("./src/playerCode/" + fileName + ".java");
+			if (fileName.endsWith(".java")) {
+				currFile = new File("./src/playerCode/" + fileName);
 
-			boolean exists = false;
-			for (int i = 0; i < comboBoxFileSelector.getItemCount(); i++) {
-				if (comboBoxFileSelector.getItemAt(i) == (fileName + ".java")) {
-					exists = true;
+				boolean exists = false;
+				for (int i = 0; i < comboBoxFileSelector.getItemCount(); i++) {
+					if (comboBoxFileSelector.getItemAt(i) == fileName) {
+						exists = true;
+						break;
+					}
 				}
-			}
-			if (!exists) {
-				comboBoxFileSelector.addItem(fileName + ".java");
+				if (!exists) {
+					comboBoxFileSelector.addItem(fileName);
+				}
+
+			} else {
+				currFile = new File("./src/playerCode/" + fileName + ".java");
+
+				boolean exists = false;
+				for (int i = 0; i < comboBoxFileSelector.getItemCount(); i++) {
+					if (comboBoxFileSelector.getItemAt(i) == (fileName + ".java")) {
+						exists = true;
+						break;
+					}
+				}
+				if (!exists) {
+					comboBoxFileSelector.addItem(fileName + ".java");
+				}
 			}
 		}
 
@@ -184,11 +200,11 @@ public class EditorWindow extends JFrame {
 		//Set the correct header file
 
 		if (unitType == "Scout") {
-			unitHeader = new File("./includes/Scout.head");
+			unitHeader = new File("./headers/Scout.head");
 		} else if (unitType == "Knight") {
-			unitHeader = new File("./includes/Knight.head");
+			unitHeader = new File("./headers/Knight.head");
 		} else if (unitType == "Spawner") {
-			unitHeader = new File("./includes/Spawner.head");
+			unitHeader = new File("./headers/Spawner.head");
 		} else {
 			System.err.println("Error reading header files/unit types.");
 			System.exit(-1);
@@ -207,7 +223,7 @@ public class EditorWindow extends JFrame {
 
 		if (fileName.endsWith(".java")) {
 			//replace the fileName with the fileName - .java
-			headerText = headerText.replace("**x**", fileName.substring(0, fileName.length()-6)); 
+			headerText = headerText.replace("**x**", fileName.substring(0, fileName.length()-5)); 
 		} else {
 			headerText = headerText.replace("**x**", fileName);
 		}
@@ -330,7 +346,6 @@ public class EditorWindow extends JFrame {
 	 * @param fileStringBasedOnComboBox
 	 */
 	private void initializeTextArea(int innerWidth2, int innerHeight2, String fileStringBasedOnComboBox) {
-		//TODO: change this method to load up the text from a file that is already there if the file name from the combo box is not null
 		textArea.setAlignmentY(Component.TOP_ALIGNMENT);
 		textArea.setAlignmentX(Component.LEFT_ALIGNMENT);
 		textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
@@ -340,13 +355,14 @@ public class EditorWindow extends JFrame {
 
 		int textWidth = (int)(innerWidth *.80);
 		sp.setBounds(10, 10, textWidth, innerHeight);
+		textArea.setText("public int update(Gamestate g) { \n\n}");
 		sp.setVisible(true);
 		textArea.setVisible(true);
 		getContentPane().add(sp);
 	}
 
 	/**
-	 * Method to initialize all the labels inside the editor window GUIUIUIUIUIUIUIUIUI
+	 * Method to initialize all the labels inside the editor window GUI
 	 */
 	private void initializeLabels(){
 		int pointsLabelX = (int) (screenSize.getWidth() * .85);
@@ -443,8 +459,14 @@ public class EditorWindow extends JFrame {
 		//saveFile Button
 		saveFileButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				createSaveFilePopup();
-				disableWindow();
+				if (wasOpened) {
+					saveFile(currFileName, textArea.getText(), currUnitType);
+					JOptionPane.showMessageDialog(null,"File Saved");
+				} else {
+					createSaveFilePopup();
+					disableWindow();
+				}
+				
 			}
 		});
 		saveFileButton.setFont(new Font("Comic Sans MS", Font.BOLD, 20));
@@ -456,9 +478,9 @@ public class EditorWindow extends JFrame {
 		mainMenuButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				disableWindow();
-				
+
 				Pattern p = Pattern.compile("\\s*", Pattern.CASE_INSENSITIVE);
-				
+
 				if (!p.matcher(textArea.getText()).matches()) { //if there's actually non-whitespace in the file
 					saveBeforeMenu = new JFrame();
 					saveBeforeMenu.setLayout(null);
@@ -476,7 +498,15 @@ public class EditorWindow extends JFrame {
 					save.setBounds(41,80,75,25);
 					save.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent arg0) {
-							createSaveFileThenMenuPopup();
+							if (wasOpened) {
+								saveFile(currFileName, textArea.getText(), currUnitType);
+								reEnable();
+								clearFields(); //clear all values.
+								mainReference.setVisible(true);
+								setVisible(false);
+							} else {
+								createSaveFileThenMenuPopup();
+							}
 							saveBeforeMenu.dispose();
 						}
 					}); //end of addListener
@@ -499,7 +529,7 @@ public class EditorWindow extends JFrame {
 
 					saveBeforeMenu.setAlwaysOnTop(true);
 					saveBeforeMenu.setVisible(true);
-					
+
 				} else {
 					reEnable();
 					mainReference.reEnable();
@@ -508,6 +538,7 @@ public class EditorWindow extends JFrame {
 					setVisible(false);				
 				}
 			}
+
 		}); //end of mainListener
 
 		mainMenuButton.setFont(new Font("Comic Sans MS", Font.BOLD, 20));
