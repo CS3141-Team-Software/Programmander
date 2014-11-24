@@ -1,0 +1,4 @@
+package playerCode;
+import api.*;
+
+public class **x** extends Scout {
