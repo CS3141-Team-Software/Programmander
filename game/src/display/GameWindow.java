@@ -88,7 +88,7 @@ public class GameWindow extends JFrame {
 	 */
 	private void intitializeGamePanelBounds() {
 		this.gamePanelDim = new Dimension(mapWidth, mapHeight);
-		this.gamePanelLocation = new Point((int) (((screen.getWidth())/2) - (mapWidth/2)), (int) ((screen.getHeight()/2) - (mapHeight/2)));
+		this.gamePanelLocation = new Point((int) (((screen.getWidth())/2) - (mapWidth/2)), (int) ((screen.getHeight()/2) - (mapHeight/2) - 40));
 		this.gamePanelBounds = new Rectangle(gamePanelLocation, gamePanelDim);
 	}
 
