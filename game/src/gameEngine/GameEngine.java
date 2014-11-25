@@ -113,7 +113,7 @@ public class GameEngine {
 	public void updateGameState(GameState state) {
 
 		// iterate through actors and update the map with the move each actor
-		// wants to take.]
+		// wants to take.
 		ArrayList<Actor> toRem = new ArrayList<Actor>();
 		for (Actor a : actors) {
 			if (a.isDead()) {
@@ -228,6 +228,7 @@ public class GameEngine {
 
 			//Go through spawners and update them
 			for (Spawner s : spawners) {
+				System.out.println("SPAWN");
 				s.underAttack = false;
 
 				Actor unit = s.update(state);
@@ -297,4 +298,5 @@ public class GameEngine {
 				}
 			}//End spawner
 		}//End updateGameState method
-	}//End gameenging
+	}
+}//End gameenging
