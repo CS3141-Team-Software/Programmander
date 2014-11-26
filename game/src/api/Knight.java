@@ -6,9 +6,9 @@ public class Knight extends MeleeActor{
 	public Knight() {
 		agility = 5;
 		attack = 10;
-		defense = 10;
+		defense = 15;
 		vision = 1;
-		health = 15;
+		health = 20;
 		type = "knight";
 	}
 
