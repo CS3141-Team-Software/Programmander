@@ -130,6 +130,9 @@ public class GameEngine {
 		// wants to take.]
 		ArrayList<Actor> toRem = new ArrayList<Actor>();
 		for (Actor a : actors) {
+			if (a.isDead()) {
+				continue;
+			}
 			int aMove = a.update(state);
 			int action = aMove / 10;
 			int dir = aMove % 10;
@@ -177,15 +180,21 @@ public class GameEngine {
 				Actor enemy = actual.getActor();
 				if (enemy != null) {
 					if (enemy.getTeam() != a.getTeam()) {
-						System.out.println(enemy+" and "+a+" are fighting!");
 						int att = a.attackThrow();
 						int def = enemy.defenseThrow();
 						// Simple Fighting System
 						if (att > def) {
 							enemy.setHealth(enemy.getHealth() - (att - def));
-							if (enemy.getHealth() < 0) {
-
+							if (enemy.getHealth() <= 0) {
+								enemy.setDead();
+								actual.setActor(null);
 								toRem.add(enemy);
+								if(actual != null && actual.getActor() == null && actual.getObstruction() == null){
+									map.getNode(a.getX(), a.getY()).setActor(null);
+									actual.setActor(a);
+								}
+
+
 							}
 						}
 						// Retaliation!
@@ -201,9 +210,9 @@ public class GameEngine {
 		}//End foreach actors
 
 		for(Actor x : toRem){
-
-			System.out.println(x + " should be deleated");
-			map.getNode(x.getX(), x.getY()).setActor(null);
+			if(x.equals(map.getNode(x.getX(), x.getY()).getActor())){
+				map.getNode(x.getX(), x.getY()).setActor(null);
+			}
 			actors.remove(x);
 
 		}
@@ -224,7 +233,6 @@ public class GameEngine {
 						unit.setTeam(1);
 					} else continue;
 				}
-				System.out.println("New unit, team " + unit.getTeam());
 
 				//If we want to spawn a unit, make sure we have space
 				GraphNode castlePos = null;
