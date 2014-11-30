@@ -200,8 +200,12 @@ public class MainWindow extends JFrame {
 		tutorialButton.setLocation(buttonX, buttonY);
 		tutorialButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionCommand) {
-				//TODO: Load HTML link to tutorial in system's default browser
-				setVisible(false);
+				try {
+					Process p = Runtime.getRuntime().exec("firefox http://cs.mtu.edu/~mtfurlan/programmander");
+				} catch (Exception e) {
+					System.err.println("Could not load tutorial webpage.");
+					e.printStackTrace();
+				}
 			}
 		});
 		add(tutorialButton);
