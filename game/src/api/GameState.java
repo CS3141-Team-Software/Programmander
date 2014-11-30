@@ -1,6 +1,6 @@
 package api;
 
-import gameEngine.Graph;//TODO: make a graph interface in api, that graph implements
+import gameEngine.Graph;
 
 import java.util.ArrayList;
 
