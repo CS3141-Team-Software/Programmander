@@ -23,6 +23,7 @@
 	</target>
 
 	<target name="build" depends="compile">
+		<mkdir dir="${ai.dir}" />
 		<jar destfile="${ai.dir}/${ai.jar}" basedir="${build.dir}/">
 		</jar>
 
@@ -30,7 +31,6 @@
 			<contains text="extends Spawner"/>
 		</fileset>
 
-		<mkdir dir="${ai.dir}" />
 		<pathconvert pathsep="${line.separator}" property="aiNames" refid="ais">
 			<!-- Add this if you want the path stripped -->
 			<mapper>
