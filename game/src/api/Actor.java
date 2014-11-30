@@ -33,6 +33,7 @@ public abstract class Actor {
 	int vision;
 	int defense;
 	String type;
+	boolean dead = false;
 
 	/*
 	 * Unit not defending have defending -1
@@ -344,11 +345,24 @@ public abstract class Actor {
 
 	public ArrayList<Actor> getEnemies(GameState G){
 		ArrayList<Actor> limlist = new ArrayList<Actor>();
-		ArrayList<GraphNode> View = this.returnLimmitedView(G);
+		ArrayList<GraphNode> View = this.returnLimitedView(G);
 		Iterator<GraphNode> i = View.iterator();
 		while(i.hasNext()){
 			GraphNode next = i.next();
 			if(next.getActor() != null && next.getActor().getTeam() != team){
+				limlist.add(next.getActor());
+			}
+		}
+		return limlist;
+	}
+
+	public ArrayList<Actor> getAllies(GameState G){
+		ArrayList<Actor> limlist = new ArrayList<Actor>();
+		ArrayList<GraphNode> View = this.returnLimitedView(G);
+		Iterator<GraphNode> i = View.iterator();
+		while(i.hasNext()){
+			GraphNode next = i.next();
+			if(next.getActor() != null && next.getActor().getTeam() == team){
 				limlist.add(next.getActor());
 			}
 		}
@@ -394,20 +408,43 @@ public abstract class Actor {
 		return null;
 
 	}
+
+	public void lookForEnemyBase(GameState G){
+		ArrayList<GraphNode> View = this.returnLimitedView(G);
+		Iterator<GraphNode> i = View.iterator();
+		while(i.hasNext()){
+			GraphNode next = i.next();
+			if(next.getCastle() != null){
+				if(team == 1){
+					if (next.getCastle() == "Blue"){
+						enBasePos = new Point(next.getX(), next.getY());
+					}
+				}else{
+					if (next.getCastle() == "Red"){
+						enBasePos = new Point(next.getX(), next.getY());
+					}
+				}
+
+			}
+		}
+	}
 	//END OF OBSERVATION FUNCTIONS
 
 
 	//Shouts
 
-	public void callAllies(){
+	public void shoutEnemyBasePosition(GameState G){
+		ArrayList<Actor> limlist = getAllies(G);
+		if(!limlist.isEmpty()){
+			Iterator<Actor> i = limlist.iterator();
+			Actor weakest = i.next();
+			while(i.hasNext()){
+				i.next().enBasePos = enBasePos;
+			}
+		}
+
 	}
-
-	public int checkAllies(GameState G){
-
-		return 0;
-	}
-
-
+	//END OF SHOUTS
 
 	/*
 	 * This is the function the player will use to take any action
@@ -552,7 +589,7 @@ public abstract class Actor {
 		this.enBasePos = enBasePos;
 	}
 
-	private ArrayList<GraphNode> returnLimmitedView(GameState G){
+	private ArrayList<GraphNode> returnLimitedView(GameState G){
 		Graph map = G.map;
 		ArrayList<GraphNode> array = new ArrayList<GraphNode>();
 		for(int i =(-1 * vision); i <= vision; i++){
@@ -565,5 +602,13 @@ public abstract class Actor {
 		}
 
 		return array;
+	}
+
+	public void setDead() {
+		dead = true;
+	}
+
+	public boolean isDead() {
+		return dead;
 	}
 }

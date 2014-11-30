@@ -166,4 +166,8 @@ public class EditorFilePopup extends JFrame {
 		mainReference = main;
 	}
 
+	public JComboBox getComboBox() {
+			return filesComboBox;	
+	}
+
 }

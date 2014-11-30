@@ -245,5 +245,9 @@ public class MainWindow extends JFrame {
 		};
 		f.addWindowListener(w);
 	}
+	
+	public ArrayList<JFrame> getFrameList() {
+		return frames;
+	}
 
 }

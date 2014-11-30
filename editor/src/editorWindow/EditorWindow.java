@@ -12,6 +12,7 @@ import javax.swing.event.DocumentListener;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import launcher.EditorFilePopup;
 import launcher.MainWindow;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
@@ -19,7 +20,7 @@ import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 public class EditorWindow extends JFrame {
-
+	
 	private MainWindow mainReference;
 	private JFrame saveBeforeMenu;
 
@@ -368,33 +369,33 @@ public class EditorWindow extends JFrame {
 		int pointsLabelX = (int) (screenSize.getWidth() * .85);
 		int pointsLabelY = (int) (screenSize.getHeight() * .33);
 
-		agilityLabel.setBounds(pointsLabelX, pointsLabelY, 300, 100);
-		getContentPane().add(agilityLabel);
-		agilityLabel.setVisible(true);
-
-		pointsLabelY += 25;
-		attackLabel.setBounds(pointsLabelX, pointsLabelY, 300, 100);
-		getContentPane().add(attackLabel);
-		attackLabel.setVisible(true);
-
-		pointsLabelY += 25;
-		defenseLabel.setBounds(pointsLabelX, pointsLabelY, 300, 100);
-		getContentPane().add(defenseLabel);
-		defenseLabel.setVisible(true);
-
-		pointsLabelY += 25;
-		healthLabel.setBounds(pointsLabelX, pointsLabelY, 300, 100);
-		getContentPane().add(healthLabel);
-		healthLabel.setVisible(true);
-
-		pointsLabelY += 25;
-		totalPointsLabel.setBounds(pointsLabelX , pointsLabelY, 300, 100);
-		getContentPane().add(totalPointsLabel);
-		totalPointsLabel.setVisible(true);
-
-		pointsLeftLabel.setBounds(pointsLabelX + 100, pointsLabelY, 300, 100);
-		getContentPane().add(pointsLeftLabel);
-		pointsLeftLabel.setVisible(true);		
+//		agilityLabel.setBounds(pointsLabelX, pointsLabelY, 300, 100);
+//		getContentPane().add(agilityLabel);
+//		agilityLabel.setVisible(true);
+//
+//		pointsLabelY += 25;
+//		attackLabel.setBounds(pointsLabelX, pointsLabelY, 300, 100);
+//		getContentPane().add(attackLabel);
+//		attackLabel.setVisible(true);
+//
+//		pointsLabelY += 25;
+//		defenseLabel.setBounds(pointsLabelX, pointsLabelY, 300, 100);
+//		getContentPane().add(defenseLabel);
+//		defenseLabel.setVisible(true);
+//
+//		pointsLabelY += 25;
+//		healthLabel.setBounds(pointsLabelX, pointsLabelY, 300, 100);
+//		getContentPane().add(healthLabel);
+//		healthLabel.setVisible(true);
+//
+//		pointsLabelY += 25;
+//		totalPointsLabel.setBounds(pointsLabelX , pointsLabelY, 300, 100);
+//		getContentPane().add(totalPointsLabel);
+//		totalPointsLabel.setVisible(true);
+//
+//		pointsLeftLabel.setBounds(pointsLabelX + 100, pointsLabelY, 300, 100);
+//		getContentPane().add(pointsLeftLabel);
+//		pointsLeftLabel.setVisible(true);		
 	}
 
 	/**
@@ -407,24 +408,24 @@ public class EditorWindow extends JFrame {
 		int textFieldWidth = 30;										//Textfield width
 		int textFeildHeight = 15;										//Textfield height
 
-		agilityPoints.setBounds(pointsTextFieldX, pointsTextFieldY, textFieldWidth, textFeildHeight);
-		getContentPane().add(agilityPoints);
-		agilityPoints.setVisible(true);
-
-		pointsTextFieldY += 25;
-		attackPoints.setBounds(pointsTextFieldX, pointsTextFieldY, textFieldWidth, textFeildHeight);
-		getContentPane().add(attackPoints);
-		attackPoints.setVisible(true);
-
-		pointsTextFieldY += 25;
-		defensePoints.setBounds(pointsTextFieldX, pointsTextFieldY, textFieldWidth, textFeildHeight);
-		getContentPane().add(defensePoints);
-		defensePoints.setVisible(true);
-
-		pointsTextFieldY += 25;
-		healthPoints.setBounds(pointsTextFieldX, pointsTextFieldY, textFieldWidth, textFeildHeight);
-		getContentPane().add(healthPoints);
-		healthPoints.setVisible(true);
+//		agilityPoints.setBounds(pointsTextFieldX, pointsTextFieldY, textFieldWidth, textFeildHeight);
+//		getContentPane().add(agilityPoints);
+//		agilityPoints.setVisible(true);
+//
+//		pointsTextFieldY += 25;
+//		attackPoints.setBounds(pointsTextFieldX, pointsTextFieldY, textFieldWidth, textFeildHeight);
+//		getContentPane().add(attackPoints);
+//		attackPoints.setVisible(true);
+//
+//		pointsTextFieldY += 25;
+//		defensePoints.setBounds(pointsTextFieldX, pointsTextFieldY, textFieldWidth, textFeildHeight);
+//		getContentPane().add(defensePoints);
+//		defensePoints.setVisible(true);
+//
+//		pointsTextFieldY += 25;
+//		healthPoints.setBounds(pointsTextFieldX, pointsTextFieldY, textFieldWidth, textFeildHeight);
+//		getContentPane().add(healthPoints);
+//		healthPoints.setVisible(true);
 	}
 
 	/**
@@ -589,5 +590,10 @@ public class EditorWindow extends JFrame {
 			}
 		};
 		f.addWindowListener(w);
+	}
+
+
+	public EditorFilePopup getPopup() {
+		return (EditorFilePopup) mainReference.getFrameList().get(0);
 	}
 }

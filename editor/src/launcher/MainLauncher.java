@@ -33,7 +33,6 @@ public class MainLauncher {
 		EditorFilePopup popup = new EditorFilePopup(editor);
 		popup.pack();
 		
-		
 		frames.add(popup);
 		frames.add(editor);
 		

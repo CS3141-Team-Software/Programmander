@@ -158,6 +158,7 @@ public class GameWindow extends JFrame {
 	public void setUpCloseOperation(JFrame f) {
 		WindowListener w = new WindowAdapter() {
 			public void windowClosing(WindowEvent arg0) {
+				System.out.println("Fuvvs");
 				System.exit(0);
 			}
 		};
