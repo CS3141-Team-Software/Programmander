@@ -26,7 +26,8 @@ public class GameEngine {
 	private Display display;
 	private long turnTime = 1000;
 	private long currTime;
-
+	private Spawner blueSpawner;
+	private Spawner redSpawner;
 
 	public GameEngine(String mapName, String firstAIName, String ai2, boolean tutorial) {
 
@@ -50,6 +51,7 @@ public class GameEngine {
 			Class<? extends Spawner> myAIClass0 = testAI0.asSubclass(Spawner.class);
 			playerSpawner = myAIClass0.newInstance();
 			playerSpawner.setTeam(0);
+			blueSpawner = playerSpawner;
 			spawners.add(playerSpawner);
 		} catch (ClassNotFoundException e1) {
 			System.err.println("ERR: Class not found while loading p0 code");
@@ -100,6 +102,7 @@ public class GameEngine {
 			}
 		}//End trying to laod p1 as playercode
 		secondSpawner.setTeam(1);
+		redSpawner = secondSpawner;
 		spawners.add(secondSpawner);
 		// -----------------You can look now
 
@@ -111,7 +114,7 @@ public class GameEngine {
 	public void run() {
 
 		//while(!gameOver) should be subbed with this for loop {
-		for(;;){
+		while(!gameOver){
 			updateGameState(current);
 			//Generates and paints a bufferedImage of the current frame
 			display.render(current);
@@ -122,6 +125,7 @@ public class GameEngine {
 				continue;
 			}
 		}// End gameloop
+		System.out.println("FUCK OFF");
 	}// End run func
 
 	public void updateGameState(GameState state) {
@@ -196,6 +200,32 @@ public class GameEngine {
 							}
 						}
 					}
+				} //end of attacking a unit
+				//If they aren't attacking a unit, are they attacking a castle?
+				else if(actual.getCastle() != null){
+					if(a.getTeam() == 0){
+						if(actual.getCastle() == "Red"){//Blue attacking red
+							redSpawner.health -= a.attackThrow();
+							redSpawner.underAttack = true;
+							if(redSpawner.health <= 0){
+								//BLUE TEAM WIN!!
+								//attacking castle? }
+								System.out.println("Blue win");
+								gameOver = true;
+
+							}
+						}else{
+							if(actual.getCastle() == "Blue"){//Red attacking blue
+								blueSpawner.health -= a.attackThrow();
+								blueSpawner.underAttack = true;
+								if(blueSpawner.health <= 0){
+									//RED TEAM WIN!!
+									System.out.println("Red Win");
+									gameOver = true;
+								}
+							}
+						}
+					}//else: They attacked their own castle
 				}
 			}
 		}//End foreach actors
@@ -211,6 +241,7 @@ public class GameEngine {
 
 		//Go through spawners and update them
 		for (Spawner s : spawners) {
+			s.underAttack = false;//Protip, this does nothing. At all. It cannot be used.
 			Actor unit = s.update(state);
 
 			if (unit != null) {

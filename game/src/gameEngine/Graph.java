@@ -174,7 +174,7 @@ public class Graph{
 	 * returns the node at the specified coordinates
 	 */
 	public GraphNode getNode(int x, int y){
-		if(x > cols || y > rows || x < 0 || y < 0){
+		if(x >= cols || y >= rows || x < 0 || y < 0){
 			return null;
 		}
 		else{
@@ -277,6 +277,16 @@ public class Graph{
 			}
 
 		}
+		//Print costmap
+		/*
+		System.out.println("Costmap\n\t  0   1   2   3   4   5   6   7   8   9  10");
+		for(int i=0; i<rows;i++){
+			System.out.print(i + "\t");
+			for(int j=0; j<cols; j++){
+				System.out.printf("%3d ",costMap[i][j]);
+			}
+			System.out.println();
+		}*/
 
 
 		Point ret = traceBack(dest, costMap);
@@ -314,6 +324,7 @@ public class Graph{
 
 	private Point traceBack(Point pnt, int[][] costMap){
 
+
 		if(costMap[(int) pnt.getY()][(int) pnt.getX()] == 2){
 			return pnt;
 		}
@@ -323,6 +334,7 @@ public class Graph{
 
 
 		int cost = Math.abs(costMap[pnt.y][pnt.x]);
+
 		if (cost == 0){
 			int lowest = 9999999;
 			GraphNode lowestNode = null;
@@ -340,12 +352,15 @@ public class Graph{
 				if(currPos != null){
 					if(Math.abs(costMap[currPos.getY()][currPos.getX()]) < lowest){
 						lowest = Math.abs(costMap[currPos.getY()][currPos.getX()]);
-						lowestNode = currPos;
+						if(lowest != 0){
+							lowestNode = currPos;
+						}
 					}
 				}
 			}
 			if(lowestNode != null){
-				return traceBack(new Point(lowestNode.getX(), lowestNode.getY()), costMap);
+				Point ret = new Point(lowestNode.getX(), lowestNode.getY());
+				return traceBack(ret, costMap);
 			}
 		}
 

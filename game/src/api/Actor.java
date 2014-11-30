@@ -216,7 +216,15 @@ public abstract class Actor {
 		GraphNode node = G.getMap().getNode(x, y).getNNode();
 		if(node != null){
 			Actor found = node.getActor();
-			return (found != null && found.getTeam() != team);
+			if(found != null){
+				return (found != null && found.getTeam() != team);
+			}
+			if(team ==0 && node.getCastle() == "Red"){
+				return true;
+			}
+			if(team ==1 && node.getCastle() == "Blue"){
+				return true;
+			}
 		}
 		return false;
 	}
@@ -224,7 +232,15 @@ public abstract class Actor {
 		GraphNode node = G.getMap().getNode(x, y).getNENode();
 		if(node != null){
 			Actor found = node.getActor();
-			return (found != null && found.getTeam() != team);
+			if(found != null){
+				return (found != null && found.getTeam() != team);
+			}
+			if(team ==0 && node.getCastle() == "Red"){
+				return true;
+			}
+			if(team ==1 && node.getCastle() == "Blue"){
+				return true;
+			}
 		}
 		return false;
 	}
@@ -232,7 +248,15 @@ public abstract class Actor {
 		GraphNode node = G.getMap().getNode(x, y).getENode();
 		if(node != null){
 			Actor found = node.getActor();
-			return (found != null && found.getTeam() != team);
+			if(found != null){
+				return (found != null && found.getTeam() != team);
+			}
+			if(team ==0 && node.getCastle() == "Red"){
+				return true;
+			}
+			if(team ==1 && node.getCastle() == "Blue"){
+				return true;
+			}
 		}
 		return false;
 	}
@@ -240,7 +264,15 @@ public abstract class Actor {
 		GraphNode node = G.getMap().getNode(x, y).getSENode();
 		if(node != null){
 			Actor found = node.getActor();
-			return (found != null && found.getTeam() != team);
+			if(found != null){
+				return (found != null && found.getTeam() != team);
+			}
+			if(team ==0 && node.getCastle() == "Red"){
+				return true;
+			}
+			if(team ==1 && node.getCastle() == "Blue"){
+				return true;
+			}
 		}
 		return false;
 	}
@@ -248,7 +280,15 @@ public abstract class Actor {
 		GraphNode node = G.getMap().getNode(x, y).getSNode();
 		if(node != null){
 			Actor found = node.getActor();
-			return (found != null && found.getTeam() != team);
+			if(found != null){
+				return (found != null && found.getTeam() != team);
+			}
+			if(team ==0 && node.getCastle() == "Red"){
+				return true;
+			}
+			if(team ==1 && node.getCastle() == "Blue"){
+				return true;
+			}
 		}
 		return false;
 	}
@@ -256,7 +296,15 @@ public abstract class Actor {
 		GraphNode node = G.getMap().getNode(x, y).getSWNode();
 		if(node != null){
 			Actor found = node.getActor();
-			return (found != null && found.getTeam() != team);
+			if(found != null){
+				return (found != null && found.getTeam() != team);
+			}
+			if(team ==0 && node.getCastle() == "Red"){
+				return true;
+			}
+			if(team ==1 && node.getCastle() == "Blue"){
+				return true;
+			}
 		}
 		return false;
 	}
@@ -264,7 +312,15 @@ public abstract class Actor {
 		GraphNode node = G.getMap().getNode(x, y).getWNode();
 		if(node != null){
 			Actor found = node.getActor();
-			return (found != null && found.getTeam() != team);
+			if(found != null){
+				return (found != null && found.getTeam() != team);
+			}
+			if(team ==0 && node.getCastle() == "Red"){
+				return true;
+			}
+			if(team ==1 && node.getCastle() == "Blue"){
+				return true;
+			}
 		}
 		return false;
 	}
@@ -272,7 +328,15 @@ public abstract class Actor {
 		GraphNode node = G.getMap().getNode(x, y).getNWNode();
 		if(node != null){
 			Actor found = node.getActor();
-			return (found != null && found.getTeam() != team);
+			if(found != null){
+				return (found != null && found.getTeam() != team);
+			}
+			if(team ==0 && node.getCastle() == "Red"){
+				return true;
+			}
+			if(team ==1 && node.getCastle() == "Blue"){
+				return true;
+			}
 		}
 		return false;
 	}
