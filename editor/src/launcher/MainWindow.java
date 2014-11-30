@@ -28,38 +28,41 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.BoxLayout;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import java.awt.Component;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 import javax.swing.Box;
 
 public class MainWindow extends JFrame {
-	
+
 	ArrayList<JFrame> frames; 
-	
+
 	//SCREEN DIMENSIONS
 	private Dimension screen;
-	
+
 	//Buttons
 	private Dimension buttonDim = new Dimension(350, 80);
 	private JButton playButton = new JButton("PLAY!");
 	private JButton editButton = new JButton("EDIT");
 	private JButton tutorialButton = new JButton("TUTORIAL");
-	
+
 	//JLabels
 	private Dimension titleDim = new Dimension(600, 50);
 	private JLabel title = new JLabel("PROGRAMMANDER");
 	private Color titleColor = new Color(255, 255, 255);
 	private Point titleLocation = new Point(100, 200);
-	
+
 	private Toolkit kit = this.getToolkit();
 	private double dynamicWindowHeight = 0;
 	private double dynamicWindowWidth = 0;
 	//Cursor cursor = kit.createCustomCursor(ImageIO.read(new File(System.getProperty("user.dir") + "/assets/art/cursor.png")), new Point(0,0), "cursor");
-	
+
 	//Constructor creating the frame
 	public MainWindow(ArrayList<JFrame> f) throws IOException{
 		this.frames = f;
@@ -67,6 +70,7 @@ public class MainWindow extends JFrame {
 		initializeButtons(screen);
 		initializeTitle();
 		getContentPane().add(new MainWindowPanel(f));
+		this.setVisible(true);
 	}
 
 	/**
@@ -77,7 +81,6 @@ public class MainWindow extends JFrame {
 		//this.setCursor(cursor);
 		this.setExtendedState(MAXIMIZED_BOTH);
 		this.setUndecorated(true);
-		this.setVisible(true);
 		screen = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setDynamicWindowHeight(screen.getHeight());
 		this.setDynamicWindowWidth(screen.getWidth());
@@ -101,7 +104,7 @@ public class MainWindow extends JFrame {
 	public void initializeButtons(Dimension dim){
 		int buttonX = (int)(dim.getWidth()/2 - (buttonDim.getWidth()/2));
 		int buttonY = (int) (dynamicWindowHeight/2);
-		
+
 		//Initialization of the play button dimensions and placement on the contentpane.
 		playButton.setSize(buttonDim);
 		playButton.setPreferredSize(buttonDim);
@@ -111,14 +114,64 @@ public class MainWindow extends JFrame {
 		playButton.setLocation(buttonX, buttonY);
 		playButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionCommand) {
-				//Dispose of all frames, including the mainWindow frame
-				//TODO: Replace with Mark's magic command line
+				//Dispose of all frames, including the mainWindow frame.
 				//Game is now running as another process. 
 				//Exit this process.
+				Process p;
+				BufferedReader reader;
+				StringBuilder sb = new StringBuilder();
+				try {
+					p = Runtime.getRuntime().exec("ant build");
+					int errorCode = p.waitFor();
+
+					reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+
+					String line = "";			
+					while ((line = reader.readLine())!= null) {
+						sb.append(line + "\n");
+					}
+
+					if (errorCode != 0) {
+						JOptionPane.showMessageDialog(null, sb + "\n\n Please fix these errors or move the files to another directory.","Problems Compiling", JOptionPane.ERROR_MESSAGE);
+					} else {
+						if (System.getProperty("os.name").equals("Linux")) {
+							p = Runtime.getRuntime().exec("java -classpath .:game.jar:ais/ais.jar launcher.Launcher");
+						} else {
+							p = Runtime.getRuntime().exec("java -classpath .;game.jar;ais/ais.jar launcher.Launcher");
+						}
+						
+						for (int i = 0; i < frames.size(); i++) {
+							frames.get(i).dispose();
+						}
+						
+						dispose();
+						
+						int runErrorCode = p.waitFor(); 
+						System.out.println(runErrorCode);
+						
+						reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+						sb.delete(0, sb.length());
+
+						line = "";			
+						while ((line = reader.readLine())!= null) {
+							sb.append(line + "\n");
+						}
+						
+						if (runErrorCode != 0) {
+							JOptionPane.showMessageDialog(null, sb, "Game Failed", JOptionPane.ERROR_MESSAGE);
+						}
+					}
+
+				} catch (Exception e) {
+					e.printStackTrace();
+					System.err.println("Error launching game.");
+					System.exit(-1);
+				}
 			}
 		});
-		add(playButton);
 		
+		add(playButton);
+
 		//Initialization of the edit button dimensions and placement.
 		buttonY += 105;
 		editButton.setSize(buttonDim);
@@ -132,11 +185,11 @@ public class MainWindow extends JFrame {
 				disableWindow();
 				setUpCloseOperation(frames.get(0));
 				frames.get(0).setVisible(true);
-				
+
 			}
 		});
 		add(editButton);
-				
+
 		//Tutorial button initialization
 		buttonY += 105;
 		tutorialButton.setSize(buttonDim);
@@ -154,7 +207,7 @@ public class MainWindow extends JFrame {
 		add(tutorialButton);
 	}
 
-	
+
 	//Getters and setters.
 	public double getDynamicWindowHeight() {
 		return dynamicWindowHeight;
@@ -171,19 +224,19 @@ public class MainWindow extends JFrame {
 	public void setDynamicWindowWidth(double dynamicWindowWidth) {
 		this.dynamicWindowWidth = dynamicWindowWidth;
 	}
-	
+
 	public void disableWindow() {
 		for (Component c : getContentPane().getComponents()) {
 			c.setEnabled(false);
 		}
 	}
-	
+
 	public void reEnable() {
 		for (Component c : getContentPane().getComponents()) {
 			c.setEnabled(true);
 		}
 	}
-	
+
 	public void setUpCloseOperation(JFrame f) {
 		WindowListener w = new WindowAdapter() {
 			public void windowClosing(WindowEvent arg0) {

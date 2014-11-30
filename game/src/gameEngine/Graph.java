@@ -119,8 +119,8 @@ public class Graph{
 		cols = x;
 		size = cols*rows;
 		if (cols > 20 || rows > 20) {
-			System.out.println("BAD MAP!");
-			return;
+			System.err.println("Bad mapfile. Too large.");
+			System.exit(-1);
 		}
 
 		map = new GraphNode[rows][cols];

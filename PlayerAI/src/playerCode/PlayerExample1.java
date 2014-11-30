@@ -31,8 +31,10 @@ public class PlayerExample1 extends Spawner {
 		boolean gotStuck = false;
 		public int update(GameState G) {
 			if(gotStuck || isStuck()){
+				System.out.println("returning to base");
 				gotStuck = true;
 				int ret = returnToBase(G);
+				System.out.println("going "+ret);
 				return ret;	
 			}
 			return 12;

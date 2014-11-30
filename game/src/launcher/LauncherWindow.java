@@ -75,17 +75,16 @@ public class LauncherWindow extends JFrame {
 	private Boolean isThereAPlayer2 = true;
 	private String player2NameOrDifficulty;
 
-	//label bounds varialbes
+	//label bounds variables
 	private int mapLabelWidth = 150;
-	private int ai1LabelWidth = 308;
-	private int ai2LabelWidth = 308;
-	private int diffLabelWidth = 263;
+	private int ai1LabelWidth = 377;
+	private int ai2LabelWidth = 360;
+	private int diffLabelWidth = 335;
 
 	//Flags so it loads correctly every time
 
 	//Main constructor
 	public LauncherWindow() throws IOException {
-
 		initializeScreenSize();
 		startBoxYs = (int)((dynamicWindowHeight / 2) - 250);
 		comboBoxWidth = (int) (dynamicWindowWidth / 2 - 200);
@@ -114,6 +113,7 @@ public class LauncherWindow extends JFrame {
 		//custom cursor image that comes from cursor.png in art assets
 		cursor = kit.createCustomCursor(cursorFile, new Point(0,0), "cursor");
 
+		this.setVisible(true);
 	}
 
 	/**
@@ -124,7 +124,6 @@ public class LauncherWindow extends JFrame {
 		this.setCursor(cursor);
 		this.setExtendedState(MAXIMIZED_BOTH);
 		this.setUndecorated(true);
-		this.setVisible(true);
 		screen = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setDynamicWindowHeight(screen.getHeight());
 		this.setDynamicWindowWidth(screen.getWidth());
@@ -247,7 +246,7 @@ public class LauncherWindow extends JFrame {
 	}
 
 	/**47
-	 * Method to initialize tsetDynamicWindowHeighthe labels in the frame
+	 * Method to initialize the labels in the frame
 	 * Status: DONE
 	 */
 	private void initializeLabels(){
@@ -256,6 +255,7 @@ public class LauncherWindow extends JFrame {
 		//Map Label formatting
 		mapsLabel.setFont(new Font("Dialog", Font.BOLD, 50));
 		mapsLabel.setBounds(comboBoxStaticXCoord - mapLabelWidth - 15, startY, mapLabelWidth, 50);
+		mapsLabel.setLocation(comboBoxStaticXCoord - mapLabelWidth - 15, startY);
 		mapsLabel.setBackground(labelColors);
 		mapsLabel.setForeground(new Color(255,255,255));
 		getContentPane().add(mapsLabel);
@@ -264,6 +264,7 @@ public class LauncherWindow extends JFrame {
 		startY += 75;
 		difficultyLabel.setFont(new Font("Dialog", Font.BOLD, 50));
 		difficultyLabel.setBounds(comboBoxStaticXCoord - diffLabelWidth - 15, startY, diffLabelWidth, 55);
+		difficultyLabel.setLocation(comboBoxStaticXCoord - diffLabelWidth - 15, startY);
 		difficultyLabel.setBackground(labelColors);
 		difficultyLabel.setForeground(new Color(255,255,255));
 		getContentPane().add(difficultyLabel);
@@ -272,6 +273,7 @@ public class LauncherWindow extends JFrame {
 		startY += 75;
 		player1AILabel.setFont(new Font("Dialog", Font.BOLD, 50));
 		player1AILabel.setBounds(comboBoxStaticXCoord - ai1LabelWidth - 15, startY, ai1LabelWidth, 57);
+		player1AILabel.setLocation(comboBoxStaticXCoord - ai1LabelWidth - 15, startY);
 		player1AILabel.setBackground(labelColors);
 		player1AILabel.setForeground(new Color(255,255,255));
 		getContentPane().add(player1AILabel);
@@ -280,10 +282,10 @@ public class LauncherWindow extends JFrame {
 		startY += 75;
 		player2AILabel.setFont(new Font("Dialog", Font.BOLD, 50));
 		player2AILabel.setBounds(comboBoxStaticXCoord - ai2LabelWidth - 15, startY, ai2LabelWidth, 57);
+		player2AILabel.setLocation(comboBoxStaticXCoord - ai2LabelWidth - 15, startY);
 		player2AILabel.setBackground(labelColors);
 		player2AILabel.setForeground(new Color(255,255,255));
 		getContentPane().add(player2AILabel);
-
 	}
 
 
