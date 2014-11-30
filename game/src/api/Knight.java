@@ -14,7 +14,6 @@ public class Knight extends MeleeActor{
 
 	@Override
 	public int update(GameState G) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 }

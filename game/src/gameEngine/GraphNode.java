@@ -47,7 +47,7 @@ public class GraphNode {
 	public GraphNode(int y,int x){
 		actor = null;
 		north = null;
-		south = null;// TODO Auto-generated method stub
+		south = null;
 		east = null;
 		west = null;
 		row = y;
@@ -87,7 +87,7 @@ public class GraphNode {
 	}
 
 	/*
-	 * Getter Method// TODO Auto-generated method stubs for
+	 * Getter Method
 	 * NorthEast SouthEast
 	 * NorthWest SouthWest
 	 */
@@ -178,7 +178,6 @@ public class GraphNode {
 	 */
 
 	private Point getPoint() {
-		// TODO Auto-generated method stub
 		return new Point(col,row);
 	}
 
@@ -191,7 +190,7 @@ public class GraphNode {
 		return ("[Row: " + row + ", Col: " + col + "]");
 	}
 
-	public boolean getIsChanged() {// TODO Auto-generated method stub
+	public boolean getIsChanged() {
 		return isChanged;
 	}
 

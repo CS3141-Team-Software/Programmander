@@ -12,7 +12,6 @@ public class Scout extends MeleeActor{
 	}
 
 	public int update(GameState G) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
