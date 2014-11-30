@@ -214,6 +214,7 @@ public class GameEngine {
 								//BLUE TEAM WIN!!
 								//attacking castle? }
 								System.out.println("Blue win");
+								redTeamWon = false;
 								gameOver = true;
 
 							}
@@ -224,6 +225,7 @@ public class GameEngine {
 								if(blueSpawner.health <= 0){
 									//RED TEAM WIN!!
 									System.out.println("Red Win");
+									redTeamWon = true;
 									gameOver = true;
 								}
 							}

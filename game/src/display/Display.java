@@ -1,6 +1,9 @@
 package display;
 
 import gameEngine.Graph;
+
+import javax.swing.JOptionPane;
+
 import api.GameState;
 
 public class Display {
@@ -22,6 +25,10 @@ public class Display {
 	}
 
 	public void gameOver(boolean redTeamWon) {
-		gameFrame.createGameOverWindow(redTeamWon);
+		if(redTeamWon){
+			JOptionPane.showMessageDialog(null,"WINNER WINNER CHICKEN DINNER: RED TEAM");
+		} else {
+			JOptionPane.showMessageDialog(null,"WINNER WINNER CHICKEN DINNER: BLUE TEAM");
+		}
 	}
 }

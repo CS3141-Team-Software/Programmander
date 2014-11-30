@@ -164,10 +164,5 @@ public class GameWindow extends JFrame {
 		};
 		f.addWindowListener(w);
 	}
-
-	public void createGameOverWindow(boolean redTeamWon) {
-		GameOverWindow gameOver = new GameOverWindow(redTeamWon);
-
-	}
 }
 
