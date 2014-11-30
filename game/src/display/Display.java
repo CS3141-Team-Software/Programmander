@@ -20,4 +20,8 @@ public class Display {
 		//Sets the new image to render and repaints it
 		panel.setCurrFrame(renderer.generateImage());
 	}
+
+	public void gameOver(boolean redTeamWon) {
+		gameFrame.createGameOverWindow(redTeamWon);
+	}
 }

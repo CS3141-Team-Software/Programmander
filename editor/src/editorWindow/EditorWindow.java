@@ -356,7 +356,7 @@ public class EditorWindow extends JFrame {
 
 		int textWidth = (int)(innerWidth *.80);
 		sp.setBounds(10, 10, textWidth, innerHeight);
-		textArea.setText("public int update(Gamestate g) { \n\n}");
+		textArea.setText("public int update(GameState g) { \n\n}");
 		sp.setVisible(true);
 		textArea.setVisible(true);
 		getContentPane().add(sp);

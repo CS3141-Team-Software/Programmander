@@ -29,6 +29,8 @@ public class GameEngine {
 	private Spawner blueSpawner;
 	private Spawner redSpawner;
 
+	private boolean redTeamWon = true;
+
 	public GameEngine(String mapName, String firstAIName, String ai2, boolean tutorial) {
 
 		map = new Graph(mapName);
@@ -125,7 +127,8 @@ public class GameEngine {
 				continue;
 			}
 		}// End gameloop
-		System.out.println("FUCK OFF");
+
+		display.gameOver(redTeamWon);
 	}// End run func
 
 	public void updateGameState(GameState state) {
