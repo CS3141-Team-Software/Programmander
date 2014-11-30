@@ -28,7 +28,10 @@
 		<copy todir="${dist.dir}" overwrite="true">
 			<fileset file="${api.jar}"/>
 			<fileset file="${game.jar}"/>
-			<fileset file="PlayerAI/build.xml"/>
+			<fileset dir="PlayerAI/">
+				<include name="src/**"/>
+				<include name="build.xml"/>
+			</fileset>
 			<fileset file="editor/dist/**"/>
 		</copy>
 	</target>
