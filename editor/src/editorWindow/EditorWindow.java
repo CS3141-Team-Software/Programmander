@@ -61,7 +61,6 @@ public class EditorWindow extends JFrame {
 	private JLabel pointsLeftLabel = new JLabel(totalPoints + "");
 
 	public EditorWindow(String unitType) {
-
 		//Sets the dimensions of the JFrame.
 		this.setSize(screenSize);
 		this.setMinimumSize(screenSize);
@@ -356,7 +355,11 @@ public class EditorWindow extends JFrame {
 
 		int textWidth = (int)(innerWidth *.80);
 		sp.setBounds(10, 10, textWidth, innerHeight);
-		textArea.setText("public int update(GameState g) { \n\n}");
+		if (currUnitType == "Spawner") {
+			textArea.setText("public Actor update(GameState g) { \n\n}");
+		} else {
+			textArea.setText("public int update(GameState g) { \n\n}");
+		}
 		sp.setVisible(true);
 		textArea.setVisible(true);
 		getContentPane().add(sp);

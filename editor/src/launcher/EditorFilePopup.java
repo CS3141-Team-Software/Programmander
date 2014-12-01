@@ -99,7 +99,13 @@ public class EditorFilePopup extends JFrame {
 		newButton.setBounds(newButtonBounds);
 		newButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				String unitType = (String) unitComboBox.getSelectedItem();
 				//Launch editor window with a blank update method.
+				if (unitType == "Spawner") {
+					editorReference.getTextArea().setText("public Actor update(GameState g) { \n\n}");
+				} else {
+					editorReference.getTextArea().setText("public int update(GameState g) { \n\n}");
+				}
 				editorReference.setVisible(true);
 				mainReference.reEnable();
 				mainReference.setVisible(false);
