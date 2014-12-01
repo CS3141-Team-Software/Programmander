@@ -236,7 +236,8 @@ public class LauncherWindow extends JFrame {
 				System.out.println("map: " + (String)comboBoxMaps.getSelectedItem() + "\nfirstAI: " + (String)comboBoxPlayer1AI.getSelectedItem() + "\nSecond AI: " + player2NameOrDifficulty);
 				GameEngine engine = new GameEngine((String)comboBoxMaps.getSelectedItem(), (String)comboBoxPlayer1AI.getSelectedItem(), player2NameOrDifficulty,tutorial);
 				setVisible(false);
-				engine.run();
+
+				(new Thread(new thread(engine))).start();
 			}
 		});
 		runAI.setFont(new Font("Comic Sans MS", Font.BOLD, 50));
@@ -244,7 +245,15 @@ public class LauncherWindow extends JFrame {
 		getContentPane().add(runAI);
 		runAI.setBackground(runButtonColor);
 	}
-
+	public class thread implements Runnable {
+		GameEngine engine;
+		thread(GameEngine engine){
+			this.engine = engine;
+		}
+		public void run() {
+			engine.run();
+		}
+	}
 	/**47
 	 * Method to initialize the labels in the frame
 	 * Status: DONE
