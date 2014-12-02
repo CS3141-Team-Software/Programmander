@@ -26,9 +26,9 @@ public class Display {
 
 	public void gameOver(boolean redTeamWon) {
 		if(redTeamWon){
-			JOptionPane.showMessageDialog(null,"WINNER WINNER CHICKEN DINNER: RED TEAM");
+			JOptionPane.showMessageDialog(null,"RED TEAM WINS");
 		} else {
-			JOptionPane.showMessageDialog(null,"WINNER WINNER CHICKEN DINNER: BLUE TEAM");
+			JOptionPane.showMessageDialog(null,"BLUE TEAM WINS");
 		}
 	}
 }

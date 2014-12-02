@@ -55,7 +55,7 @@ public class MainWindow extends JFrame {
 	//JLabels
 	private Dimension titleDim = new Dimension(600, 50);
 	private JLabel title = new JLabel("PROGRAMMANDER");
-	private Color titleColor = new Color(255, 255, 255);
+	private Color titleColor = new Color(0,0,0);
 	private Point titleLocation = new Point(100, 200);
 
 	private Toolkit kit = this.getToolkit();
