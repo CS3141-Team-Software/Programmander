@@ -1,6 +1,9 @@
 Programmander
 =============
 
+Not the final version, there was an interesting deletion of everything. I do not know if this runs.
+
+
 An educational tool that helps teach basic coding and logic.
 
 #### To run:
